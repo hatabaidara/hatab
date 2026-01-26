@@ -1,4 +1,5 @@
-import { Facebook, Twitter, Instagram, Youtube, ArrowUp } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, ArrowUp, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -84,9 +85,18 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-primary-foreground/60 text-sm text-center md:text-left">
-            © {new Date().getFullYear()} Darsalam Chérif. Tous droits réservés.
-          </p>
+          <div className="flex items-center gap-6">
+            <p className="text-primary-foreground/60 text-sm text-center md:text-left">
+              © {new Date().getFullYear()} Darsalam Chérif. Tous droits réservés.
+            </p>
+            <Link 
+              to="/login" 
+              className="flex items-center gap-1 text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors text-xs"
+            >
+              <Lock className="w-3 h-3" />
+              Admin
+            </Link>
+          </div>
           <button
             onClick={scrollToTop}
             className="flex items-center gap-2 text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm"
