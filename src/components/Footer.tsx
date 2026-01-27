@@ -77,7 +77,7 @@ const Footer = () => {
             <ul className="space-y-3 text-primary-foreground/70">
               <li>Village de Darsalam Chérif</li>
               <li>Région de Ziguinchor, Sénégal</li>
-              <li>shaoumaidara@gmail.com</li>
+              <li>hatabaidara08@gamail.com</li>
               <li>+221 76 877 77 17</li>
             </ul>
           </div>
