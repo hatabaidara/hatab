@@ -10,13 +10,13 @@ const leaders = [
   },
   {
     title: "Khalife Actuel",
-    name: "Cheikh Sidaty Cheikh Abba",
+    name: "Cheikh Sidaty ould Cheikh Abba",
     description: "Guide spirituel de la communauté, poursuivant l'œuvre du fondateur avec sagesse et dévouement.",
     icon: Users,
   },
   {
     title: "Imam Ratib",
-    name: "Cheikh Elhadj Mouhamed Limane Aïdara",
+    name: "Cheikh Elhadj Mouhamed Limane ould Cheikh hatab Aïdara",
     description: "Responsable des prières et de l'enseignement religieux, pilier spirituel de la communauté.",
     icon: BookOpen,
   },
