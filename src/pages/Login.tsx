@@ -95,16 +95,6 @@ const Login = () => {
                 {isLoading ? "Connexion..." : "Se connecter"}
               </Button>
             </form>
-
-            <div className="mt-6 p-4 bg-muted rounded-lg">
-              <p className="text-xs text-muted-foreground text-center mb-2">
-                Comptes de démonstration :
-              </p>
-              <div className="text-xs text-muted-foreground space-y-1">
-                <p><strong>Admin :</strong> admin@darsalam.com / admin123</p>
-                <p><strong>Gestionnaire :</strong> gestionnaire@darsalam.com / gestionnaire123</p>
-              </div>
-            </div>
           </CardContent>
         </Card>
       </div>

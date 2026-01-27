@@ -76,9 +76,9 @@ const Footer = () => {
             <h4 className="font-semibold text-lg mb-4">Contact</h4>
             <ul className="space-y-3 text-primary-foreground/70">
               <li>Village de Darsalam Chérif</li>
-              <li>Région de Kaolack, Sénégal</li>
-              <li>contact@darsalamcherif.org</li>
-              <li>+221 XX XXX XX XX</li>
+              <li>Région de Ziguinchor, Sénégal</li>
+              <li>shaoumaidara@gmail.com</li>
+              <li>+221 76 877 77 17</li>
             </ul>
           </div>
         </div>

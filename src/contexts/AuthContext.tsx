@@ -18,8 +18,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Simulated admin credentials
 const ADMIN_CREDENTIALS = [
-  { id: "1", email: "admin@darsalam.com", password: "admin123", name: "Administrateur Principal", role: "admin" as const },
-  { id: "2", email: "gestionnaire@darsalam.com", password: "gestionnaire123", name: "Gestionnaire", role: "admin" as const },
+  { id: "1", email: "shaoumaidara@gmail.com", password: "admin123", name: "Administrateur Principal", role: "admin" as const },
+  { id: "2", email: "shaoumaidara@gmail.com", password: "gestionnaire123", name: "Gestionnaire", role: "admin" as const },
 ];
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
