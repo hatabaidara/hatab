@@ -71,7 +71,7 @@ const ContactSection = () => {
                   <h4 className="font-medium text-foreground mb-1">Adresse</h4>
                   <p className="text-muted-foreground text-sm">
                     Village de Darsalam Chérif<br />
-                    Région de Kaolack, Sénégal
+                    Région de Ziguinchor, Sénégal
                   </p>
                 </div>
               </div>
