@@ -1,7 +1,7 @@
 target/
 *.class
 *.log
-.idea/
 *.bak
 *.bak2
+.idea/
 uploads/
