@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Favoris - Shaoume Global Business</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body style="background:#F8FAFC">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" href="home.html">
+      <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="home.html" class="btn btn-light btn-sm">
+        <i class="bi bi-house me-1"></i>Accueil
+      </a>
+      <a href="cart.html" class="btn btn-light btn-sm">
+        <i class="bi bi-bag me-1"></i>Panier
+      </a>
+      <div class="avatar" id="user-avatar" style="width:36px;height:36px;font-size:0.8rem">AD</div>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <h3 class="fw-bold mb-0">
+      <i class="bi bi-heart-fill text-danger me-2"></i>Mes Favoris
+    </h3>
+    <span id="fav-count" class="badge bg-danger">0</span>
+  </div>
+
+  <!-- Grid favoris -->
+  <div class="row g-4" id="favorites-grid">
+    <div class="col-12 text-center py-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="text-muted mt-2">Chargement...</p>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center mt-4">
+    <nav><ul class="pagination" id="pagination"></ul></nav>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+  if (!checkAuth()) {}
+  let currentPage = 0;
+
+  async function loadFavorites(page = 0) {
+    currentPage = page;
+    const grid = document.getElementById('favorites-grid');
+    grid.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
+
+    try {
+      const res = await Api.get(`/favorites?page=${page}&size=12`);
+      const data = res.data;
+      const products = data?.content || [];
+      const total = data?.totalElements || 0;
+
+      document.getElementById('fav-count').textContent = total;
+
+      if (products.length === 0) {
+        grid.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <i class="bi bi-heart fs-1 text-muted d-block mb-3"></i>
+            <h5 class="text-muted">Aucun favori</h5>
+            <p class="text-muted mb-4">Ajoutez des produits à vos favoris pour les retrouver ici</p>
+            <a href="home.html" class="btn btn-primary">
+              <i class="bi bi-shop me-2"></i>Découvrir les produits
+            </a>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = products.map(p => `
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="content-card h-100" style="transition:all 0.2s"
+            onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
+            onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow=''">
+
+            <!-- Image -->
+            <div class="position-relative overflow-hidden rounded-top bg-light" style="height:200px">
+              ${p.imageUrl
+                ? `<img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:200px;object-fit:cover">`
+                : `<div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image fs-1 text-muted"></i></div>`}
+              <!-- Bouton retirer favoris -->
+              <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle"
+                style="width:32px;height:32px;padding:0"
+                onclick="removeFavorite(${p.id})"
+                title="Retirer des favoris">
+                <i class="bi bi-heart-fill"></i>
+              </button>
+            </div>
+
+            <!-- Infos -->
+            <div class="p-3">
+              <div class="fw-semibold mb-1" style="font-size:0.9rem;line-height:1.3">${p.name}</div>
+              <div class="text-muted mb-2" style="font-size:0.78rem">${p.category?.name || ''}</div>
+
+              <!-- Note -->
+              <div class="d-flex align-items-center gap-1 mb-3">
+                ${[1,2,3,4,5].map(i =>
+                  `<i class="bi bi-star${i <= Math.round(p.averageRating || 0) ? '-fill text-warning' : ' text-muted'}" style="font-size:0.7rem"></i>`
+                ).join('')}
+                <span class="text-muted" style="font-size:0.75rem">(${p.reviewCount || 0})</span>
+              </div>
+
+              <!-- Prix + Actions -->
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="fw-bold text-primary">${Format.currency(p.discountPrice || p.price)}</div>
+                  ${p.discountPrice ? `<div class="text-muted text-decoration-line-through" style="font-size:0.78rem">${Format.currency(p.price)}</div>` : ''}
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="addToCart(${p.id})">
+                  <i class="bi bi-bag-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>`).join('');
+
+      buildPagination(data.totalPages, page);
+    } catch(e) {
+      grid.innerHTML = '<div class="col-12 text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>';
+    }
+  }
+
+  async function removeFavorite(productId) {
+    try {
+      await Api.post(`/favorites/toggle/${productId}`);
+      Toast.info('Retiré des favoris');
+      loadFavorites(currentPage);
+    } catch(e) {
+      Toast.error(e.message || 'Erreur');
+    }
+  }
+
+  async function addToCart(productId) {
+    try {
+      await Api.post(`/cart/add?productId=${productId}&quantity=1`);
+      Toast.success('Ajouté au panier');
+    } catch(e) {
+      Toast.error(e.message || 'Erreur');
+    }
+  }
+
+  function buildPagination(totalPages, currentPage) {
+    const ul = document.getElementById('pagination');
+    ul.innerHTML = '';
+    if (totalPages <= 1) return;
+    for (let i = 0; i < totalPages; i++) {
+      ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="loadFavorites(${i})">${i + 1}</a></li>`;
+    }
+  }
+
+  initUserInfo();
+  loadFavorites();
+</script>
+</body>
+</html>

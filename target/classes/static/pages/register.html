@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — Shaoume Global Business</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9A96E;
+      --gold-light: #E8D5B0;
+      --dark: #0A0A0A;
+      --dark-2: #111111;
+      --dark-3: #1A1A1A;
+      --white: #F5F2EC;
+      --gray: #888888;
+      --border: rgba(201,169,110,0.2);
+      --error: #e05555;
+      --success: #5cb85c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--dark);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* LEFT PANEL */
+    .left-panel {
+      background: var(--dark-2);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem; position: relative; overflow: hidden;
+      animation: fadeLeft 0.8s ease forwards;
+    }
+    .left-panel::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(201,169,110,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .panel-grid {
+      position: absolute; inset: 0; opacity: 0.03;
+      background-image: linear-gradient(var(--gold) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .panel-logo {
+      position: relative;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--gold); text-decoration: none; letter-spacing: 0.05em;
+    }
+    .panel-logo span { color: var(--white); font-weight: 300; }
+    .panel-center { position: relative; }
+    .panel-tag {
+      display: inline-block; border: 1px solid var(--border);
+      color: var(--gold); font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 0.35rem 0.9rem; margin-bottom: 2rem;
+    }
+    .panel-center h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .panel-center h2 em { color: var(--gold); font-style: normal; }
+    .panel-center p { color: var(--gray); font-size: 0.9rem; line-height: 1.8; max-width: 340px; }
+
+    .perks { position: relative; display: flex; flex-direction: column; gap: 1rem; }
+    .perk { display: flex; align-items: flex-start; gap: 1rem; }
+    .perk-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--gold); opacity: 0.3;
+      font-weight: 600; line-height: 1; flex-shrink: 0;
+    }
+    .perk-text p { font-size: 0.85rem; margin-bottom: 0.2rem; font-weight: 400; }
+    .perk-text span { font-size: 0.75rem; color: var(--gray); }
+
+    /* RIGHT PANEL */
+    .right-panel {
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem; overflow-y: auto;
+      animation: fadeRight 0.8s 0.2s ease both;
+    }
+    .register-box { width: 100%; max-width: 420px; }
+    .register-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; margin-bottom: 0.5rem;
+    }
+    .register-box > p { color: var(--gray); font-size: 0.85rem; margin-bottom: 2rem; }
+    .register-box > p a { color: var(--gold); text-decoration: none; }
+
+    /* PROGRESS */
+    .progress-steps {
+      display: flex; gap: 0; margin-bottom: 2.5rem;
+    }
+    .step {
+      flex: 1; height: 3px; background: var(--dark-3);
+      position: relative; transition: background 0.4s;
+    }
+    .step.active { background: var(--gold); }
+    .step.done { background: var(--gold); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block; font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gray); margin-bottom: 0.6rem;
+    }
+    .input-wrap { position: relative; }
+    .input-wrap i.icon-left {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--gray); font-size: 0.85rem; transition: color 0.3s;
+    }
+    .form-input {
+      width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem;
+      background: var(--dark-2); border: 1px solid var(--border);
+      color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; outline: none; transition: border-color 0.3s;
+    }
+    .form-input:focus { border-color: var(--gold); }
+    .form-input:focus ~ i.icon-left { color: var(--gold); }
+    .form-input::placeholder { color: var(--gray); font-size: 0.85rem; }
+    .form-input.no-icon { padding-left: 1rem; }
+
+    /* Password strength */
+    .password-strength { margin-top: 0.5rem; }
+    .strength-bar {
+      height: 2px; background: var(--dark-3); margin-bottom: 0.3rem;
+      overflow: hidden;
+    }
+    .strength-fill {
+      height: 100%; width: 0; transition: width 0.4s, background 0.4s;
+    }
+    .strength-label { font-size: 0.7rem; color: var(--gray); }
+
+    .eye-toggle {
+      position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--gray); cursor: pointer; font-size: 0.85rem;
+      transition: color 0.3s; background: none; border: none;
+    }
+    .eye-toggle:hover { color: var(--gold); }
+
+    .error-msg {
+      background: rgba(224,85,85,0.1); border: 1px solid rgba(224,85,85,0.3);
+      color: var(--error); padding: 0.8rem 1rem; font-size: 0.8rem;
+      margin-bottom: 1.5rem; display: none; align-items: center; gap: 0.5rem;
+    }
+    .error-msg.show { display: flex; }
+    .success-msg {
+      background: rgba(201,169,110,0.1); border: 1px solid var(--border);
+      color: var(--gold); padding: 0.8rem 1rem; font-size: 0.8rem;
+      margin-bottom: 1.5rem; display: none; align-items: center; gap: 0.5rem;
+    }
+    .success-msg.show { display: flex; }
+
+    .terms-wrap {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .terms-wrap input { accent-color: var(--gold); margin-top: 2px; flex-shrink: 0; }
+    .terms-wrap span { font-size: 0.78rem; color: var(--gray); line-height: 1.5; }
+    .terms-wrap a { color: var(--gold); text-decoration: none; }
+
+    .btn-submit {
+      width: 100%; padding: 1rem;
+      background: var(--gold); border: none; color: var(--dark);
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+      font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.3s, transform 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .login-link {
+      text-align: center; margin-top: 1.5rem;
+      font-size: 0.8rem; color: var(--gray);
+    }
+    .login-link a { color: var(--gold); text-decoration: none; font-weight: 500; }
+
+    /* Validation icons */
+    .valid-icon {
+      position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+      font-size: 0.8rem; display: none;
+    }
+    .valid-icon.show { display: block; }
+    .valid-icon.ok { color: var(--success); }
+    .valid-icon.err { color: var(--error); }
+
+    @keyframes fadeLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+    @media (max-width: 768px) {
+      body { grid-template-columns: 1fr; }
+      .left-panel { display: none; }
+      .right-panel { padding: 2rem 1.5rem; align-items: flex-start; padding-top: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="left-panel">
+  <div class="panel-grid"></div>
+  <a href="index.html" class="panel-logo">Shaoume<span> Global</span></a>
+
+  <div class="panel-center">
+    <div class="panel-tag">&#10022; Nouveau Membre</div>
+    <h2>Rejoignez<br>l'<em>Excellence</em></h2>
+    <p>Créez votre compte et accédez à l'univers Shaoume : produits premium, offres exclusives et service d'exception.</p>
+  </div>
+
+  <div class="perks">
+    <div class="perk">
+      <div class="perk-num">01</div>
+      <div class="perk-text">
+        <p>Accès aux Offres Exclusives</p>
+        <span>Promotions réservées aux membres</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-num">02</div>
+      <div class="perk-text">
+        <p>Suivi de Commandes en Temps Réel</p>
+        <span>Notifications à chaque étape</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-num">03</div>
+      <div class="perk-text">
+        <p>Liste de Favoris Illimitée</p>
+        <span>Sauvegardez vos produits préférés</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-num">04</div>
+      <div class="perk-text">
+        <p>Support Client Prioritaire</p>
+        <span>Assistance dédiée 7j/7</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+  <div class="register-box">
+    <h3>Créer un Compte</h3>
+    <p>Déjà membre ? <a href="login.html">Se connecter →</a></p>
+
+    <div class="progress-steps" id="progressSteps">
+      <div class="step active" id="step1"></div>
+      <div class="step" id="step2"></div>
+      <div class="step" id="step3"></div>
+    </div>
+
+    <div class="error-msg" id="errorMsg">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="errorText">Veuillez corriger les erreurs.</span>
+    </div>
+    <div class="success-msg" id="successMsg">
+      <i class="fas fa-check-circle"></i>
+      <span>Compte créé avec succès ! Redirection vers la connexion...</span>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Prénom</label>
+        <div class="input-wrap">
+          <i class="fas fa-user icon-left"></i>
+          <input type="text" class="form-input" id="firstName" placeholder="Moussa" oninput="validateField('firstName')">
+          <i class="fas fa-check valid-icon ok" id="firstName-ok"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nom</label>
+        <div class="input-wrap">
+          <i class="fas fa-user icon-left"></i>
+          <input type="text" class="form-input" id="lastName" placeholder="Diallo" oninput="validateField('lastName')">
+          <i class="fas fa-check valid-icon ok" id="lastName-ok"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Adresse Email</label>
+      <div class="input-wrap">
+        <i class="fas fa-envelope icon-left"></i>
+        <input type="email" class="form-input" id="email" placeholder="votre@email.com" oninput="validateEmail()">
+        <i class="fas fa-check valid-icon ok" id="email-ok"></i>
+        <i class="fas fa-times valid-icon err" id="email-err"></i>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Téléphone</label>
+      <div class="input-wrap">
+        <i class="fas fa-phone icon-left"></i>
+        <input type="tel" class="form-input" id="phone" placeholder="+221 77 000 00 00">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Mot de Passe</label>
+      <div class="input-wrap">
+        <i class="fas fa-lock icon-left"></i>
+        <input type="password" class="form-input" id="password" placeholder="Min. 8 caractères" oninput="checkStrength()">
+        <button class="eye-toggle" onclick="togglePass('password','eyePass')" type="button">
+          <i class="fas fa-eye" id="eyePass"></i>
+        </button>
+      </div>
+      <div class="password-strength">
+        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+        <span class="strength-label" id="strengthLabel">Entrez un mot de passe</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Confirmer le Mot de Passe</label>
+      <div class="input-wrap">
+        <i class="fas fa-lock icon-left"></i>
+        <input type="password" class="form-input" id="confirmPassword" placeholder="Répétez votre mot de passe" oninput="checkMatch()">
+        <button class="eye-toggle" onclick="togglePass('confirmPassword','eyeConfirm')" type="button">
+          <i class="fas fa-eye" id="eyeConfirm"></i>
+        </button>
+        <i class="fas fa-check valid-icon ok" id="match-ok"></i>
+        <i class="fas fa-times valid-icon err" id="match-err"></i>
+      </div>
+    </div>
+
+    <div class="terms-wrap">
+      <input type="checkbox" id="terms">
+      <span>J'accepte les <a href="#">Conditions d'Utilisation</a> et la <a href="#">Politique de Confidentialité</a> de Shaoume Global Business.</span>
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="handleRegister()">
+      <i class="fas fa-user-plus"></i>
+      Créer mon Compte
+    </button>
+
+    <div class="login-link">
+      Déjà un compte ? <a href="login.html">Se connecter</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function togglePass(id, iconId) {
+    const input = document.getElementById(id);
+    const icon = document.getElementById(iconId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+  }
+
+  function validateField(id) {
+    const val = document.getElementById(id).value.trim();
+    const ok = document.getElementById(id + '-ok');
+    if (val.length >= 2) { ok.classList.add('show'); }
+    else { ok.classList.remove('show'); }
+    updateProgress();
+  }
+
+  function validateEmail() {
+    const val = document.getElementById('email').value.trim();
+    const ok = document.getElementById('email-ok');
+    const err = document.getElementById('email-err');
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    ok.classList.toggle('show', valid);
+    err.classList.toggle('show', val.length > 0 && !valid);
+    updateProgress();
+  }
+
+  function checkStrength() {
+    const pw = document.getElementById('password').value;
+    const fill = document.getElementById('strengthFill');
+    const label = document.getElementById('strengthLabel');
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    const levels = [
+      { pct: '0%', color: 'transparent', text: 'Entrez un mot de passe' },
+      { pct: '25%', color: '#e05555', text: 'Très faible' },
+      { pct: '50%', color: '#e08855', text: 'Faible' },
+      { pct: '75%', color: '#C9A96E', text: 'Bon' },
+      { pct: '100%', color: '#5cb85c', text: 'Excellent' },
+    ];
+    const l = levels[pw.length === 0 ? 0 : Math.max(1, score)];
+    fill.style.width = l.pct;
+    fill.style.background = l.color;
+    label.textContent = l.text;
+    label.style.color = l.color === 'transparent' ? 'var(--gray)' : l.color;
+    updateProgress();
+  }
+
+  function checkMatch() {
+    const pw = document.getElementById('password').value;
+    const cpw = document.getElementById('confirmPassword').value;
+    const ok = document.getElementById('match-ok');
+    const err = document.getElementById('match-err');
+    ok.classList.toggle('show', pw === cpw && cpw.length > 0);
+    err.classList.toggle('show', pw !== cpw && cpw.length > 0);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const first = document.getElementById('firstName').value.trim().length >= 2;
+    const last = document.getElementById('lastName').value.trim().length >= 2;
+    const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value.trim());
+    const pw = document.getElementById('password').value.length >= 8;
+    const match = document.getElementById('password').value === document.getElementById('confirmPassword').value && document.getElementById('confirmPassword').value.length > 0;
+
+    const filled = [first || last, email, pw && match].filter(Boolean).length;
+    ['step1','step2','step3'].forEach((id, i) => {
+      document.getElementById(id).classList.toggle('active', i < filled);
+      document.getElementById(id).classList.toggle('done', i < filled);
+    });
+  }
+
+  async function handleRegister() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const terms = document.getElementById('terms').checked;
+    const btn = document.getElementById('submitBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+
+    errorMsg.classList.remove('show');
+    successMsg.classList.remove('show');
+
+    if (!firstName || !lastName || !email || !password) {
+      document.getElementById('errorText').textContent = 'Veuillez remplir tous les champs obligatoires.';
+      errorMsg.classList.add('show'); return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('errorText').textContent = 'Adresse email invalide.';
+      errorMsg.classList.add('show'); return;
+    }
+    if (password.length < 8) {
+      document.getElementById('errorText').textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
+      errorMsg.classList.add('show'); return;
+    }
+    if (password !== confirmPassword) {
+      document.getElementById('errorText').textContent = 'Les mots de passe ne correspondent pas.';
+      errorMsg.classList.add('show'); return;
+    }
+    if (!terms) {
+      document.getElementById('errorText').textContent = 'Veuillez accepter les conditions d\'utilisation.';
+      errorMsg.classList.add('show'); return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création en cours...';
+
+    try {
+      const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8080' : '';
+      const response = await fetch(`${API_BASE}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: `${firstName} ${lastName}`, email, phone, password })
+      });
+
+      if (response.ok) {
+        successMsg.classList.add('show');
+        setTimeout(() => window.location.href = 'login.html', 2000);
+      } else {
+        const err = await response.json().catch(() => ({}));
+        document.getElementById('errorText').textContent = err.message || 'Une erreur est survenue.';
+        errorMsg.classList.add('show');
+      }
+    } catch (e) {
+      document.getElementById('errorText').textContent = 'Erreur de connexion au serveur.';
+      errorMsg.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-user-plus"></i> Créer mon Compte';
+    }
+  }
+</script>
+</body>
+</html>

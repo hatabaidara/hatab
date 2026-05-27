@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avis - Shaoume Global Business</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <h5><i class="bi bi-globe2 me-2"></i>Shaoume <span>Global</span></h5>
+    <small style="color:rgba(255,255,255,0.4);font-size:0.75rem">Business Platform</small>
+  </div>
+  <nav class="py-3">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="bi bi-grid"></i> Dashboard</a></li>
+      <li class="nav-item"><a href="products.html" class="nav-link"><i class="bi bi-box-seam"></i> Produits</a></li>
+      <li class="nav-item"><a href="categories.html" class="nav-link"><i class="bi bi-tags"></i> Catégories</a></li>
+      <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-bag-check"></i> Commandes</a></li>
+      <li class="nav-item"><a href="users.html" class="nav-link"><i class="bi bi-people"></i> Utilisateurs</a></li>
+      <li class="nav-item"><a href="reviews.html" class="nav-link active"><i class="bi bi-star"></i> Avis</a></li>
+      <div class="px-3 py-2 mt-2">
+        <small style="color:rgba(255,255,255,0.3);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em">Mon Compte</small>
+      </div>
+      <li class="nav-item"><a href="profile.html" class="nav-link"><i class="bi bi-person"></i> Profil</a></li>
+      <li class="nav-item"><a href="#" class="nav-link text-danger" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <div class="topbar">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-light btn-sm d-md-none" onclick="document.getElementById('sidebar').classList.toggle('show')">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+      <span class="topbar-title">Avis Clients</span>
+    </div>
+    <div class="topbar-user">
+      <div class="avatar" id="user-avatar">AD</div>
+    </div>
+  </div>
+
+  <div class="p-4">
+
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h4 class="fw-bold mb-1">Gestion des Avis</h4>
+        <p class="text-muted mb-0" style="font-size:0.9rem">Modérez les avis clients en attente</p>
+      </div>
+      <span id="pending-count" class="badge bg-warning fs-6">0 en attente</span>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="reviewTabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#" onclick="loadReviews('pending', 0); setActiveTab(this)">
+          <i class="bi bi-clock me-2"></i>En attente
+        </a>
+      </li>
+    </ul>
+
+    <!-- Cards Avis -->
+    <div id="reviews-grid">
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary"></div>
+        <p class="text-muted mt-2">Chargement...</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+      <nav><ul class="pagination" id="pagination"></ul></nav>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+  if (!checkAuth()) {}
+  let currentPage = 0;
+
+  function setActiveTab(el) {
+    document.querySelectorAll('#reviewTabs .nav-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function renderStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+      stars += `<i class="bi bi-star${i <= rating ? '-fill text-warning' : ' text-muted'}"></i>`;
+    }
+    return stars;
+  }
+
+  async function loadReviews(type = 'pending', page = 0) {
+    currentPage = page;
+    const grid = document.getElementById('reviews-grid');
+    grid.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+
+    try {
+      const res = await Api.get(`/reviews/admin/pending?page=${page}&size=9`);
+      const data = res.data;
+      const reviews = data?.content || [];
+      const total = data?.totalElements || 0;
+
+      document.getElementById('pending-count').textContent = total + ' en attente';
+
+      if (reviews.length === 0) {
+        grid.innerHTML = `
+          <div class="text-center py-5">
+            <i class="bi bi-star fs-1 text-muted d-block mb-3"></i>
+            <h5 class="text-muted">Aucun avis en attente</h5>
+            <p class="text-muted">Tous les avis ont été modérés</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = `<div class="row g-4">${reviews.map(r => `
+        <div class="col-md-6 col-lg-4">
+          <div class="content-card h-100">
+            <div class="content-card-body">
+              <!-- En-tête -->
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="avatar" style="width:36px;height:36px;font-size:0.8rem">
+                    ${(r.user?.firstName?.[0] || '') + (r.user?.lastName?.[0] || '')}
+                  </div>
+                  <div>
+                    <div class="fw-semibold" style="font-size:0.85rem">
+                      ${r.user?.firstName} ${r.user?.lastName}
+                    </div>
+                    <div class="text-muted" style="font-size:0.75rem">
+                      ${Format.date(r.createdAt)}
+                    </div>
+                  </div>
+                </div>
+                <span class="badge bg-warning-subtle text-warning badge-status">
+                  <i class="bi bi-clock me-1"></i>En attente
+                </span>
+              </div>
+
+              <!-- Note -->
+              <div class="mb-2">${renderStars(r.rating)}</div>
+
+              <!-- Titre -->
+              ${r.title ? `<h6 class="fw-semibold mb-2">${r.title}</h6>` : ''}
+
+              <!-- Commentaire -->
+              <p class="text-muted mb-3" style="font-size:0.85rem;min-height:60px">
+                ${r.comment || '<em>Aucun commentaire</em>'}
+              </p>
+
+              <!-- Produit -->
+              <div class="p-2 bg-light rounded-2 mb-3" style="font-size:0.8rem">
+                <i class="bi bi-box-seam me-1 text-primary"></i>
+                Produit ID: ${r.productId}
+              </div>
+
+              <!-- Actions -->
+              <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm flex-grow-1" onclick="approveReview(${r.id}, this)">
+                  <i class="bi bi-check-lg me-1"></i>Approuver
+                </button>
+                <button class="btn btn-outline-danger btn-sm" title="Rejeter">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>`).join('')}
+      </div>`;
+
+      buildPagination(data.totalPages, page);
+    } catch(e) {
+      grid.innerHTML = '<div class="text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>';
+    }
+  }
+
+  async function approveReview(id, btn) {
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>...';
+    try {
+      await Api.put(`/reviews/admin/${id}/approve`);
+      Toast.success('Avis approuvé avec succès');
+      btn.closest('.col-md-6').style.transition = 'all 0.3s';
+      btn.closest('.col-md-6').style.opacity = '0';
+      setTimeout(() => loadReviews('pending', currentPage), 300);
+    } catch(e) {
+      Toast.error(e.message || 'Erreur');
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+  }
+
+  function buildPagination(totalPages, currentPage) {
+    const ul = document.getElementById('pagination');
+    ul.innerHTML = '';
+    if (totalPages <= 1) return;
+    for (let i = 0; i < totalPages; i++) {
+      ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="loadReviews('pending', ${i})">${i + 1}</a></li>`;
+    }
+  }
+
+  initUserInfo();
+  loadReviews('pending', 0);
+</script>
+</body>
+</html>
