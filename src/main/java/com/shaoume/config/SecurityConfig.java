@@ -49,6 +49,8 @@ public class SecurityConfig {
                             "/api/v1/auth/**",
                             "/api/register",
                             "/api/login",
+                            "/api/auth/register",
+                            "/api/auth/login",
                             "/api/categories",
                             "/api/products/**",
                             "/api/categories/**",
