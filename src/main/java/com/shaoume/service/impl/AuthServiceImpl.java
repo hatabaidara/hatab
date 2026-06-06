@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 @Service @RequiredArgsConstructor @Slf4j
@@ -38,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
         User user=userRepository.save(User.builder()
             .firstName(request.getFirstName()).lastName(request.getLastName())
             .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
-            .phone(request.getPhone()).shopName(request.getShopName()).role(request.getRole() != null && request.getRole().equals("SELLER") ? Role.SELLER : Role.USER).enabled(true).build());
+            .phone(request.getPhone()).shopName(request.getShopName()).city(request.getCity()).address(request.getAddress()).country(request.getCountry()).role(request.getRole() != null && request.getRole().equals("SELLER") ? Role.SELLER : Role.USER).enabled(true).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build());
         return buildAuth(user);
     }
     @Override @Transactional
@@ -66,6 +67,8 @@ public class AuthServiceImpl implements AuthService {
         String access=jwtUtils.generateToken(ud,claims);
         String refresh=jwtUtils.generateRefreshToken(ud);
         user.setRefreshToken(refresh);
+        if(user.getCreatedAt()==null) user.setCreatedAt(java.time.LocalDateTime.now());
+        if(user.getUpdatedAt()==null) user.setUpdatedAt(java.time.LocalDateTime.now());
         userRepository.save(user);
         return AuthResponse.builder()
             .accessToken(access).refreshToken(refresh).tokenType("Bearer").expiresIn(jwtExpiration)

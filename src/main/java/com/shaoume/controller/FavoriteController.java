@@ -21,8 +21,9 @@ public class FavoriteController {
         return ResponseEntity.ok(ApiResponse.success(favoriteService.getUserFavorites(uid(ud),p)));
     }
     @PostMapping("/toggle/{pid}")
-    public ResponseEntity<ApiResponse<Void>> toggle(@PathVariable Long pid,@AuthenticationPrincipal UserDetails ud) {
-        return ResponseEntity.ok(ApiResponse.success(favoriteService.toggleFavorite(uid(ud),pid),null));
+    public ResponseEntity<ApiResponse<String>> toggle(@PathVariable Long pid,@AuthenticationPrincipal UserDetails ud) {
+        String msg = favoriteService.toggleFavorite(uid(ud),pid);
+        return ResponseEntity.ok(ApiResponse.success(msg, msg));
     }
     @GetMapping("/check/{pid}")
     public ResponseEntity<ApiResponse<Map<String,Boolean>>> check(@PathVariable Long pid,@AuthenticationPrincipal UserDetails ud) {

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche - Shaoume Global Business</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<style>
+  * { font-family: "Inter", sans-serif; }
+  body { background: #F1F5F9; }
+  .search-hero {
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    padding: 40px 0; color: white;
+  }
+  .search-input-wrap {
+    background: white; border-radius: 14px;
+    padding: 6px 6px 6px 16px;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    max-width: 100%;
+  }
+  .search-input-wrap input {
+    border: none; outline: none; flex: 1; min-width: 0;
+    font-size: 0.95rem; color: #1e293b;
+    background: transparent;
+  }
+  .search-input-wrap button {
+    background: #2563EB; color: white; border: none;
+    border-radius: 10px; padding: 10px 14px;
+    font-weight: 700; font-size: 0.85rem;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  @media (max-width: 768px) {
+    .filter-card { margin-bottom: 12px; }
+    .product-card { border-radius: 12px; }
+    .search-hero { padding: 24px 0; }
+    .search-hero h4 { font-size: 1.3rem; }
+  }
+  .filter-card {
+    background: white; border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
+  }
+  .filter-title {
+    font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: #94A3B8; margin-bottom: 12px;
+  }
+  .product-card {
+    background: white; border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden; transition: all 0.3s; cursor: pointer;
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(37,99,235,0.12); }
+  .product-img { width: 100%; height: 180px; object-fit: cover; background: #F8FAFC; }
+  .price { color: #2563EB; font-weight: 800; font-size: 1.1rem; }
+  .price-old { color: #94A3B8; text-decoration: line-through; font-size: 0.85rem; }
+  .badge-discount {
+    background: #FEE2E2; color: #DC2626;
+    font-size: 0.7rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 50px;
+  }
+  .sort-btn {
+    border: 1.5px solid #E2E8F0; border-radius: 8px;
+    padding: 6px 14px; font-size: 0.8rem; font-weight: 600;
+    background: white; cursor: pointer; transition: all 0.2s;
+  }
+  .sort-btn.active { background: #2563EB; color: white; border-color: #2563EB; }
+  .range-input { width: 100%; }
+  .tag-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #EFF6FF; color: #2563EB;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  }
+  .tag-chip:hover { background: #DBEAFE; }
+</style>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" href="home.html">
+      <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto ms-4 gap-1">
+        <li class="nav-item"><a href="home.html" class="nav-link">Accueil</a></li>
+        <li class="nav-item"><a href="search.html" class="nav-link active fw-semibold">Recherche</a></li>
+      </ul>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <a href="cart.html" class="btn btn-light btn-sm position-relative">
+        <i class="bi bi-bag"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+      </a>
+      <a href="register-seller.html" class="btn btn-outline-success btn-sm" style="border-radius:10px">
+        <i class="bi bi-shop me-1"></i>Vendre
+      </a>
+      <div class="avatar" id="user-avatar" style="width:36px;height:36px;font-size:0.8rem">U</div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO RECHERCHE -->
+<div class="search-hero">
+  <div class="container">
+    <h4 class="fw-bold mb-2 text-center">Recherche avancée</h4>
+    <p class="text-center mb-4" style="opacity:0.8;font-size:0.9rem">Trouvez exactement ce que vous cherchez parmi 89+ produits</p>
+    <div class="search-input-wrap" style="max-width:700px;margin:0 auto;width:100%">
+      <i class="bi bi-search text-muted"></i>
+      <input type="text" id="search-input" placeholder="Rechercher un produit, une marque..." 
+        onkeydown="if(event.key==='Enter') doSearch()">
+      <button onclick="doSearch()">Rechercher</button>
+    </div>
+    <!-- Tags populaires -->
+    <div class="d-flex gap-2 flex-wrap justify-content-center mt-3">
+      <span class="tag-chip" onclick="setSearch('iPhone')">📱 iPhone</span>
+      <span class="tag-chip" onclick="setSearch('Laptop')">💻 Laptop</span>
+      <span class="tag-chip" onclick="setSearch('Robe')">👗 Mode</span>
+      <span class="tag-chip" onclick="setSearch('Karaté')">🥋 Sport</span>
+      <span class="tag-chip" onclick="setSearch('Samsung')">📲 Samsung</span>
+      <span class="tag-chip" onclick="setSearch('MacBook')">🍎 MacBook</span>
+    </div>
+  </div>
+</div>
+
+<div class="container py-4">
+  <div class="row g-4">
+
+    <!-- Bouton toggle filtres mobile -->
+    <div class="col-12 d-md-none mb-3">
+      <button class="btn btn-outline-primary w-100" onclick="toggleFilters()" style="border-radius:10px">
+        <i class="bi bi-funnel me-2"></i>Filtres & Tri
+      </button>
+    </div>
+    <!-- Filtres -->
+    <div class="col-12 col-md-3" id="filters-panel" style="display:none">
+      <div class="d-md-block">
+      <div class="filter-card mb-3">
+        <div class="filter-title">Catégorie</div>
+        <div id="categories-filter">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="cat" id="cat-all" value="" checked onchange="applyFilters()">
+            <label class="form-check-label" for="cat-all">Toutes</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-card mb-3">
+        <div class="filter-title">Prix (FCFA)</div>
+        <div class="d-flex gap-2 mb-2">
+          <input type="number" class="form-control form-control-sm" id="min-price" placeholder="Min" onchange="applyFilters()">
+          <input type="number" class="form-control form-control-sm" id="max-price" placeholder="Max" onchange="applyFilters()">
+        </div>
+        <div class="d-flex gap-1 flex-wrap">
+          <button class="btn btn-outline-secondary btn-sm" style="font-size:0.75rem" onclick="setPrice(0,50000)">0-50K</button>
+          <button class="btn btn-outline-secondary btn-sm" style="font-size:0.75rem" onclick="setPrice(50000,200000)">50K-200K</button>
+          <button class="btn btn-outline-secondary btn-sm" style="font-size:0.75rem" onclick="setPrice(200000,999999999)">200K+</button>
+        </div>
+      </div>
+
+      <div class="filter-card mb-3">
+        <div class="filter-title">Trier par</div>
+        <div class="d-flex flex-column gap-2">
+          <button class="sort-btn active" id="sort-recent" onclick="setSort('createdAt,desc', this)">Plus récents</button>
+          <button class="sort-btn" id="sort-price-asc" onclick="setSort('price,asc', this)">Prix croissant</button>
+          <button class="sort-btn" id="sort-price-desc" onclick="setSort('price,desc', this)">Prix décroissant</button>
+          <button class="sort-btn" id="sort-rating" onclick="setSort('averageRating,desc', this)">Mieux notés</button>
+        </div>
+      </div>
+
+      <button class="btn btn-outline-danger w-100" style="border-radius:10px" onclick="resetFilters()">
+        <i class="bi bi-x-circle me-1"></i>Réinitialiser
+      </button>
+      </div>
+    </div>
+
+    <!-- Résultats -->
+    <div class="col-12 col-md-9">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <span class="fw-bold" id="results-count">0 résultats</span>
+          <span class="text-muted ms-2" id="search-label" style="font-size:0.85rem"></span>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-light btn-sm" onclick="setView('grid')" id="btn-grid">
+            <i class="bi bi-grid"></i>
+          </button>
+          <button class="btn btn-light btn-sm" onclick="setView('list')" id="btn-list">
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="results-container">
+        <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-center mt-4">
+        <nav><ul class="pagination" id="pagination"></ul></nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+  let currentSort = "createdAt,desc";
+  let currentPage = 0;
+  let currentView = "grid";
+  let currentKeyword = "";
+
+  // Lire params URL
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("q")) {
+    currentKeyword = urlParams.get("q");
+    document.getElementById("search-input").value = currentKeyword;
+  }
+
+  // Charger categories
+  async function loadCategories() {
+    try {
+      const res = await Api.get("/categories");
+      const cats = res.data || [];
+      const container = document.getElementById("categories-filter");
+      cats.forEach(c => {
+        container.innerHTML += `
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="cat" id="cat-${c.id}" value="${c.id}" onchange="applyFilters()">
+            <label class="form-check-label d-flex justify-content-between" for="cat-${c.id}">
+              <span>${c.name}</span>
+            </label>
+          </div>`;
+      });
+    } catch(e) {}
+  }
+
+  async function doSearch(page = 0) {
+    currentPage = page;
+    currentKeyword = document.getElementById("search-input").value.trim();
+    const container = document.getElementById("results-container");
+    container.innerHTML = "<div class='text-center py-5'><div class='spinner-border text-primary'></div></div>";
+
+    const minPrice = document.getElementById("min-price").value;
+    const maxPrice = document.getElementById("max-price").value;
+    const catEl = document.querySelector("input[name='cat']:checked");
+    const catId = catEl ? catEl.value : "";
+
+    try {
+      let url, res;
+      if (currentKeyword) {
+        url = `/products/search?keyword=${encodeURIComponent(currentKeyword)}&page=${page}&size=12&sort=${currentSort}`;
+        res = await Api.get(url);
+      } else if (catId || minPrice || maxPrice) {
+        url = `/products/filter?page=${page}&size=12&sort=${currentSort}`;
+        if (catId) url += `&categoryId=${catId}`;
+        if (minPrice) url += `&minPrice=${minPrice}`;
+        if (maxPrice) url += `&maxPrice=${maxPrice}`;
+        res = await Api.get(url);
+      } else {
+        url = `/products?page=${page}&size=12&sort=${currentSort}`;
+        res = await Api.get(url);
+      }
+
+      const products = res.data?.content || [];
+      const total = res.data?.totalElements || 0;
+      const totalPages = res.data?.totalPages || 0;
+
+      document.getElementById("results-count").textContent = total + " résultats";
+      document.getElementById("search-label").textContent = currentKeyword ? `pour "${currentKeyword}"` : "";
+
+      if (products.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-5">
+            <i class="bi bi-search fs-1 text-muted d-block mb-3"></i>
+            <h5 class="text-muted">Aucun résultat</h5>
+            <p class="text-muted">Essayez avec d'autres mots-clés</p>
+          </div>`;
+        return;
+      }
+
+      if (currentView === "grid") {
+        container.innerHTML = `<div class="row g-3">${products.map(p => `
+          <div class="col-6 col-md-4">
+            <div class="product-card" onclick="location.href='product-detail.html?id='+${p.id}">
+              ${p.imageUrl
+                ? `<img src="${p.imageUrl}" class="product-img">`
+                : `<div class="product-img d-flex align-items-center justify-content-center"><i class="bi bi-image fs-1 text-muted"></i></div>`}
+              <div class="p-3">
+                <div class="text-muted mb-1" style="font-size:0.75rem">${p.category?.name || ""}</div>
+                <div class="fw-semibold mb-2" style="font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="price">${Format.currency(p.discountPrice || p.price)}</span>
+                  ${p.discountPrice ? `<span class="price-old">${Format.currency(p.price)}</span>` : ""}
+                  ${p.discountPrice ? `<span class="badge-discount">-${Math.round((1 - p.discountPrice/p.price)*100)}%</span>` : ""}
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div style="font-size:0.75rem;color:#F59E0B">
+                    ${"★".repeat(Math.round(p.averageRating || 0))}${"☆".repeat(5-Math.round(p.averageRating || 0))}
+                    <span class="text-muted">(${p.reviewCount || 0})</span>
+                  </div>
+                  <button class="btn btn-primary btn-sm" style="border-radius:8px;font-size:0.75rem"
+                    onclick="event.stopPropagation();addToCart(${p.id})">
+                    <i class="bi bi-bag-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`).join("")}</div>`;
+      } else {
+        container.innerHTML = products.map(p => `
+          <div class="product-card mb-3 d-flex" onclick="location.href='product-detail.html?id='+${p.id}">
+            ${p.imageUrl
+              ? `<img src="${p.imageUrl}" style="width:120px;height:120px;object-fit:cover;border-radius:12px 0 0 12px">`
+              : `<div style="width:120px;height:120px;background:#F8FAFC;border-radius:12px 0 0 12px;display:flex;align-items:center;justify-content:center"><i class="bi bi-image fs-2 text-muted"></i></div>`}
+            <div class="p-3 flex-grow-1">
+              <div class="text-muted" style="font-size:0.75rem">${p.category?.name || ""}</div>
+              <div class="fw-semibold mb-1">${p.name}</div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="price">${Format.currency(p.discountPrice || p.price)}</span>
+                ${p.discountPrice ? `<span class="price-old">${Format.currency(p.price)}</span>` : ""}
+              </div>
+            </div>
+            <div class="p-3 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart(${p.id})">
+                <i class="bi bi-bag-plus me-1"></i>Ajouter
+              </button>
+            </div>
+          </div>`).join("");
+      }
+
+      // Pagination
+      buildPagination(totalPages, page);
+    } catch(e) {
+      container.innerHTML = `<div class="text-center py-4 text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>`;
+    }
+  }
+
+  function buildPagination(totalPages, current) {
+    const ul = document.getElementById("pagination");
+    ul.innerHTML = "";
+    if (totalPages <= 1) return;
+    for (let i = 0; i < totalPages; i++) {
+      ul.innerHTML += `<li class="page-item ${i === current ? "active" : ""}">
+        <a class="page-link" href="#" onclick="doSearch(${i})">${i+1}</a></li>`;
+    }
+  }
+
+  function applyFilters() { doSearch(0); }
+
+  function setSort(sort, btn) {
+    currentSort = sort;
+    document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    doSearch(0);
+  }
+
+  function setPrice(min, max) {
+    document.getElementById("min-price").value = min || "";
+    document.getElementById("max-price").value = max >= 999999999 ? "" : max;
+    applyFilters();
+  }
+
+  function setSearch(kw) {
+    document.getElementById("search-input").value = kw;
+    doSearch(0);
+  }
+
+  function setView(v) {
+    currentView = v;
+    document.getElementById("btn-grid").className = "btn btn-" + (v === "grid" ? "primary" : "light") + " btn-sm";
+    document.getElementById("btn-list").className = "btn btn-" + (v === "list" ? "primary" : "light") + " btn-sm";
+    doSearch(currentPage);
+  }
+
+  function resetFilters() {
+    document.getElementById("search-input").value = "";
+    document.getElementById("min-price").value = "";
+    document.getElementById("max-price").value = "";
+    document.querySelector("input[name='cat']").checked = true;
+    currentKeyword = "";
+    currentSort = "createdAt,desc";
+    document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById("sort-recent").classList.add("active");
+    doSearch(0);
+  }
+
+  async function addToCart(productId) {
+    try {
+      await Api.post(`/cart/add?productId=${productId}&quantity=1`);
+      Toast.success("Ajouté au panier !");
+    } catch(e) {
+      Toast.error(e.message || "Erreur");
+    }
+  }
+
+  // Afficher filtres sur desktop par defaut
+  if (window.innerWidth >= 768) {
+    document.getElementById("filters-panel").style.display = "block";
+  }
+
+  function toggleFilters() {
+    const panel = document.getElementById("filters-panel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  }
+
+  loadCategories();
+  doSearch(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Vendeur - Shaoume Global Business</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>
+  * { font-family: "Inter", sans-serif; }
+  body { background: #F1F5F9; }
+  .stat-card {
+    background: white; border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 24px; transition: all 0.3s;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.1); }
+  .stat-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .section-card {
+    background: white; border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  .section-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #F1F5F9;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .section-card-body { padding: 20px 24px; }
+  .product-card {
+    background: white; border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden; transition: all 0.3s;
+  }
+  .product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.1); }
+  .notif-item {
+    display: flex; align-items: start; gap: 12px;
+    padding: 12px 16px; border-radius: 12px;
+    transition: background 0.2s; cursor: pointer;
+  }
+  .notif-item:hover { background: #F8FAFC; }
+  .notif-item.unread { background: #EFF6FF; }
+  .empty-state {
+    text-align: center; padding: 40px 20px;
+    color: #94A3B8;
+  }
+  .progress-bar-custom {
+    height: 6px; border-radius: 3px; background: #E2E8F0; overflow: hidden;
+  }
+  .progress-bar-fill { height: 100%; border-radius: 3px; background: #2563EB; transition: width 0.5s; }
+  .trend-up { color: #16A34A; font-size: 0.75rem; font-weight: 600; }
+  .trend-down { color: #DC2626; font-size: 0.75rem; font-weight: 600; }
+</style>
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold text-primary" href="home.html">
+      <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="seller-publish.html" class="btn btn-primary btn-sm" style="border-radius:10px">
+        <i class="bi bi-plus-lg me-1"></i>Publier un produit
+      </a>
+      <div class="position-relative">
+        <button class="btn btn-light btn-sm" onclick="toggleNotifs()" style="border-radius:10px">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="notif-badge" style="display:none;font-size:0.65rem">0</span>
+        </button>
+      </div>
+      <a href="home.html" class="btn btn-light btn-sm" style="border-radius:10px"><i class="bi bi-shop me-1"></i>Boutique</a>
+      <div class="avatar" id="user-avatar" style="width:36px;height:36px;font-size:0.8rem">S</div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid px-4 py-4">
+
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h4 class="fw-bold mb-1">Mon Espace Vendeur <span id="header-notif-badge"></span></h4>
+      <p class="text-muted mb-0" style="font-size:0.85rem">Bienvenue, <span id="seller-name">Vendeur</span> — Gérez vos produits et suivez vos ventes</p>
+    </div>
+    <a href="seller-publish.html" class="btn btn-primary" style="border-radius:12px">
+      <i class="bi bi-plus-lg me-2"></i>Nouveau produit
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="stat-icon" style="background:#EFF6FF"><i class="bi bi-box-seam text-primary"></i></div>
+          <span class="trend-up" id="trend-products">—</span>
+        </div>
+        <div class="fw-bold" style="font-size:1.8rem" id="stat-products">0</div>
+        <div class="text-muted" style="font-size:0.8rem">Produits publiés</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="stat-icon" style="background:#F0FDF4"><i class="bi bi-bag-check text-success"></i></div>
+          <span class="trend-up" id="trend-orders">—</span>
+        </div>
+        <div class="fw-bold" style="font-size:1.8rem" id="stat-orders">0</div>
+        <div class="text-muted" style="font-size:0.8rem">Commandes reçues</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="stat-icon" style="background:#FFF7ED"><i class="bi bi-bell text-warning"></i></div>
+          <span id="unread-notif-count" class="badge bg-danger" style="display:none">0</span>
+        </div>
+        <div class="fw-bold" style="font-size:1.8rem" id="stat-notifs">0</div>
+        <div class="text-muted" style="font-size:0.8rem">Notifications</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="stat-icon" style="background:#FDF4FF"><i class="bi bi-cash-stack" style="color:#9333EA"></i></div>
+          <span class="trend-up" id="trend-revenue">—</span>
+        </div>
+        <div class="fw-bold" style="font-size:1.8rem" id="stat-revenue">0</div>
+        <div class="text-muted" style="font-size:0.8rem">Revenus (FCFA)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <!-- Graphique ventes -->
+    <div class="col-md-8">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h6 class="fw-bold mb-0"><i class="bi bi-graph-up me-2 text-primary"></i>Ventes par mois</h6>
+          <span class="badge bg-primary" style="font-size:0.7rem">2026</span>
+        </div>
+        <div class="section-card-body">
+          <canvas id="salesChart" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="col-md-4">
+      <div class="section-card" id="notifs-panel">
+        <div class="section-card-header">
+          <h6 class="fw-bold mb-0"><i class="bi bi-bell me-2 text-warning"></i>Notifications</h6>
+          <button class="btn btn-sm btn-outline-secondary" style="font-size:0.75rem" onclick="markAllRead()">Tout lire</button>
+        </div>
+        <div id="notifs-list" style="max-height:280px;overflow-y:auto">
+          <div class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mes produits -->
+  <div class="section-card mb-4">
+    <div class="section-card-header">
+      <h6 class="fw-bold mb-0"><i class="bi bi-box-seam me-2 text-primary"></i>Mes Produits</h6>
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary" id="products-count">0</span>
+        <a href="seller-publish.html" class="btn btn-primary btn-sm" style="border-radius:8px;font-size:0.8rem">
+          <i class="bi bi-plus-lg me-1"></i>Ajouter
+        </a>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <div id="products-list">
+        <div class="text-center py-4"><div class="spinner-border text-primary"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal confirmation suppression -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content border-0 shadow-lg" style="border-radius:16px">
+      <div class="modal-body text-center p-4">
+        <i class="bi bi-exclamation-triangle text-danger fs-1 mb-3 d-block"></i>
+        <h6 class="fw-bold mb-2">Supprimer ce produit ?</h6>
+        <p class="text-muted mb-4" style="font-size:0.85rem">Cette action est irréversible.</p>
+        <div class="d-flex gap-2">
+          <button class="btn btn-light flex-fill" data-bs-dismiss="modal">Annuler</button>
+          <button class="btn btn-danger flex-fill" id="confirm-delete">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+  if (!checkAuth()) {}
+  initUserInfo();
+
+  // Verifier statut commerçant
+  async function checkMerchantAccess() {
+    try {
+      const res = await Api.get("/merchants/status");
+      const data = res.data;
+      if (!data.hasMerchant || data.statut !== "ACTIF") {
+        document.body.innerHTML = `
+          <div class="d-flex align-items-center justify-content-center min-vh-100" style="background:#F1F5F9">
+            <div class="text-center p-5 bg-white rounded-4 shadow" style="max-width:480px">
+              <div class="mb-3" style="font-size:3rem">${data.statut === "EN_ATTENTE" ? "⏳" : "🔒"}</div>
+              <h4 class="fw-bold mb-2">${data.statut === "EN_ATTENTE" ? "Compte en cours de validation" : "Compte non activé"}</h4>
+              <p class="text-muted mb-4">${data.statut === "EN_ATTENTE" 
+                ? "Votre demande est en cours d'examen. Délai : 24-48h." 
+                : "Vous devez activer votre compte commerçant pour accéder au dashboard."}</p>
+              <a href="merchant-activation.html" class="btn btn-primary px-4" style="border-radius:12px">
+                <i class="bi bi-shield-check me-2"></i>Activer mon compte
+              </a>
+            </div>
+          </div>`;
+        return false;
+      }
+      return true;
+    } catch(e) {
+      return true;
+    }
+  }
+
+  checkMerchantAccess().then(ok => {
+    if (ok) {
+      loadSellerProducts();
+      loadNotifications();
+    }
+  });
+
+  let deleteProductId = null;
+  let notifsVisible = false;
+
+  // Init graphique
+  const ctx = document.getElementById("salesChart").getContext("2d");
+  const salesChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"],
+      datasets: [{
+        label: "Ventes (FCFA)",
+        data: [0,0,0,0,0,0,0,0,0,0,0,0],
+        backgroundColor: "rgba(37,99,235,0.15)",
+        borderColor: "#2563EB",
+        borderWidth: 2,
+        borderRadius: 8,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, grid: { color: "#F1F5F9" }, ticks: { font: { size: 11 } } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+
+  async function loadSellerProducts() {
+    const container = document.getElementById("products-list");
+    try {
+      const res = await Api.get("/products/seller/my-products");
+      const products = res.data?.content || res.data || [];
+      const total = products.length;
+
+      document.getElementById("stat-products").textContent = total;
+      document.getElementById("products-count").textContent = total + " produits";
+
+      if (total === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="bi bi-box-seam fs-1 d-block mb-3"></i>
+            <h6 class="fw-bold mb-2">Aucun produit publié</h6>
+            <p class="mb-3" style="font-size:0.85rem">Publiez votre premier produit et commencez à vendre</p>
+            <a href="seller-publish.html" class="btn btn-primary btn-sm px-4" style="border-radius:10px">
+              <i class="bi bi-plus-lg me-1"></i>Publier un produit
+            </a>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = `<div class="row g-3">${products.map(p => `
+        <div class="col-6 col-md-2">
+          <div class="product-card">
+            <div style="height:120px;overflow:hidden;background:#F8FAFC">
+              ${p.imageUrl
+                ? `<img src="${p.imageUrl}" style="width:100%;height:120px;object-fit:cover">`
+                : `<div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image text-muted fs-2"></i></div>`}
+            </div>
+            <div class="p-2">
+              <div class="fw-semibold mb-1" style="font-size:0.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+              <div class="text-primary fw-bold mb-2" style="font-size:0.82rem">${Format.currency(p.price)}</div>
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="badge ${p.active ? "bg-success" : "bg-secondary"}" style="font-size:0.65rem">
+                  ${p.active ? "Actif" : "Inactif"}
+                </span>
+                <div class="d-flex gap-1">
+                  <a href="product-detail.html?id=${p.id}" class="btn btn-light btn-sm py-0 px-1">
+                    <i class="bi bi-eye" style="font-size:0.75rem"></i>
+                  </a>
+                  <button class="btn btn-outline-danger btn-sm py-0 px-1" onclick="confirmDelete(${p.id})">
+                    <i class="bi bi-trash" style="font-size:0.75rem"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`).join("")}
+      </div>`;
+    } catch(e) {
+      container.innerHTML = `<div class="empty-state text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>`;
+    }
+  }
+
+  async function loadNotifications() {
+    const list = document.getElementById("notifs-list");
+    try {
+      const [notifsRes, countRes] = await Promise.all([
+        Api.get("/notifications?size=8"),
+        Api.get("/notifications/unread-count")
+      ]);
+      const notifs = notifsRes.data?.content || [];
+      const unread = countRes.data?.unreadCount || 0;
+
+      document.getElementById("stat-notifs").textContent = notifs.length;
+
+      if (unread > 0) {
+        document.getElementById("notif-badge").style.display = "inline";
+        document.getElementById("notif-badge").textContent = unread;
+        document.getElementById("unread-notif-count").style.display = "inline";
+        document.getElementById("unread-notif-count").textContent = unread;
+      }
+
+      if (notifs.length === 0) {
+        list.innerHTML = `<div class="empty-state"><i class="bi bi-bell-slash fs-2 d-block mb-2"></i>Aucune notification</div>`;
+        return;
+      }
+
+      list.innerHTML = notifs.map(n => `
+        <div class="notif-item ${!n.read ? "unread" : ""}" onclick="markRead(${n.id})">
+          <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+            style="width:32px;height:32px;background:${!n.read ? "#DBEAFE" : "#F1F5F9"}">
+            <i class="bi bi-bag-check" style="font-size:0.8rem;color:${!n.read ? "#2563EB" : "#94A3B8"}"></i>
+          </div>
+          <div class="flex-grow-1" style="min-width:0">
+            <div class="fw-semibold" style="font-size:0.8rem">${n.title}</div>
+            <div class="text-muted" style="font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.message}</div>
+            <div class="text-muted" style="font-size:0.7rem">${Format.date(n.createdAt)}</div>
+          </div>
+          ${!n.read ? '<div class="rounded-circle bg-primary flex-shrink-0" style="width:8px;height:8px;margin-top:6px"></div>' : ""}
+        </div>`).join("");
+    } catch(e) {
+      list.innerHTML = `<div class="empty-state text-danger">Erreur</div>`;
+    }
+  }
+
+  function toggleNotifs() {
+    const panel = document.getElementById("notifs-panel");
+    panel.scrollIntoView({ behavior: "smooth" });
+  }
+
+  async function markRead(id) {
+    try {
+      await Api.put("/notifications/" + id + "/read");
+      loadNotifications();
+    } catch(e) {}
+  }
+
+  async function markAllRead() {
+    try {
+      await Api.put("/notifications/read-all");
+      Toast.success("Toutes les notifications lues");
+      loadNotifications();
+    } catch(e) {}
+  }
+
+  function confirmDelete(id) {
+    deleteProductId = id;
+    new bootstrap.Modal(document.getElementById("deleteModal")).show();
+  }
+
+  document.getElementById("confirm-delete").addEventListener("click", async () => {
+    if (!deleteProductId) return;
+    try {
+      await Api.delete(`/products/${deleteProductId}`);
+      bootstrap.Modal.getInstance(document.getElementById("deleteModal")).hide();
+      Toast.success("Produit supprimé");
+      loadSellerProducts();
+    } catch(e) {
+      Toast.error(e.message || "Erreur");
+    }
+  });
+
+  // Nom vendeur
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  if (user.firstName) document.getElementById("seller-name").textContent = user.firstName + " " + (user.lastName || "");
+
+</script>
+</body>
+</html>

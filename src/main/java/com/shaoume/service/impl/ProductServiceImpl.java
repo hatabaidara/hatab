@@ -7,6 +7,10 @@ import com.shaoume.entity.Product;
 import com.shaoume.exception.ResourceNotFoundException;
 import com.shaoume.repository.CategoryRepository;
 import com.shaoume.repository.ProductRepository;
+import com.shaoume.repository.UserRepository;
+import com.shaoume.entity.User;
+import com.shaoume.entity.PublicationPayment;
+import com.shaoume.repository.PublicationPaymentRepository;
 import com.shaoume.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +22,8 @@ import java.math.BigDecimal;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
+    private final PublicationPaymentRepository publicationPaymentRepository;
     @Override @Transactional
     public ProductResponse createProduct(ProductRequest r) {
         Category cat=categoryRepository.findById(r.getCategoryId()).orElseThrow(()->new ResourceNotFoundException("Catégorie",r.getCategoryId()));
@@ -54,6 +60,32 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductResponse> searchProducts(String kw,Pageable p) { return productRepository.searchProducts(kw,p).map(this::map); }
     @Override @Transactional(readOnly=true)
     public Page<ProductResponse> filterProducts(Long cid,BigDecimal min,BigDecimal max,String brand,Pageable p) { return productRepository.filterProducts(cid,min,max,brand,p).map(this::map); }
+    @Override @Transactional(readOnly=true)
+    public Page<ProductResponse> getSellerProducts(Long sellerId, Pageable p) {
+        return productRepository.findBySellerIdAndActiveTrue(sellerId, p).map(this::map);
+    }
+
+    @Override @Transactional
+    public ProductResponse createProductAsSeller(ProductRequest r, String sellerEmail) {
+        User seller = userRepository.findByEmail(sellerEmail)
+            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", 0L));
+        boolean hasPaid = publicationPaymentRepository.existsBySellerAndStatus(
+            seller, PublicationPayment.PaymentStatus.COMPLETED);
+        if (!hasPaid) {
+            throw new RuntimeException("Paiement requis pour publier un produit");
+        }
+        Category cat = categoryRepository.findById(r.getCategoryId())
+            .orElseThrow(() -> new ResourceNotFoundException("Categorie", r.getCategoryId()));
+        Product product = Product.builder()
+            .name(r.getName()).description(r.getDescription())
+            .price(r.getPrice()).discountPrice(r.getDiscountPrice())
+            .stock(r.getStock()).brand(r.getBrand())
+            .imageUrl(r.getImageUrl()).images(r.getImages())
+            .category(cat).seller(seller).publishedPaid(true)
+            .active(true).build();
+        return map(productRepository.save(product));
+    }
+
     private ProductResponse map(Product p) {
         return ProductResponse.builder().id(p.getId()).name(p.getName()).description(p.getDescription())
             .price(p.getPrice()).discountPrice(p.getDiscountPrice()).stock(p.getStock()).sku(p.getSku())

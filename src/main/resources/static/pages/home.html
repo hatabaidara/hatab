@@ -3,150 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boutique - Shaoume Global Business</title>
+  <title>Shaoume Global Business - Boutique</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="../assets/css/style.css" rel="stylesheet">
   <style>
     * { font-family: 'Inter', sans-serif; }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #0F172A 0%, #1E40AF 60%, #3B82F6 100%);
+    /* ── NAVBAR ── */
+    .navbar {
+      transition: all 0.3s ease;
+      padding: 16px 0;
+    }
+    .navbar.scrolled {
+      padding: 10px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    }
+    .navbar-brand {
+      font-weight: 900;
+      font-size: 1.4rem;
+      letter-spacing: -0.03em;
+    }
+    .nav-link {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #334155 !important;
+      padding: 6px 12px !important;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-link:hover { background: #F1F5F9; color: #2563EB !important; }
+    .nav-link.active { color: #2563EB !important; font-weight: 600; }
+    .nav-cart-btn {
+      position: relative;
+      background: #F1F5F9;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #334155;
+    }
+    .nav-cart-btn:hover { background: #E2E8F0; transform: translateY(-1px); }
+    .cart-badge {
+      position: absolute;
+      top: -5px; right: -5px;
+      background: #EF4444;
       color: white;
-      padding: 100px 0 80px;
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      font-size: 0.62rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      border: 2px solid white;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 45%, #2563EB 100%);
+      color: white;
+      padding: 110px 0 90px;
       position: relative;
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
+    .hero-blob-1 {
       position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      background: rgba(255,255,255,0.04);
+      top: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%);
       border-radius: 50%;
+      animation: blobMove 8s ease-in-out infinite;
     }
-    .hero::after {
-      content: '';
+    .hero-blob-2 {
       position: absolute;
-      bottom: -30%;
-      left: -5%;
-      width: 400px;
-      height: 400px;
-      background: rgba(255,255,255,0.04);
+      bottom: -150px; left: -50px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%);
       border-radius: 50%;
+      animation: blobMove 10s ease-in-out infinite reverse;
     }
-    .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; }
-    .hero .badge-promo {
-      background: rgba(255,255,255,0.15);
+    @keyframes blobMove {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(20px, -20px) scale(1.05); }
+      66% { transform: translate(-10px, 10px) scale(0.95); }
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, #60A5FA, #A78BFA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .badge-promo {
+      background: rgba(255,255,255,0.12);
       color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 20px;
+      gap: 7px;
+      margin-bottom: 24px;
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(10px);
+      letter-spacing: 0.01em;
     }
-    .hero-illustration {
-      font-size: 10rem;
-      opacity: 0.12;
-      line-height: 1;
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-16px); }
-    }
-
-    /* SEARCH BAR */
     .hero-search {
       background: white;
-      border-radius: 14px;
-      padding: 6px;
+      border-radius: 16px;
+      padding: 6px 6px 6px 20px;
       display: flex;
       gap: 8px;
-      max-width: 560px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      max-width: 540px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
     }
     .hero-search input {
       border: none;
       outline: none;
       flex: 1;
-      padding: 10px 16px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #1E293B;
+      font-weight: 500;
+      background: transparent;
     }
+    .hero-search input::placeholder { color: #94A3B8; }
     .hero-search button {
-      background: #2563EB;
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
       color: white;
       border: none;
-      border-radius: 10px;
-      padding: 10px 24px;
-      font-weight: 600;
-      font-size: 0.9rem;
+      border-radius: 12px;
+      padding: 11px 22px;
+      font-weight: 700;
+      font-size: 0.88rem;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-    .hero-search button:hover { background: #1D4ED8; transform: translateY(-1px); }
+    .hero-search button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
+    @media (max-width: 768px) {
+      .hero-search { padding: 0 8px !important; }
+      .hero-search input { font-size: 0.85rem !important; min-width: 0; }
+      .hero-search button { padding: 12px 14px !important; font-size: 0.85rem !important; flex-shrink: 0; white-space: nowrap; }
+      .navbar-collapse { background: white; padding: 16px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-top: 8px; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; }
+      .navbar-collapse .nav-link { padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-weight: 600; color: #1e293b !important; }
+      .navbar-collapse .d-flex { flex-direction: column; align-items: stretch !important; gap: 8px !important; margin-top: 12px; }
+      .navbar-collapse .btn { width: 100%; text-align: center; justify-content: center; }
+      #user-menu .dropdown-toggle { width: 100%; justify-content: center; }
+      .hero-illustration { display: none !important; }
+      .hero-stats { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 16px !important; margin-top: 20px !important; }
+      .hero-stat { text-align: left; }
+      .stat-divider { display: none !important; }
+      .product-footer { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; }
+      .product-footer .btn-cart { align-self: flex-end; margin-top: -28px; }
+      .product-name { font-size: 0.8rem !important; white-space: normal !important; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+      .product-price { font-size: 0.95rem !important; }
+      .product-card { border-radius: 12px !important; }
+      .hero-title { font-size: 2.2rem !important; line-height: 1.2 !important; }
+    }
+    .hero-stats {
+      display: flex;
+      gap: 36px;
+      margin-top: 44px;
+      flex-wrap: wrap;
+    }
+    .hero-stat .value {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .hero-stat .label {
+      font-size: 0.78rem;
+      opacity: 0.6;
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .hero-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.15);
+      align-self: center;
+    }
 
-    /* STATS HERO */
-    .hero-stats { display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap; }
-    .hero-stat { text-align: center; }
-    .hero-stat .value { font-size: 1.5rem; font-weight: 800; }
-    .hero-stat .label { font-size: 0.8rem; opacity: 0.7; }
+    /* Hero SVG Illustration */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card-float {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      position: absolute;
+      animation: float 4s ease-in-out infinite;
+      white-space: nowrap;
+    }
+    .hero-card-float.card-1 { top: 10%; left: -20px; animation-delay: 0s; }
+    .hero-card-float.card-2 { bottom: 20%; right: -10px; animation-delay: 1.5s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
 
-    /* CATEGORIES */
+    /* ── FEATURES ── */
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 22px;
+      border: 1px solid #E2E8F0;
+      text-align: center;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .feature-card:hover {
+      border-color: #2563EB;
+      box-shadow: 0 12px 32px rgba(37,99,235,0.12);
+      transform: translateY(-5px);
+    }
+    .feature-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.5rem;
+    }
+    .feature-card h6 { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.8rem; line-height: 1.5; }
+
+    /* ── CATEGORIES ── */
     .category-pill {
       background: white;
-      border: 1px solid #E5E7EB;
+      border: 1.5px solid #E2E8F0;
       border-radius: 50px;
-      padding: 8px 20px;
+      padding: 9px 22px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       color: #64748B;
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      gap: 7px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
     .category-pill:hover, .category-pill.active {
       background: #2563EB;
       color: white;
       border-color: #2563EB;
-      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(37,99,235,0.3);
+      transform: translateY(-2px);
     }
 
-    /* PRODUCT CARD */
+    /* ── PRODUCT CARD ── */
     .product-card {
       background: white;
       border-radius: 20px;
       overflow: hidden;
-      border: 1px solid #E5E7EB;
+      border: 1px solid #E2E8F0;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       position: relative;
     }
     .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 24px 48px rgba(37,99,235,0.16), 0 8px 16px rgba(0,0,0,0.06);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 48px rgba(37,99,235,0.14), 0 8px 16px rgba(0,0,0,0.05);
       border-color: transparent;
     }
-    .product-card:hover .product-img { transform: scale(1.06); }
-
+    .product-card:hover .product-img { transform: scale(1.07); }
     .product-img-wrapper { overflow: hidden; position: relative; }
     .product-img {
-      width: 100%;
-      height: 220px;
+      width: 100%; height: 220px;
       object-fit: cover;
       background: #F8FAFC;
       transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
@@ -161,50 +308,45 @@
     }
     .product-badge {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 12px; left: 12px;
       display: flex;
       gap: 4px;
       z-index: 2;
     }
     .product-fav {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 10px; right: 10px;
       background: white;
       border: none;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: all 0.2s;
       color: #94A3B8;
       z-index: 2;
     }
-    .product-fav:hover { color: #EF4444; transform: scale(1.12); }
+    .product-fav:hover { color: #EF4444; transform: scale(1.15); }
     .product-fav.active { color: #EF4444; }
-
-    .product-body { padding: 14px 16px 16px; }
-
+    .product-body { padding: 14px 16px 18px; }
     .product-cat-tag {
       display: inline-block;
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       padding: 3px 9px;
       border-radius: 20px;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       background: #EFF6FF;
       color: #2563EB;
     }
     .product-name {
-      font-size: 0.92rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 700;
       line-height: 1.35;
       color: #0F172A;
       margin-bottom: 8px;
@@ -213,162 +355,152 @@
       text-overflow: ellipsis;
     }
     .product-stars { display: flex; align-items: center; gap: 3px; margin-bottom: 12px; }
-    .product-stars i { font-size: 0.72rem; }
-    .product-stars span { font-size: 0.72rem; color: #94A3B8; margin-left: 2px; }
-
+    .product-stars span { font-size: 0.72rem; color: #94A3B8; margin-left: 3px; }
     .product-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 4px;
     }
-    .product-price { font-size: 1.05rem; font-weight: 800; color: #2563EB; line-height: 1; }
+    .product-price { font-size: 1.1rem; font-weight: 800; color: #2563EB; }
     .product-old-price { font-size: 0.75rem; color: #94A3B8; text-decoration: line-through; margin-top: 2px; }
-
     .btn-add-cart {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 50%;
-      background: #2563EB;
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
       border: none;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.25s;
-      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+      box-shadow: 0 4px 14px rgba(37,99,235,0.35);
       flex-shrink: 0;
     }
     .btn-add-cart:hover {
-      background: #1D4ED8;
-      transform: scale(1.12) rotate(8deg);
+      transform: scale(1.15) rotate(8deg);
       box-shadow: 0 6px 20px rgba(37,99,235,0.5);
     }
-    .btn-add-cart i { font-size: 1rem; }
-
     .stock-badge {
       font-size: 0.68rem;
-      padding: 3px 8px;
+      padding: 3px 9px;
       border-radius: 8px;
       margin-top: 8px;
       display: inline-block;
+      font-weight: 600;
     }
 
-    /* PROMO BANNER */
+    /* ── PROMO BANNER ── */
     .promo-banner {
-      background: linear-gradient(135deg, #F59E0B, #EF4444);
-      border-radius: 20px;
-      padding: 36px;
+      background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+      border-radius: 24px;
+      padding: 40px;
       color: white;
-      box-shadow: 0 8px 32px rgba(239,68,68,0.25);
-    }
-
-    /* NAVBAR */
-    .navbar-brand { font-weight: 800; font-size: 1.3rem; }
-    .nav-cart-btn {
+      box-shadow: 0 12px 40px rgba(239,68,68,0.2);
       position: relative;
-      background: #F1F5F9;
-      border: none;
-      border-radius: 10px;
-      padding: 8px 12px;
-      cursor: pointer;
-      transition: all 0.2s;
+      overflow: hidden;
     }
-    .nav-cart-btn:hover { background: #E2E8F0; transform: translateY(-1px); }
-    .cart-badge {
+    .promo-banner::before {
+      content: '';
       position: absolute;
-      top: -6px;
-      right: -6px;
-      background: #EF4444;
-      color: white;
+      top: -50px; right: -50px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.08);
       border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 0.65rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
     }
 
-    .section-title { font-size: 1.6rem; font-weight: 800; color: #0F172A; }
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.03em;
+    }
     .section-subtitle { color: #64748B; font-size: 0.9rem; }
 
-    /* FEATURES */
-    .feature-card {
-      background: white;
-      border-radius: 16px;
-      padding: 28px 24px;
-      border: 1px solid #E5E7EB;
-      text-align: center;
-      transition: all 0.25s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    /* ── FOOTER ── */
+    .footer-brand { font-weight: 900; font-size: 1.2rem; letter-spacing: -0.03em; }
+    .footer-link {
+      color: rgba(255,255,255,0.5) !important;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
     }
-    .feature-card:hover {
-      border-color: #2563EB;
-      box-shadow: 0 8px 24px rgba(37,99,235,0.12);
-      transform: translateY(-4px);
-    }
-    .feature-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
+    .footer-link:hover { color: rgba(255,255,255,0.9) !important; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.6);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 1.5rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .social-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      transform: translateY(-2px);
     }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Shaoume">
 </head>
-<body style="background:#F8FAFC">
+<body style="background:#F1F5F9">
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+<nav class="navbar navbar-expand-lg bg-white sticky-top" id="mainNavbar">
   <div class="container">
     <a class="navbar-brand text-primary" href="home.html">
-      <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
+      <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark fw-400">Global</span>
     </a>
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto ms-3 gap-1">
-        <li class="nav-item"><a class="nav-link fw-500 active" href="home.html">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link fw-500" href="#products">Produits</a></li>
-        <li class="nav-item"><a class="nav-link fw-500" href="#categories">Catégories</a></li>
-        <li class="nav-item"><a class="nav-link fw-500" href="#features">Services</a></li>
+      <ul class="navbar-nav me-auto ms-4 gap-1">
+        <li class="nav-item"><a class="nav-link active" href="home.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#products">Produits</a></li>
+        <li class="nav-item"><a class="nav-link" href="#categories">Catégories</a></li>
+        <li class="nav-item"><a class="nav-link" href="#features">Services</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2">
-        <button class="nav-cart-btn" onclick="window.location.href='cart.html'">
+        <button class="nav-cart-btn" onclick="window.location.href='cart.html'" title="Panier">
           <i class="bi bi-bag fs-5"></i>
           <span class="cart-badge" id="cart-count">0</span>
         </button>
-        <button class="nav-cart-btn" onclick="window.location.href='favorites.html'">
+        <button class="nav-cart-btn" onclick="window.location.href='favorites.html'" title="Favoris">
           <i class="bi bi-heart fs-5"></i>
         </button>
         <div id="user-menu" class="d-none">
           <div class="dropdown">
-            <button class="btn btn-primary btn-sm rounded-pill px-3 dropdown-toggle" data-bs-toggle="dropdown">
+            <button class="btn btn-primary btn-sm px-3 dropdown-toggle" style="border-radius:10px" data-bs-toggle="dropdown">
               <i class="bi bi-person me-1"></i><span id="nav-user-name">Mon compte</span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="border-radius:12px;min-width:200px">
+            <ul class="dropdown-menu dropdown-menu-end mt-2" style="min-width:210px">
               <li class="px-3 py-2 border-bottom">
-                <div class="fw-semibold" id="dropdown-name">-</div>
-                <div class="text-muted" style="font-size:0.8rem" id="dropdown-email">-</div>
+                <div class="fw-semibold" id="dropdown-name" style="font-size:0.9rem">-</div>
+                <div class="text-muted" style="font-size:0.78rem" id="dropdown-email">-</div>
               </li>
               <li><a class="dropdown-item py-2" href="profile.html"><i class="bi bi-person me-2 text-primary"></i>Mon profil</a></li>
               <li><a class="dropdown-item py-2" href="my-orders.html"><i class="bi bi-bag-check me-2 text-success"></i>Mes commandes</a></li>
               <li><a class="dropdown-item py-2" href="favorites.html"><i class="bi bi-heart me-2 text-danger"></i>Mes favoris</a></li>
-              <li id="admin-item" class="d-none"><a class="dropdown-item py-2" href="dashboard.html"><i class="bi bi-speedometer2 me-2 text-warning"></i>Dashboard Admin</a></li>
+              <li id="admin-item" style="display:none!important" class="d-none"><a class="dropdown-item py-2" href="dashboard.html"><i class="bi bi-speedometer2 me-2 text-warning"></i>Dashboard Admin</a></li>
               <li><hr class="dropdown-divider my-1"></li>
               <li><a class="dropdown-item py-2 text-danger" href="#" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
             </ul>
           </div>
         </div>
         <div id="guest-menu">
-          <a href="login.html" class="btn btn-outline-primary btn-sm rounded-pill px-3 me-1">Connexion</a>
-          <a href="register.html" class="btn btn-primary btn-sm rounded-pill px-3">Inscription</a>
+          <a href="login.html" class="btn btn-outline-primary btn-sm px-3 me-1" style="border-radius:10px">Connexion</a>
+          <a href="register-seller.html" class="btn btn-outline-success btn-sm px-3 me-1" style="border-radius:10px"><i class="bi bi-shop me-1"></i>Vendre</a>
+          <a href="register.html" class="btn btn-primary btn-sm px-3" style="border-radius:10px">Inscription</a>
         </div>
       </div>
     </div>
@@ -377,36 +509,96 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
   <div class="container position-relative" style="z-index:1">
-    <div class="row align-items-center">
-      <div class="col-lg-7">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
         <div class="badge-promo">
           <i class="bi bi-lightning-charge-fill text-warning"></i>
-          Nouveau — Découvrez notre collection 2026
+          Nouveau — Collection 2026 disponible
         </div>
         <h1 class="mb-4">
-          Shopping <span style="color:#60A5FA">moderne</span><br>
+          Shopping <span class="highlight">moderne</span><br>
           & sans frontières
         </h1>
-        <p class="mb-4 opacity-75" style="font-size:1.05rem;max-width:480px">
-          Des milliers de produits de qualité livrés directement chez vous.
-          Profitez d'une expérience d'achat exceptionnelle.
+        <p class="mb-5 opacity-75" style="font-size:1.05rem;max-width:460px;line-height:1.7">
+          Des milliers de produits de qualité livrés directement chez vous au Sénégal et partout en Afrique.
         </p>
-        <div class="hero-search mb-4">
+        <div class="hero-search mb-5">
+          <i class="bi bi-search text-muted"></i>
           <input type="text" id="hero-search" placeholder="Rechercher un produit..." onkeypress="if(event.key==='Enter') searchFromHero()">
-          <button onclick="searchFromHero()">
-            <i class="bi bi-search me-1"></i>Rechercher
-          </button>
+          <button onclick="searchFromHero()">Rechercher</button>
         </div>
         <div class="hero-stats">
-          <div class="hero-stat"><div class="value">500+</div><div class="label">Produits</div></div>
-          <div class="hero-stat"><div class="value">1000+</div><div class="label">Clients</div></div>
-          <div class="hero-stat"><div class="value">4.9★</div><div class="label">Note moyenne</div></div>
-          <div class="hero-stat"><div class="value">24h</div><div class="label">Livraison</div></div>
+          <div class="hero-stat">
+            <div class="value" id="stat-products-hero">500+</div>
+            <div class="label">Produits</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="value" id="stat-users-hero">1K+</div>
+            <div class="label">Clients</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="value">4.9★</div>
+            <div class="label">Note moyenne</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="value">24h</div>
+            <div class="label">Livraison</div>
+          </div>
         </div>
       </div>
-      <div class="col-lg-5 d-none d-lg-flex justify-content-center align-items-center">
-        <div class="hero-illustration">🛍️</div>
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="hero-visual" style="height:400px">
+          <svg viewBox="0 0 400 400" width="360" height="360" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.2"/>
+                <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:0.1"/>
+              </linearGradient>
+              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.15"/>
+                <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.05"/>
+              </linearGradient>
+            </defs>
+            <!-- Background circle -->
+            <circle cx="200" cy="200" r="180" fill="url(#grad1)" />
+            <!-- Shopping bag -->
+            <rect x="120" y="150" width="160" height="140" rx="16" fill="url(#grad2)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <path d="M160 150 C160 120 240 120 240 150" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="170" cy="195" r="6" fill="rgba(255,255,255,0.8)"/>
+            <circle cx="230" cy="195" r="6" fill="rgba(255,255,255,0.8)"/>
+            <rect x="145" y="215" width="110" height="8" rx="4" fill="rgba(255,255,255,0.2)"/>
+            <rect x="145" y="233" width="80" height="8" rx="4" fill="rgba(255,255,255,0.15)"/>
+            <!-- Stars -->
+            <text x="168" y="275" font-size="18" fill="rgba(251,191,36,0.9)">★★★★★</text>
+            <!-- Small cards -->
+            <rect x="60" y="80" width="90" height="60" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <circle cx="82" cy="103" r="10" fill="rgba(16,185,129,0.6)"/>
+            <rect x="98" y="96" width="40" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+            <rect x="98" y="108" width="28" height="5" rx="2.5" fill="rgba(255,255,255,0.25)"/>
+            <rect x="250" y="270" width="90" height="60" rx="12" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <circle cx="272" cy="293" r="10" fill="rgba(239,68,68,0.6)"/>
+            <rect x="288" y="286" width="40" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+            <rect x="288" y="298" width="28" height="5" rx="2.5" fill="rgba(255,255,255,0.25)"/>
+          </svg>
+          <div class="hero-card-float card-1">
+            <div style="width:32px;height:32px;background:rgba(16,185,129,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center">
+              <i class="bi bi-truck text-success"></i>
+            </div>
+            Livraison 24h
+          </div>
+          <div class="hero-card-float card-2">
+            <div style="width:32px;height:32px;background:rgba(245,158,11,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center">
+              <i class="bi bi-shield-check text-warning"></i>
+            </div>
+            Paiement sécurisé
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -419,29 +611,29 @@
       <div class="col-6 col-md-3">
         <div class="feature-card">
           <div class="feature-icon bg-primary bg-opacity-10"><i class="bi bi-truck text-primary"></i></div>
-          <h6 class="fw-bold mb-1">Livraison rapide</h6>
-          <p class="text-muted mb-0" style="font-size:0.82rem">Livraison en 24-48h partout</p>
+          <h6>Livraison rapide</h6>
+          <p class="text-muted mb-0">Livraison en 24-48h partout au Sénégal</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
         <div class="feature-card">
           <div class="feature-icon bg-success bg-opacity-10"><i class="bi bi-shield-check text-success"></i></div>
-          <h6 class="fw-bold mb-1">Paiement sécurisé</h6>
-          <p class="text-muted mb-0" style="font-size:0.82rem">Transactions 100% sécurisées</p>
+          <h6>Paiement sécurisé</h6>
+          <p class="text-muted mb-0">Transactions 100% protégées</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
         <div class="feature-card">
           <div class="feature-icon bg-warning bg-opacity-10"><i class="bi bi-arrow-repeat text-warning"></i></div>
-          <h6 class="fw-bold mb-1">Retour facile</h6>
-          <p class="text-muted mb-0" style="font-size:0.82rem">Retour gratuit sous 30 jours</p>
+          <h6>Retour facile</h6>
+          <p class="text-muted mb-0">Retour gratuit sous 30 jours</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
         <div class="feature-card">
           <div class="feature-icon bg-info bg-opacity-10"><i class="bi bi-headset text-info"></i></div>
-          <h6 class="fw-bold mb-1">Support 24/7</h6>
-          <p class="text-muted mb-0" style="font-size:0.82rem">Assistance disponible toujours</p>
+          <h6>Support 24/7</h6>
+          <p class="text-muted mb-0">Assistance toujours disponible</p>
         </div>
       </div>
     </div>
@@ -453,25 +645,25 @@
   <div class="container">
     <div class="text-center mb-4">
       <h2 class="section-title">Nos Catégories</h2>
-      <p class="section-subtitle">Trouvez exactement ce que vous cherchez</p>
+      <p class="section-subtitle mt-1">Trouvez exactement ce que vous cherchez</p>
     </div>
     <div class="d-flex gap-2 flex-wrap justify-content-center" id="categories-list">
       <span class="category-pill active" onclick="filterByCategory(null, this)">
-        <i class="bi bi-grid"></i> Tout voir
+        <i class="bi bi-grid-3x3-gap"></i> Tout voir
       </span>
     </div>
   </div>
 </section>
 
 <!-- PRODUITS VEDETTE -->
-<section class="py-2 pb-5" id="featured">
+<section class="pb-5" id="featured">
   <div class="container">
     <div class="d-flex align-items-center justify-content-between mb-4">
       <div>
         <h2 class="section-title mb-1">Produits en vedette</h2>
         <p class="section-subtitle mb-0">Nos meilleures sélections du moment</p>
       </div>
-      <a href="#products" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+      <a href="#products" class="btn btn-outline-primary btn-sm px-3" style="border-radius:10px">
         Voir tout <i class="bi bi-arrow-right ms-1"></i>
       </a>
     </div>
@@ -485,18 +677,18 @@
 <section class="py-4">
   <div class="container">
     <div class="promo-banner">
-      <div class="row align-items-center">
+      <div class="row align-items-center position-relative" style="z-index:1">
         <div class="col-md-8">
-          <div class="badge bg-white text-warning fw-semibold mb-2" style="font-size:0.8rem">
+          <span class="badge bg-white text-warning fw-bold mb-3" style="font-size:0.78rem;padding:6px 12px">
             <i class="bi bi-lightning-charge-fill me-1"></i>Offre limitée
-          </div>
-          <h3 class="fw-bold mb-2">Inscrivez-vous et obtenez -10% sur votre première commande</h3>
-          <p class="mb-0 opacity-75">Rejoignez notre communauté et profitez d'avantages exclusifs</p>
+          </span>
+          <h3 class="fw-bold mb-2" style="letter-spacing:-0.02em">Inscrivez-vous et obtenez -10%<br>sur votre première commande</h3>
+          <p class="mb-0 opacity-75" style="font-size:0.9rem">Rejoignez notre communauté et profitez d'avantages exclusifs</p>
         </div>
-        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-          <a href="register.html" class="btn btn-lg fw-semibold px-4"
-            style="background:white;color:#EF4444;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.15)">
-            <i class="bi bi-person-plus me-2"></i>S'inscrire maintenant
+        <div class="col-md-4 text-md-end mt-4 mt-md-0">
+          <a href="register.html" class="btn btn-lg fw-bold px-5 py-3"
+            style="background:white;color:#EF4444;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.15);font-size:0.9rem">
+            <i class="bi bi-person-plus me-2"></i>S'inscrire
           </a>
         </div>
       </div>
@@ -512,79 +704,88 @@
         <h2 class="section-title mb-1">Tous les produits</h2>
         <p class="section-subtitle mb-0" id="products-count-text">Chargement...</p>
       </div>
-      <div class="d-flex gap-2 flex-wrap">
-        <select id="sort-select" class="form-select form-select-sm" style="width:auto" onchange="loadProducts(0)">
+      <div class="d-flex gap-2 flex-wrap align-items-center">
+        <select id="sort-select" class="form-select form-select-sm" style="width:auto;border-radius:10px" onchange="loadProducts(0)">
           <option value="createdAt,desc">Plus récents</option>
           <option value="price,asc">Prix croissant</option>
           <option value="price,desc">Prix décroissant</option>
           <option value="name,asc">Nom A-Z</option>
         </select>
         <div class="btn-group btn-group-sm">
-          <button class="btn btn-outline-secondary active" id="view-grid" onclick="setView('grid')"><i class="bi bi-grid"></i></button>
-          <button class="btn btn-outline-secondary" id="view-list" onclick="setView('list')"><i class="bi bi-list"></i></button>
+          <button class="btn btn-outline-secondary active" id="view-grid" onclick="setView('grid')" style="border-radius:8px 0 0 8px"><i class="bi bi-grid"></i></button>
+          <button class="btn btn-outline-secondary" id="view-list" onclick="setView('list')" style="border-radius:0 8px 8px 0"><i class="bi bi-list-ul"></i></button>
         </div>
       </div>
     </div>
     <div class="row g-4" id="products-grid">
       <div class="col-12 text-center py-5">
         <div class="spinner-border text-primary"></div>
-        <p class="text-muted mt-2">Chargement des produits...</p>
+        <p class="text-muted mt-3">Chargement des produits...</p>
       </div>
     </div>
     <div class="d-flex justify-content-center mt-5">
-      <nav><ul class="pagination" id="pagination"></ul></nav>
+      <nav><ul class="pagination gap-1" id="pagination"></ul></nav>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-dark text-white py-5 mt-3">
+<footer style="background:#0F172A;color:white" class="py-5 mt-3">
   <div class="container">
-    <div class="row g-4">
+    <div class="row g-4 mb-4">
       <div class="col-md-4">
-        <h5 class="fw-bold mb-3"><i class="bi bi-globe2 me-2 text-primary"></i>Shaoume Global</h5>
-        <p class="text-white-50" style="font-size:0.9rem">Votre plateforme e-commerce de confiance. Qualité, rapidité et satisfaction garanties.</p>
-        <div class="d-flex gap-3 mt-3">
-          <a href="#" class="text-white-50 fs-5"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="text-white-50 fs-5"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="text-white-50 fs-5"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="text-white-50 fs-5"><i class="bi bi-whatsapp"></i></a>
+        <div class="footer-brand mb-3">
+          <i class="bi bi-globe2 me-2 text-primary"></i>Shaoume <span style="color:#60A5FA">Global</span>
+        </div>
+        <p style="color:rgba(255,255,255,0.45);font-size:0.875rem;line-height:1.7">
+          Votre plateforme e-commerce de confiance. Qualité, rapidité et satisfaction garanties partout au Sénégal.
+        </p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-whatsapp"></i></a>
         </div>
       </div>
-      <div class="col-md-2">
-        <h6 class="fw-bold mb-3">Boutique</h6>
-        <ul class="list-unstyled" style="font-size:0.9rem">
-          <li class="mb-2"><a href="#products" class="text-white-50 text-decoration-none">Produits</a></li>
-          <li class="mb-2"><a href="#categories" class="text-white-50 text-decoration-none">Catégories</a></li>
-          <li class="mb-2"><a href="#featured" class="text-white-50 text-decoration-none">Vedette</a></li>
-          <li><a href="cart.html" class="text-white-50 text-decoration-none">Panier</a></li>
+      <div class="col-6 col-md-2">
+        <h6 class="fw-bold mb-3" style="font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase;color:rgba(255,255,255,0.4)">Boutique</h6>
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li><a href="#products" class="footer-link">Produits</a></li>
+          <li><a href="#categories" class="footer-link">Catégories</a></li>
+          <li><a href="#featured" class="footer-link">Vedette</a></li>
+          <li><a href="cart.html" class="footer-link">Panier</a></li>
         </ul>
       </div>
-      <div class="col-md-2">
-        <h6 class="fw-bold mb-3">Compte</h6>
-        <ul class="list-unstyled" style="font-size:0.9rem">
-          <li class="mb-2"><a href="login.html" class="text-white-50 text-decoration-none">Connexion</a></li>
-          <li class="mb-2"><a href="register.html" class="text-white-50 text-decoration-none">Inscription</a></li>
-          <li class="mb-2"><a href="my-orders.html" class="text-white-50 text-decoration-none">Mes commandes</a></li>
-          <li><a href="favorites.html" class="text-white-50 text-decoration-none">Favoris</a></li>
+      <div class="col-6 col-md-2">
+        <h6 class="fw-bold mb-3" style="font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase;color:rgba(255,255,255,0.4)">Compte</h6>
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li><a href="login.html" class="footer-link">Connexion</a></li>
+          <li><a href="register.html" class="footer-link">Inscription</a></li>
+          <li><a href="my-orders.html" class="footer-link">Mes commandes</a></li>
+          <li><a href="favorites.html" class="footer-link">Favoris</a></li>
+          <li><a href="register-seller.html" class="footer-link">Devenir vendeur</a></li>
         </ul>
       </div>
       <div class="col-md-4">
-        <h6 class="fw-bold mb-3">Newsletter</h6>
-        <p class="text-white-50" style="font-size:0.85rem">Recevez nos offres exclusives directement dans votre boîte mail.</p>
-        <div class="input-group mt-3">
-          <input type="email" class="form-control bg-white bg-opacity-10 border-0 text-white" placeholder="votre@email.com" style="border-radius:8px 0 0 8px">
-          <button class="btn btn-primary" style="border-radius:0 8px 8px 0"><i class="bi bi-send"></i></button>
+        <h6 class="fw-bold mb-3" style="font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase;color:rgba(255,255,255,0.4)">Newsletter</h6>
+        <p style="color:rgba(255,255,255,0.45);font-size:0.85rem;margin-bottom:16px">Recevez nos offres exclusives dans votre boîte mail.</p>
+        <div class="d-flex gap-2">
+          <input type="email" class="form-control" id="newsletter-email" placeholder="votre@email.com"
+            style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:white;border-radius:10px;font-size:0.875rem"
+            onkeydown="if(event.key==='Enter') subscribeNewsletter()">
+          <button class="btn btn-primary px-3" style="border-radius:10px;white-space:nowrap" onclick="subscribeNewsletter()" id="newsletter-btn">
+            <i class="bi bi-send"></i>
+          </button>
         </div>
       </div>
     </div>
-    <hr class="border-secondary mt-4">
+    <hr style="border-color:rgba(255,255,255,0.08);margin:28px 0 20px">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-      <p class="text-white-50 mb-0" style="font-size:0.85rem">© 2026 Shaoume Global Business. Tous droits réservés.</p>
+      <p style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin:0">© 2026 Shaoume Global Business. Tous droits réservés.</p>
       <div class="d-flex gap-3">
-        <a href="#" class="text-white-50 text-decoration-none" style="font-size:0.85rem">Confidentialité</a>
-        <a href="#" class="text-white-50 text-decoration-none" style="font-size:0.85rem">CGV</a>
-        <a href="#" class="text-white-50 text-decoration-none" style="font-size:0.85rem">Contact</a>
+        <a href="#" class="footer-link" style="font-size:0.82rem">Confidentialité</a>
+        <a href="#" class="footer-link" style="font-size:0.82rem">CGV</a>
+        <a href="contact.html" class="footer-link" style="font-size:0.82rem">Contact</a>
       </div>
     </div>
   </div>
@@ -593,7 +794,7 @@
 <!-- MODAL PRODUIT -->
 <div class="modal fade" id="productModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content" style="border-radius:20px;border:none">
+    <div class="modal-content">
       <div class="modal-header border-0 pb-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
@@ -609,6 +810,13 @@
   let currentCategory = null;
   let currentView = 'grid';
   let favIds = new Set();
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('mainNavbar');
+    if (window.scrollY > 50) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
 
   function initNavbar() {
     if (Auth.isLogged()) {
@@ -626,16 +834,25 @@
   function searchFromHero() {
     const kw = document.getElementById('hero-search').value.trim();
     if (kw) {
-      document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => loadProducts(0, kw), 300);
+      window.location.href = 'search.html?q=' + encodeURIComponent(kw);
+    } else {
+      window.location.href = 'search.html';
     }
   }
 
   async function loadFavIds() {
     try {
       const res = await Api.get('/favorites?size=100');
-      const prods = res.data?.content || [];
-      favIds = new Set(prods.map(p => p.id));
+      favIds = new Set((res.data?.content || []).map(p => p.id));
+    } catch(e) {}
+  }
+
+  async function loadHeroStats() {
+    try {
+      const products = await Api.get('/products?size=1');
+      const total = products.data?.totalElements || 0;
+      const el = document.getElementById('stat-products-hero');
+      if (el) el.textContent = total > 999 ? Math.floor(total/1000) + 'K+' : total + '+';
     } catch(e) {}
   }
 
@@ -648,7 +865,7 @@
         list.innerHTML += `
           <span class="category-pill" onclick="filterByCategory(${c.id}, this)">
             <i class="bi bi-tag"></i> ${c.name}
-            <span class="badge bg-white text-primary ms-1" style="font-size:0.7rem">${c.productCount || 0}</span>
+            <span class="badge rounded-pill ms-1" style="background:rgba(37,99,235,0.1);color:#2563EB;font-size:0.68rem">${c.productCount || 0}</span>
           </span>`;
       });
     } catch(e) {}
@@ -698,14 +915,13 @@
       const res = await Api.get(url);
       const data = res.data;
       const products = data?.content || [];
-      const total = data?.totalElements || 0;
-      document.getElementById('products-count-text').textContent = `${total} produits disponibles`;
+      document.getElementById('products-count-text').textContent = `${data?.totalElements || 0} produits disponibles`;
       if (products.length === 0) {
         grid.innerHTML = `
           <div class="col-12 text-center py-5">
             <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
-            <h5 class="text-muted">Aucun produit trouvé</h5>
-            <button class="btn btn-outline-primary mt-2" onclick="filterByCategory(null, document.querySelector('.category-pill'))">
+            <h5 class="text-muted fw-semibold">Aucun produit trouvé</h5>
+            <button class="btn btn-outline-primary mt-2 px-4" style="border-radius:10px" onclick="filterByCategory(null, document.querySelector('.category-pill'))">
               Voir tous les produits
             </button>
           </div>`;
@@ -734,23 +950,21 @@
           <div class="${colClass}">
             <div class="product-card d-flex" onclick="window.location.href='product-detail.html?id=${p.id}'">
               <div class="product-img-wrapper flex-shrink-0" style="width:160px">
-                ${p.imageUrl
-                  ? `<img src="${p.imageUrl}" class="product-img" style="height:160px;width:160px">`
-                  : `<div class="product-img-placeholder" style="height:160px;width:160px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
+                ${p.imageUrl ? `<img src="${p.imageUrl}" class="product-img" style="height:160px;width:160px">` : `<div class="product-img-placeholder" style="height:160px;width:160px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
                 ${hasDiscount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">-${discountPct}%</span>` : ''}
               </div>
               <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
                 <div>
                   <span class="product-cat-tag">${p.category?.name || ''}</span>
                   <h6 class="product-name">${p.name}</h6>
-                  <p class="text-muted mb-2" style="font-size:0.85rem">${p.description?.substring(0,100) || ''}${p.description?.length > 100 ? '...' : ''}</p>
+                  <p class="text-muted mb-2" style="font-size:0.85rem">${(p.description||'').substring(0,100)}${(p.description||'').length > 100 ? '...' : ''}</p>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <div class="product-price">${Format.currency(price)}</div>
                     ${hasDiscount ? `<div class="product-old-price">${Format.currency(p.price)}</div>` : ''}
                   </div>
-                  <button class="btn btn-primary btn-sm rounded-pill px-3" onclick="event.stopPropagation(); addToCart(${p.id})">
+                  <button class="btn btn-primary btn-sm px-3" style="border-radius:10px" onclick="event.stopPropagation(); addToCart(${p.id})">
                     <i class="bi bi-bag-plus me-1"></i>Ajouter
                   </button>
                 </div>
@@ -763,9 +977,7 @@
         <div class="${colClass}">
           <div class="product-card" onclick="window.location.href='product-detail.html?id=${p.id}'">
             <div class="product-img-wrapper">
-              ${p.imageUrl
-                ? `<img src="${p.imageUrl}" class="product-img">`
-                : `<div class="product-img-placeholder"><i class="bi bi-image fs-1 text-muted"></i></div>`}
+              ${p.imageUrl ? `<img src="${p.imageUrl}" class="product-img">` : `<div class="product-img-placeholder"><i class="bi bi-image fs-1 text-muted"></i></div>`}
               <div class="product-badge">
                 ${hasDiscount ? `<span class="badge bg-danger rounded-pill">-${discountPct}%</span>` : ''}
                 ${p.featured ? `<span class="badge bg-warning rounded-pill"><i class="bi bi-star-fill"></i></span>` : ''}
@@ -793,65 +1005,6 @@
           </div>
         </div>`;
     }).join('');
-  }
-
-  async function viewProduct(id) {
-    const body = document.getElementById('modal-product-body');
-    body.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary"></div></div>';
-    new bootstrap.Modal(document.getElementById('productModal')).show();
-    try {
-      const res = await Api.get('/products/' + id);
-      const p = res.data;
-      const price = p.discountPrice || p.price;
-      const hasDiscount = p.discountPrice && p.discountPrice < p.price;
-      const discountPct = hasDiscount ? Math.round((1 - p.discountPrice/p.price)*100) : 0;
-      body.innerHTML = `
-        <div class="row g-4">
-          <div class="col-md-5">
-            <div class="rounded-3 overflow-hidden bg-light" style="height:300px">
-              ${p.imageUrl
-                ? `<img src="${p.imageUrl}" style="width:100%;height:300px;object-fit:cover">`
-                : `<div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image fs-1 text-muted"></i></div>`}
-            </div>
-          </div>
-          <div class="col-md-7">
-            <div class="d-flex gap-2 mb-2 flex-wrap">
-              <span class="product-cat-tag">${p.category?.name || ''}</span>
-              ${p.brand ? `<span class="badge bg-primary-subtle text-primary">${p.brand}</span>` : ''}
-              ${hasDiscount ? `<span class="badge bg-danger rounded-pill">-${discountPct}%</span>` : ''}
-            </div>
-            <h4 class="fw-bold mb-2">${p.name}</h4>
-            <div class="d-flex align-items-center gap-2 mb-3">
-              <div>${[1,2,3,4,5].map(i => `<i class="bi bi-star${i <= Math.round(p.averageRating||0) ? '-fill text-warning' : ' text-muted'}"></i>`).join('')}</div>
-              <span class="text-muted" style="font-size:0.85rem">${p.reviewCount||0} avis</span>
-            </div>
-            <div class="mb-3">
-              <span class="fs-2 fw-bold text-primary">${Format.currency(price)}</span>
-              ${hasDiscount ? `<span class="text-muted text-decoration-line-through ms-2 fs-5">${Format.currency(p.price)}</span>` : ''}
-            </div>
-            <p class="text-muted mb-3" style="font-size:0.9rem;line-height:1.6">${p.description || 'Aucune description disponible.'}</p>
-            <div class="d-flex align-items-center gap-2 mb-4 p-3 bg-light rounded-3">
-              <i class="bi bi-box-seam ${p.stock > 0 ? 'text-success' : 'text-danger'} fs-5"></i>
-              <div>
-                <div class="fw-semibold ${p.stock > 0 ? 'text-success' : 'text-danger'}" style="font-size:0.9rem">
-                  ${p.stock > 0 ? `${p.stock} articles disponibles` : 'Rupture de stock'}
-                </div>
-                ${p.stock > 0 && p.stock < 10 ? `<div class="text-warning" style="font-size:0.78rem">Commandez vite !</div>` : ''}
-              </div>
-            </div>
-            <div class="d-flex gap-3">
-              <button class="btn btn-primary flex-grow-1 py-2 rounded-pill" onclick="addToCart(${p.id})" ${p.stock === 0 ? 'disabled' : ''}>
-                <i class="bi bi-bag-plus me-2"></i>Ajouter au panier
-              </button>
-              <button class="btn btn-outline-danger px-3 rounded-pill" onclick="toggleFav(${p.id}, this)">
-                <i class="bi bi-heart${favIds.has(p.id) ? '-fill' : ''}"></i>
-              </button>
-            </div>
-          </div>
-        </div>`;
-    } catch(e) {
-      body.innerHTML = '<div class="text-center text-danger py-4">Erreur de chargement</div>';
-    }
   }
 
   async function addToCart(productId) {
@@ -898,7 +1051,30 @@
   loadCategories();
   loadFeatured();
   loadProducts();
+
+  async function subscribeNewsletter() {
+    const email = document.getElementById("newsletter-email").value.trim();
+    const btn = document.getElementById("newsletter-btn");
+    if (!email || !email.includes("@")) {
+      Toast.error("Veuillez entrer un email valide");
+      return;
+    }
+    btn.disabled = true;
+    btn.innerHTML = "<div class='spinner-border spinner-border-sm'></div>";
+    await new Promise(r => setTimeout(r, 1000));
+    Toast.success("Merci ! Vous etes abonne a notre newsletter.");
+    document.getElementById("newsletter-email").value = "";
+    btn.disabled = false;
+    btn.innerHTML = "<i class='bi bi-check-lg'></i>";
+    setTimeout(() => { btn.innerHTML = "<i class='bi bi-send'></i>"; }, 3000);
+  }
   loadCartCount();
+  loadHeroStats();
 </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,16 @@
+{
+  "name": "Shaoume Global Business",
+  "short_name": "Shaoume",
+  "description": "Votre boutique e-commerce au Senegal",
+  "start_url": "/pages/home.html",
+  "display": "standalone",
+  "background_color": "#F1F5F9",
+  "theme_color": "#2563EB",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/assets/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/assets/icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "categories": ["shopping", "business"],
+  "lang": "fr"
+}

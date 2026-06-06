@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publier un produit - Shaoume Global Business</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<style>
+  * { font-family: "Inter", sans-serif; }
+  body { background: #F1F5F9; }
+  .publish-card {
+    background: white; border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 32px;
+  }
+  .step-indicator {
+    display: flex; align-items: center; gap: 0; margin-bottom: 32px;
+  }
+  .step {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 50px;
+    font-size: 0.85rem; font-weight: 600;
+    background: #F1F5F9; color: #94A3B8;
+    transition: all 0.3s;
+  }
+  .step.active { background: #2563EB; color: white; }
+  .step.done { background: #DCFCE7; color: #16A34A; }
+  .step-line { flex: 1; height: 2px; background: #E2E8F0; }
+  .wave-box {
+    background: linear-gradient(135deg, #1a73e8, #0d47a1);
+    border-radius: 16px; padding: 28px; color: white; text-align: center;
+  }
+  .wave-amount { font-size: 2.5rem; font-weight: 800; }
+  .wave-btn {
+    background: white; color: #1a73e8;
+    border: none; border-radius: 12px;
+    padding: 14px 32px; font-weight: 700;
+    font-size: 1rem; cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .wave-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .form-label { font-weight: 600; font-size: 0.85rem; color: #374151; }
+  .form-control, .form-select {
+    border-radius: 10px; border: 1.5px solid #E2E8F0;
+    padding: 10px 14px; font-size: 0.9rem;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .btn-publish {
+    background: #2563EB; color: white; border: none;
+    border-radius: 12px; padding: 14px 32px;
+    font-weight: 700; font-size: 1rem; width: 100%;
+    transition: all 0.2s;
+  }
+  .btn-publish:hover { background: #1d4ed8; transform: translateY(-1px); }
+  .btn-publish:disabled { background: #94A3B8; transform: none; cursor: not-allowed; }
+  .alert-info-box {
+    background: #FFF7ED; border: 1.5px solid #FED7AA;
+    border-radius: 12px; padding: 16px; color: #92400E;
+  }
+  .alert-success-box {
+    background: #F0FDF4; border: 1.5px solid #BBF7D0;
+    border-radius: 12px; padding: 16px; color: #166534;
+  }
+  .product-preview {
+    background: #F8FAFC; border-radius: 12px;
+    border: 1px solid #E2E8F0; padding: 16px;
+  }
+</style>
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" href="home.html">
+      <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="seller-dashboard.html" class="btn btn-light btn-sm"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a>
+      <div class="avatar" id="user-avatar" style="width:36px;height:36px;font-size:0.8rem">S</div>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5" style="max-width:760px">
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <h3 class="fw-bold mb-0">Publier un produit</h3>
+  </div>
+
+  <!-- Etapes -->
+  <div class="step-indicator">
+    <div class="step active" id="step1-ind"><i class="bi bi-box-seam"></i> Produit</div>
+    <div class="step-line"></div>
+    <div class="step" id="step2-ind"><i class="bi bi-credit-card"></i> Paiement</div>
+    <div class="step-line"></div>
+    <div class="step" id="step3-ind"><i class="bi bi-check-circle"></i> Confirmation</div>
+  </div>
+
+  <!-- ETAPE 1 : Formulaire produit -->
+  <div id="step1">
+    <div class="publish-card">
+      <h5 class="fw-bold mb-1"><i class="bi bi-box-seam me-2 text-primary"></i>Informations du produit</h5>
+      <p class="text-muted mb-4" style="font-size:0.85rem">Remplissez les informations de votre produit</p>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Nom du produit *</label>
+          <input type="text" class="form-control" id="p-name" placeholder="Ex: Robe traditionnelle brodée">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Prix (FCFA) *</label>
+          <input type="number" class="form-control" id="p-price" placeholder="25000">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Prix promo (FCFA)</label>
+          <input type="number" class="form-control" id="p-discount" placeholder="Optionnel">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Stock *</label>
+          <input type="number" class="form-control" id="p-stock" placeholder="10">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Catégorie *</label>
+          <select class="form-select" id="p-category"></select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Marque</label>
+          <input type="text" class="form-control" id="p-brand" placeholder="Optionnel">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Description *</label>
+          <textarea class="form-control" id="p-description" rows="4" placeholder="Décrivez votre produit en détail..."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Image principale</label>
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('img-file').click()"
+            style="border:2px dashed #E2E8F0;border-radius:12px;padding:24px;text-align:center;cursor:pointer;background:#F8FAFC;transition:all 0.2s">
+            <i class="bi bi-cloud-upload fs-2 text-muted d-block mb-2"></i>
+            <div class="fw-semibold" style="font-size:0.85rem">Cliquez ou glissez une image</div>
+            <div class="text-muted" style="font-size:0.75rem">PNG, JPG, JPEG — Max 5MB</div>
+            <img id="img-preview" style="display:none;max-width:100%;max-height:200px;border-radius:10px;margin-top:12px">
+            <div id="upload-progress" style="display:none" class="mt-2">
+              <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+              <span style="font-size:0.85rem">Upload en cours...</span>
+            </div>
+          </div>
+          <input type="file" id="img-file" accept="image/*" style="display:none" onchange="uploadImage(this)">
+          <input type="hidden" id="p-image">
+        </div>
+      </div>
+      <button class="btn-publish mt-4" onclick="goToPayment()">
+        <i class="bi bi-arrow-right me-2"></i>Continuer vers le paiement
+      </button>
+      <div id="step1-error" class="text-danger mt-3" style="font-size:0.85rem"></div>
+    </div>
+  </div>
+
+  <!-- ETAPE 2 : Paiement -->
+  <div id="step2" style="display:none">
+    <div class="publish-card">
+      <!-- Résumé produit -->
+      <h6 class="fw-bold mb-3"><i class="bi bi-box-seam me-2 text-primary"></i>Résumé du produit</h6>
+      <div class="product-preview mb-4" id="product-preview"></div>
+
+      <!-- Paiement Wave -->
+      <div class="wave-box mb-4">
+        <div class="mb-2" style="font-size:0.9rem;opacity:0.8">Frais de publication</div>
+        <div class="wave-amount">2 000 FCFA</div>
+        <div class="mb-4" style="font-size:0.85rem;opacity:0.7">Paiement sécurisé via Wave</div>
+        <button class="wave-btn" onclick="payWithWave()">
+          <i class="bi bi-phone"></i>
+          Payer avec Wave
+        </button>
+      </div>
+      <div class="alert-info-box d-flex align-items-start gap-2 mb-3">
+        <i class="bi bi-info-circle-fill mt-1"></i>
+        <div style="font-size:0.85rem">
+          Après le paiement, votre produit sera automatiquement publié sur la marketplace.
+        </div>
+      </div>
+      <div id="payment-status" class="mt-3"></div>
+      <button class="btn btn-light w-100 mt-3" onclick="goBackToStep1()">
+        <i class="bi bi-arrow-left me-1"></i>Modifier le produit
+      </button>
+    </div>
+  </div>
+
+  <!-- ETAPE 3 : Confirmation -->
+  <div id="step3" style="display:none">
+    <div class="publish-card text-center py-5">
+      <div class="mb-3" style="font-size:4rem">🎉</div>
+      <h4 class="fw-bold text-success mb-2">Produit publié avec succès !</h4>
+      <p class="text-muted mb-4">Votre produit est maintenant visible sur la marketplace.</p>
+      <div class="d-flex gap-3 justify-content-center">
+        <a href="seller-dashboard.html" class="btn btn-primary px-4" style="border-radius:12px">
+          <i class="bi bi-speedometer2 me-2"></i>Mon Dashboard
+        </a>
+        <a href="home.html" class="btn btn-outline-primary px-4" style="border-radius:12px">
+          <i class="bi bi-shop me-2"></i>Voir la boutique
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+  if (!checkAuth()) {}
+  initUserInfo();
+
+  // Charger categories
+  async function loadCategories() {
+    try {
+      const res = await Api.get("/categories");
+      const cats = res.data || [];
+      const sel = document.getElementById("p-category");
+      sel.innerHTML = "<option value=''>Choisir une categorie</option>" +
+        cats.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
+    } catch(e) {}
+  }
+
+  // Etape 1 -> 2
+  async function goToPayment() {
+    const name = document.getElementById("p-name").value.trim();
+    const price = document.getElementById("p-price").value;
+    const stock = document.getElementById("p-stock").value;
+    const categoryId = document.getElementById("p-category").value;
+    const description = document.getElementById("p-description").value.trim();
+    const errDiv = document.getElementById("step1-error");
+
+    if (!name || !price || !stock || !categoryId || !description) {
+      errDiv.textContent = "Veuillez remplir tous les champs obligatoires (*)";
+      return;
+    }
+    errDiv.textContent = "";
+
+    // Afficher resume produit
+    const discount = document.getElementById("p-discount").value;
+    const image = document.getElementById("p-image").value;
+    const categoryText = document.getElementById("p-category").selectedOptions[0]?.text || "";
+
+    document.getElementById("product-preview").innerHTML = `
+      <div class="d-flex gap-3 align-items-start">
+        ${image ? `<img src="${image}" style="width:80px;height:80px;object-fit:cover;border-radius:10px">` : 
+          `<div class="d-flex align-items-center justify-content-center rounded-3 bg-white" style="width:80px;height:80px;border:1px solid #E2E8F0"><i class="bi bi-image text-muted fs-3"></i></div>`}
+        <div>
+          <div class="fw-bold mb-1">${name}</div>
+          <div class="text-primary fw-bold">${Format.currency(parseFloat(price))}</div>
+          ${discount ? `<div class="text-muted text-decoration-line-through" style="font-size:0.8rem">${Format.currency(parseFloat(discount))}</div>` : ""}
+          <div class="text-muted" style="font-size:0.8rem">${categoryText} • Stock: ${stock}</div>
+        </div>
+      </div>`;
+
+    document.getElementById("step1").style.display = "none";
+    document.getElementById("step2").style.display = "block";
+    document.getElementById("step1-ind").className = "step done";
+    document.getElementById("step2-ind").className = "step active";
+
+    // Verifier si deja paye
+    try {
+      const res = await Api.get("/wave/status");
+      if (res.data === true) {
+        await submitProduct();
+      }
+    } catch(e) {}
+  }
+
+  // Retour etape 1
+  function goBackToStep1() {
+    document.getElementById("step2").style.display = "none";
+    document.getElementById("step1").style.display = "block";
+    document.getElementById("step1-ind").className = "step active";
+    document.getElementById("step2-ind").className = "step";
+  }
+
+  // Paiement Wave
+  async function payWithWave() {
+    const statusDiv = document.getElementById("payment-status");
+    statusDiv.innerHTML = "<div class='text-center'><div class='spinner-border spinner-border-sm text-primary me-2'></div>Initialisation...</div>";
+    try {
+      const res = await Api.post("/wave/initiate");
+      const { checkoutUrl, checkoutId } = res.data;
+      localStorage.setItem("wave_checkout_id", checkoutId);
+      statusDiv.innerHTML = `<div class="alert-success-box"><i class="bi bi-check-circle me-2"></i>Redirection vers Wave...</div>`;
+      setTimeout(() => window.open(checkoutUrl, "_blank"), 1000);
+      const interval = setInterval(async () => {
+        try {
+          const v = await Api.get(`/wave/verify/${checkoutId}`);
+          if (v.data === true) {
+            clearInterval(interval);
+            await submitProduct();
+          }
+        } catch(e) {}
+      }, 5000);
+    } catch(e) {
+      statusDiv.innerHTML = `<div class="alert-info-box"><i class="bi bi-exclamation-triangle me-2"></i>Erreur paiement</div>`;
+    }
+  }
+
+  // Soumettre produit
+  async function submitProduct() {
+    const name = document.getElementById("p-name").value.trim();
+    const price = document.getElementById("p-price").value;
+    const stock = document.getElementById("p-stock").value;
+    const categoryId = document.getElementById("p-category").value;
+    const description = document.getElementById("p-description").value.trim();
+
+    try {
+      await Api.post("/products/seller", {
+        name,
+        price: parseFloat(price),
+        discountPrice: document.getElementById("p-discount").value || null,
+        stock: parseInt(stock),
+        categoryId: parseInt(categoryId),
+        description,
+        brand: document.getElementById("p-brand").value || null,
+        imageUrl: document.getElementById("p-image").value || null,
+      });
+      document.getElementById("step2").style.display = "none";
+      document.getElementById("step3").style.display = "block";
+      document.getElementById("step2-ind").className = "step done";
+      document.getElementById("step3-ind").className = "step active";
+    } catch(e) {
+      document.getElementById("payment-status").innerHTML =
+        `<div class="alert-info-box text-danger"><i class="bi bi-exclamation-triangle me-2"></i>${e.message || "Erreur publication"}</div>`;
+    }
+  }
+
+  // Retour paiement success
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("payment") === "success") {
+    const checkoutId = localStorage.getItem("wave_checkout_id");
+    if (checkoutId) {
+      Api.get(`/wave/verify/${checkoutId}`).then(r => {
+        if (r.data === true) submitProduct();
+      }).catch(() => {});
+    }
+  }
+
+  async function uploadImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const zone = document.getElementById("upload-zone");
+    const preview = document.getElementById("img-preview");
+    const progress = document.getElementById("upload-progress");
+
+    // Preview local
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+
+    // Upload serveur
+    progress.style.display = "block";
+    zone.style.borderColor = "#2563EB";
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const res = await fetch("/api/upload/image", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        body: formData
+      });
+      const data = await res.json();
+      if (data.url) {
+        document.getElementById("p-image").value = data.url;
+        zone.style.borderColor = "#16A34A";
+        zone.style.background = "#F0FDF4";
+      } else {
+        Toast.error("Erreur upload: " + (data.error || "Inconnu"));
+        zone.style.borderColor = "#E2E8F0";
+      }
+    } catch(e) {
+      Toast.error("Erreur upload image");
+      zone.style.borderColor = "#E2E8F0";
+    } finally {
+      progress.style.display = "none";
+    }
+  }
+
+  loadCategories();
+</script>
+</body>
+</html>

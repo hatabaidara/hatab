@@ -53,11 +53,13 @@ public class OrderController {
     }
     @GetMapping("/admin/stats") @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> adminStats() {
-        java.util.Map<String, Long> stats = new java.util.HashMap<>();
+        java.util.Map<String, Object> stats = new java.util.HashMap<>();
         stats.put("pending", orderRepository.countByStatus(OrderStatus.PENDING));
         stats.put("processing", orderRepository.countByStatus(OrderStatus.PROCESSING));
         stats.put("delivered", orderRepository.countByStatus(OrderStatus.DELIVERED));
         stats.put("cancelled", orderRepository.countByStatus(OrderStatus.CANCELLED));
+        stats.put("total", orderRepository.count());
+        stats.put("revenue", orderRepository.calculateTotalRevenue());
         return ResponseEntity.ok(stats);
     }
     private Long uid(UserDetails ud) { return userRepository.findByEmail(ud.getUsername()).orElseThrow().getId(); }

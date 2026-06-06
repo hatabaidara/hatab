@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion Paiements Commerçants - Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<style>
+  * { font-family: "Inter", sans-serif; }
+  body { background: #F1F5F9; }
+  .request-card {
+    background: white; border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px; margin-bottom: 16px;
+    transition: all 0.2s;
+  }
+  .request-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .recu-img {
+    width: 100%; max-height: 300px; object-fit: contain;
+    border-radius: 10px; border: 1px solid #E2E8F0;
+    cursor: pointer;
+  }
+  .stat-card {
+    background: white; border-radius: 14px;
+    border: 1px solid #E2E8F0; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+</style>
+<body>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <h5><i class="bi bi-globe2 me-2"></i>Shaoume <span>Global</span></h5>
+    <small style="color:rgba(255,255,255,0.4);font-size:0.75rem">Admin Panel</small>
+  </div>
+  <nav class="py-3">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="bi bi-grid"></i> Dashboard</a></li>
+      <li class="nav-item"><a href="products.html" class="nav-link"><i class="bi bi-box-seam"></i> Produits</a></li>
+      <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-bag-check"></i> Commandes</a></li>
+      <li class="nav-item"><a href="users.html" class="nav-link"><i class="bi bi-people"></i> Utilisateurs</a></li>
+      <li class="nav-item"><a href="merchant-payments.html" class="nav-link active"><i class="bi bi-credit-card"></i> Paiements</a></li>
+      <div class="px-3 py-2 mt-2">
+        <small style="color:rgba(255,255,255,0.3);font-size:0.75rem;text-transform:uppercase">Mon Compte</small>
+      </div>
+      <li class="nav-item"><a href="profile.html" class="nav-link"><i class="bi bi-person"></i> Profil</a></li>
+      <li class="nav-item"><a href="#" class="nav-link text-danger" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="main-content">
+  <div class="topbar">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-light btn-sm d-md-none" onclick="document.getElementById('sidebar').classList.toggle('show')">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+      <h6 class="mb-0 fw-bold">Paiements Commerçants</h6>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <div class="avatar" id="user-avatar">AS</div>
+    </div>
+  </div>
+
+  <div class="p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h4 class="fw-bold mb-1">Gestion des Paiements</h4>
+        <p class="text-muted mb-0" style="font-size:0.85rem">Validez ou refusez les demandes d'activation commerçant</p>
+      </div>
+      <span class="badge bg-warning text-dark" id="pending-count" style="font-size:0.9rem;padding:8px 16px">0 en attente</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="stat-card text-center">
+          <div class="fw-bold fs-2 text-warning" id="stat-pending">0</div>
+          <div class="text-muted" style="font-size:0.8rem">En attente</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card text-center">
+          <div class="fw-bold fs-2 text-success" id="stat-validated">0</div>
+          <div class="text-muted" style="font-size:0.8rem">Validés</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card text-center">
+          <div class="fw-bold fs-2 text-danger" id="stat-refused">0</div>
+          <div class="text-muted" style="font-size:0.8rem">Refusés</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card text-center">
+          <div class="fw-bold fs-2 text-primary" id="stat-total">0</div>
+          <div class="text-muted" style="font-size:0.8rem">Total</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="d-flex gap-2 mb-4">
+      <button class="btn btn-primary btn-sm" onclick="loadRequests(null, this)">Tous</button>
+      <button class="btn btn-outline-warning btn-sm" onclick="loadRequests('EN_ATTENTE', this)">En attente</button>
+      <button class="btn btn-outline-success btn-sm" onclick="loadRequests('VALIDE', this)">Validés</button>
+      <button class="btn btn-outline-danger btn-sm" onclick="loadRequests('REFUSE', this)">Refusés</button>
+    </div>
+
+    <!-- Liste demandes -->
+    <div id="requests-list">
+      <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal recu -->
+<div class="modal fade" id="recuModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-0">
+        <h6 class="modal-title fw-bold">Reçu de paiement</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modal-recu-img" src="" style="max-width:100%;border-radius:12px">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal refus -->
+<div class="modal fade" id="refusModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content border-0 shadow" style="border-radius:16px">
+      <div class="modal-body p-4">
+        <h6 class="fw-bold mb-3">Motif du refus</h6>
+        <textarea class="form-control mb-3" id="motif-refus" rows="3" placeholder="Ex: Reçu illisible, montant incorrect..."></textarea>
+        <div class="d-flex gap-2">
+          <button class="btn btn-light flex-fill" data-bs-dismiss="modal">Annuler</button>
+          <button class="btn btn-danger flex-fill" id="confirm-refus">Refuser</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+  if (!checkAuth()) {}
+  initUserInfo();
+
+  let currentRefusId = null;
+
+  async function loadRequests(statut, btn) {
+    const container = document.getElementById("requests-list");
+    container.innerHTML = "<div class='text-center py-5'><div class='spinner-border text-primary'></div></div>";
+
+    if (btn) {
+      document.querySelectorAll(".d-flex.gap-2 button").forEach(b => {
+        b.className = b.className.replace("btn-primary","btn-outline-primary")
+                                 .replace("btn-warning","btn-outline-warning")
+                                 .replace("btn-success","btn-outline-success")
+                                 .replace("btn-danger","btn-outline-danger");
+      });
+      btn.className = btn.className
+        .replace("btn-outline-primary","btn-primary")
+        .replace("btn-outline-warning","btn-warning")
+        .replace("btn-outline-success","btn-success")
+        .replace("btn-outline-danger","btn-danger");
+    }
+
+    try {
+      const url = statut ? `/merchants/admin/requests?statut=${statut}` : "/merchants/admin/requests";
+      const res = await Api.get(url);
+      const requests = res.data?.content || [];
+      const total = res.data?.totalElements || 0;
+
+      // Stats
+      const allRes = await Api.get("/merchants/admin/requests?size=1000");
+      const all = allRes.data?.content || [];
+      document.getElementById("stat-pending").textContent = all.filter(r => r.statut === "EN_ATTENTE").length;
+      document.getElementById("stat-validated").textContent = all.filter(r => r.statut === "VALIDE").length;
+      document.getElementById("stat-refused").textContent = all.filter(r => r.statut === "REFUSE").length;
+      document.getElementById("stat-total").textContent = all.length;
+      const pending = all.filter(r => r.statut === "EN_ATTENTE").length;
+      document.getElementById("pending-count").textContent = pending + " en attente";
+
+      if (requests.length === 0) {
+        container.innerHTML = `<div class="text-center py-5 text-muted"><i class="bi bi-inbox fs-1 d-block mb-3"></i>Aucune demande</div>`;
+        return;
+      }
+
+      container.innerHTML = requests.map(r => `
+        <div class="request-card">
+          <div class="row g-3 align-items-start">
+            <div class="col-md-4">
+              ${r.recuImageUrl ? `
+                <img src="${r.recuImageUrl}" class="recu-img" onclick="viewRecu('${r.recuImageUrl}')" title="Cliquer pour agrandir">
+              ` : `<div class="d-flex align-items-center justify-content-center rounded-3" style="height:160px;background:#F1F5F9;border:1px dashed #E2E8F0"><i class="bi bi-image fs-1 text-muted"></i></div>`}
+            </div>
+            <div class="col-md-5">
+              <div class="fw-bold mb-2">${r.merchant?.nom || "Commerçant"}</div>
+              <div class="text-muted mb-1" style="font-size:0.85rem">
+                <i class="bi bi-envelope me-1"></i>${r.merchant?.email || ""}
+              </div>
+              <div class="text-muted mb-1" style="font-size:0.85rem">
+                <i class="bi bi-phone me-1"></i>${r.numeroDeTelephone || "N/A"}
+              </div>
+              <div class="text-muted mb-1" style="font-size:0.85rem">
+                <i class="bi bi-credit-card me-1"></i>${r.moyenPaiement || "N/A"}
+              </div>
+              ${r.referenceTransaction ? `<div class="text-muted mb-1" style="font-size:0.85rem"><i class="bi bi-hash me-1"></i>Ref: ${r.referenceTransaction}</div>` : ""}
+              <div class="text-muted mb-2" style="font-size:0.8rem">
+                <i class="bi bi-calendar me-1"></i>${Format.date(r.dateDemande)}
+              </div>
+              <div class="fw-bold text-primary">${Format.currency(r.montant)}</div>
+              ${r.motifRefus ? `<div class="text-danger mt-2" style="font-size:0.8rem"><i class="bi bi-x-circle me-1"></i>${r.motifRefus}</div>` : ""}
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <span class="badge ${r.statut === "VALIDE" ? "bg-success" : r.statut === "REFUSE" ? "bg-danger" : "bg-warning text-dark"}" style="font-size:0.85rem;padding:8px 14px">
+                  ${r.statut === "VALIDE" ? "Validé" : r.statut === "REFUSE" ? "Refusé" : "En attente"}
+                </span>
+              </div>
+              ${r.statut === "EN_ATTENTE" ? `
+                <div class="d-flex flex-column gap-2">
+                  <button class="btn btn-success btn-sm" onclick="validateRequest(${r.id})">
+                    <i class="bi bi-check-lg me-1"></i>Valider
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" onclick="openRefusModal(${r.id})">
+                    <i class="bi bi-x-lg me-1"></i>Refuser
+                  </button>
+                </div>
+              ` : r.dateValidation ? `<div class="text-muted" style="font-size:0.75rem">Traité le ${Format.date(r.dateValidation)}</div>` : ""}
+            </div>
+          </div>
+        </div>`).join("");
+    } catch(e) {
+      container.innerHTML = `<div class="text-center py-4 text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>`;
+    }
+  }
+
+  function viewRecu(url) {
+    document.getElementById("modal-recu-img").src = url;
+    new bootstrap.Modal(document.getElementById("recuModal")).show();
+  }
+
+  async function validateRequest(id) {
+    if (!confirm("Confirmer la validation de ce paiement ?")) return;
+    try {
+      await Api.post(`/merchants/admin/requests/${id}/validate`);
+      Toast.success("Paiement validé ! Compte commerçant activé.");
+      loadRequests(null, null);
+    } catch(e) {
+      Toast.error(e.message || "Erreur");
+    }
+  }
+
+  function openRefusModal(id) {
+    currentRefusId = id;
+    document.getElementById("motif-refus").value = "";
+    new bootstrap.Modal(document.getElementById("refusModal")).show();
+  }
+
+  document.getElementById("confirm-refus").addEventListener("click", async () => {
+    const motif = document.getElementById("motif-refus").value.trim();
+    if (!motif) { alert("Veuillez saisir un motif de refus"); return; }
+    try {
+      await Api.post(`/merchants/admin/requests/${currentRefusId}/refuse`, { motif });
+      bootstrap.Modal.getInstance(document.getElementById("refusModal")).hide();
+      Toast.success("Paiement refusé.");
+      loadRequests(null, null);
+    } catch(e) {
+      Toast.error(e.message || "Erreur");
+    }
+  });
+
+  loadRequests(null, null);
+</script>
+</body>
+</html>

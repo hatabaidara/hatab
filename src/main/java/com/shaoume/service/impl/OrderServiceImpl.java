@@ -8,6 +8,7 @@ import com.shaoume.exception.BadRequestException;
 import com.shaoume.exception.ResourceNotFoundException;
 import com.shaoume.repository.*;
 import com.shaoume.service.OrderService;
+import com.shaoume.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final PaymentRepository paymentRepository;
+    private final NotificationService notificationService;
     @Override @Transactional
     public OrderResponse createOrder(Long userId, OrderRequest request) {
         User user = userRepository.findById(userId)
@@ -50,6 +52,10 @@ public class OrderServiceImpl implements OrderService {
             total = total.add(itemTotal);
             p.setStock(p.getStock() - ir.getQuantity());
             productRepository.save(p);
+            // Notifier le vendeur si le produit a un vendeur
+            if (p.getSeller() != null) {
+                notificationService.notifyNewOrder(p.getSeller(), order.getOrderNumber(), p.getName(), ir.getQuantity());
+            }
         }
         order.setOrderItems(items);
         order.setTotalAmount(total);

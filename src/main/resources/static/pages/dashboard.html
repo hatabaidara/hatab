@@ -9,6 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="../assets/css/style.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Shaoume">
 </head>
 <body>
 
@@ -26,6 +32,7 @@
       <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-bag-check"></i> Commandes</a></li>
       <li class="nav-item"><a href="users.html" class="nav-link"><i class="bi bi-people"></i> Utilisateurs</a></li>
       <li class="nav-item"><a href="reviews.html" class="nav-link"><i class="bi bi-star"></i> Avis</a></li>
+      <li class="nav-item"><a href="merchant-payments.html" class="nav-link"><i class="bi bi-credit-card"></i> Paiements</a></li>
       <div class="px-3 py-2 mt-2">
         <small style="color:rgba(255,255,255,0.3);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em">Mon Compte</small>
       </div>
@@ -274,7 +281,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/app.js"></script>
 <script>
-  if (!checkAuth()) {}
+  if (!checkAdmin()) {}
 
   document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('show');
@@ -463,7 +470,18 @@
     document.getElementById('stat-revenue').textContent = 'XOF --';
   }
 
-  loadDashboard();
+  async function logout() {
+    try { await Api.post("/api/auth/logout"); } catch(e) {}
+    Auth.clearSession();
+    window.location.href = "admin-login.html";
+  }
+
+  if (checkAdmin()) loadDashboard();
 </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
+  </script>
 </body>
 </html>

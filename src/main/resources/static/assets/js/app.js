@@ -5,51 +5,38 @@
 
 const API_BASE = '';
 
-// ── AUTH ───────────────────────────────────────────────
 const Auth = {
   getToken: () => localStorage.getItem('token'),
   getRefreshToken: () => localStorage.getItem('refreshToken'),
   getUser: () => JSON.parse(localStorage.getItem('user') || '{}'),
-
   setSession: (data) => {
     localStorage.setItem('token', data.accessToken);
     if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
     localStorage.setItem('user', JSON.stringify(data.user || {}));
   },
-
   clearSession: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
   },
-
   isLogged: () => !!localStorage.getItem('token'),
-
   isAdmin: () => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user.role === 'ADMIN';
   },
-
-  // Vérifie si le token JWT est expiré
   isTokenExpired: () => {
     const token = localStorage.getItem('token');
     if (!token) return true;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.exp * 1000 < Date.now();
-    } catch(e) {
-      return true;
-    }
+    } catch(e) { return true; }
   },
-
-  // Refresh token
   async refresh() {
     const refreshToken = Auth.getRefreshToken();
     if (!refreshToken) return false;
     try {
-      const res = await fetch(API_BASE + '/auth/refresh-token?refreshToken=' + refreshToken, {
-        method: 'POST'
-      });
+      const res = await fetch('/api/auth/refresh-token?refreshToken=' + refreshToken, { method: 'POST' });
       if (!res.ok) return false;
       const data = await res.json();
       if (data.data?.accessToken) {
@@ -58,40 +45,33 @@ const Auth = {
         return true;
       }
       return false;
-    } catch(e) {
-      return false;
-    }
+    } catch(e) { return false; }
   }
 };
 
-// ── API ────────────────────────────────────────────────
 const Api = {
   async request(method, url, body = null) {
-    // Vérifie si le token est expiré avant l'appel
     if (Auth.isTokenExpired() && Auth.getRefreshToken()) {
       const refreshed = await Auth.refresh();
       if (!refreshed) {
         Auth.clearSession();
-        window.location.href = 'login.html';
-        return;
+        if (!url.includes('/auth/login') && !url.includes('/auth/register')) {
+          window.location.href = 'login.html';
+        }
+        return null;
       }
     }
-
     const headers = { 'Content-Type': 'application/json' };
     if (Auth.getToken()) headers['Authorization'] = 'Bearer ' + Auth.getToken();
     const options = { method, headers };
     if (body) options.body = JSON.stringify(body);
-
     try {
-      const res = await fetch(API_BASE + url, options);
-
-      // Token expiré côté serveur → essayer refresh
+      const res = await fetch(url, options);
       if (res.status === 401) {
         const refreshed = await Auth.refresh();
         if (refreshed) {
-          // Réessayer avec le nouveau token
           headers['Authorization'] = 'Bearer ' + Auth.getToken();
-          const retryRes = await fetch(API_BASE + url, { method, headers, body: options.body });
+          const retryRes = await fetch(url, { method, headers, body: options.body });
           const retryData = await retryRes.json();
           if (!retryRes.ok) throw new Error(retryData.message || 'Erreur serveur');
           return retryData;
@@ -102,40 +82,29 @@ const Api = {
           return;
         }
       }
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Erreur serveur');
       return data;
-    } catch (e) {
-      throw e;
-    }
+    } catch (e) { throw e; }
   },
-
   get:    (url)       => Api.request('GET',    url),
   post:   (url, body) => Api.request('POST',   url, body),
   put:    (url, body) => Api.request('PUT',    url, body),
   delete: (url)       => Api.request('DELETE', url),
 };
 
-// ── TOAST ──────────────────────────────────────────────
 const Toast = {
   show(message, type = 'success') {
     const id = 'toast-' + Date.now();
-    const icons = {
-      success: 'check-circle-fill',
-      danger:  'x-circle-fill',
-      warning: 'exclamation-triangle-fill',
-      info:    'info-circle-fill'
-    };
-    const html = `
-      <div id="${id}" class="toast align-items-center text-bg-${type} border-0 mb-2" role="alert" style="min-width:300px">
-        <div class="d-flex">
-          <div class="toast-body d-flex align-items-center gap-2">
-            <i class="bi bi-${icons[type] || 'info-circle-fill'}"></i> ${message}
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    const icons = { success: 'check-circle-fill', danger: 'x-circle-fill', warning: 'exclamation-triangle-fill', info: 'info-circle-fill' };
+    const html = `<div id="${id}" class="toast align-items-center text-bg-${type} border-0 mb-2" role="alert" style="min-width:300px">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i class="bi bi-${icons[type] || 'info-circle-fill'}"></i> ${message}
         </div>
-      </div>`;
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>`;
     let container = document.getElementById('toast-container');
     if (!container) {
       container = document.createElement('div');
@@ -156,7 +125,6 @@ const Toast = {
   info:    (msg) => Toast.show(msg, 'info'),
 };
 
-// ── LOADER ─────────────────────────────────────────────
 const Loader = {
   show(btn) {
     if (!btn) return;
@@ -171,7 +139,6 @@ const Loader = {
   }
 };
 
-// ── FORMATTERS ─────────────────────────────────────────
 const Format = {
   currency: (amount) => {
     if (!amount && amount !== 0) return '—';
@@ -187,95 +154,73 @@ const Format = {
   },
   statusBadge(status) {
     const map = {
-      PENDING:    ['warning',   'En attente'],
-      CONFIRMED:  ['info',      'Confirmée'],
-      PROCESSING: ['primary',   'En cours'],
-      SHIPPED:    ['secondary', 'Expédiée'],
-      DELIVERED:  ['success',   'Livrée'],
-      CANCELLED:  ['danger',    'Annulée'],
-      REFUNDED:   ['dark',      'Remboursée'],
+      PENDING: ['warning','En attente'], CONFIRMED: ['info','Confirmée'],
+      PROCESSING: ['primary','En cours'], SHIPPED: ['secondary','Expédiée'],
+      DELIVERED: ['success','Livrée'], CANCELLED: ['danger','Annulée'], REFUNDED: ['dark','Remboursée'],
     };
     const [color, label] = map[status] || ['secondary', status];
     return `<span class="badge bg-${color}-subtle text-${color} badge-status">${label}</span>`;
   },
   roleBadge(role) {
-    const map = {
-      ADMIN: ['danger',  'Admin'],
-      USER:  ['primary', 'Client'],
-    };
+    const map = { ADMIN: ['danger','Admin'], USER: ['primary','Client'] };
     const [color, label] = map[role] || ['secondary', role];
     return `<span class="badge bg-${color}-subtle text-${color}">${label}</span>`;
   }
 };
 
-// ── AUTH GUARDS ────────────────────────────────────────
 function checkAuth() {
+  document.body.style.opacity = '0';
   if (!Auth.isLogged()) {
     window.location.href = 'login.html';
     return false;
   }
+  document.body.style.opacity = '1';
   return true;
 }
 
 function checkAdmin() {
   if (!Auth.isLogged()) {
-    window.location.href = 'login.html';
+    window.location.href = 'admin-login.html';
     return false;
   }
   if (!Auth.isAdmin()) {
     window.location.href = 'home.html';
     return false;
   }
+  document.body.style.opacity = '1';
   return true;
 }
 
-// ── INIT USER INFO ─────────────────────────────────────
 function initUserInfo() {
   const user = Auth.getUser();
-  const nameEl   = document.getElementById('user-name');
+  const nameEl = document.getElementById('user-name');
   const avatarEl = document.getElementById('user-avatar');
-  if (nameEl)   nameEl.textContent = (user.firstName || '') + ' ' + (user.lastName || '');
+  if (nameEl) nameEl.textContent = (user.firstName || '') + ' ' + (user.lastName || '');
   if (avatarEl) avatarEl.textContent = (user.firstName?.[0] || 'U') + (user.lastName?.[0] || '');
 }
 
-// ── LOGOUT ─────────────────────────────────────────────
 async function logout() {
-  try { await Api.post('/auth/logout'); } catch(e) {}
+  try { await Api.post('/api/auth/logout'); } catch(e) {}
   Auth.clearSession();
   window.location.href = 'login.html';
 }
 
-// ── PAGINATION ─────────────────────────────────────────
 function buildPagination(containerId, totalPages, currentPage, onPageChange) {
   const ul = document.getElementById(containerId);
   if (!ul) return;
   ul.innerHTML = '';
   if (totalPages <= 1) return;
-
-  // Précédent
-  ul.innerHTML += `<li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
-    <a class="page-link" href="#" onclick="(${onPageChange})(${currentPage - 1})">‹</a></li>`;
-
-  // Pages
+  ul.innerHTML += `<li class="page-item ${currentPage === 0 ? 'disabled' : ''}"><a class="page-link" href="#" onclick="(${onPageChange})(${currentPage - 1})">‹</a></li>`;
   for (let i = 0; i < totalPages; i++) {
     if (totalPages > 7 && Math.abs(i - currentPage) > 2 && i !== 0 && i !== totalPages - 1) {
-      if (i === 1 || i === totalPages - 2) {
-        ul.innerHTML += `<li class="page-item disabled"><a class="page-link">…</a></li>`;
-      }
+      if (i === 1 || i === totalPages - 2) ul.innerHTML += `<li class="page-item disabled"><a class="page-link">…</a></li>`;
       continue;
     }
-    ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="(${onPageChange})(${i})">${i + 1}</a></li>`;
+    ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" onclick="(${onPageChange})(${i})">${i + 1}</a></li>`;
   }
-
-  // Suivant
-  ul.innerHTML += `<li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
-    <a class="page-link" href="#" onclick="(${onPageChange})(${currentPage + 1})">›</a></li>`;
+  ul.innerHTML += `<li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}"><a class="page-link" href="#" onclick="(${onPageChange})(${currentPage + 1})">›</a></li>`;
 }
 
-// ── CONFIRM DIALOG ─────────────────────────────────────
 function confirmDialog(message) {
-  return new Promise(resolve => {
-    resolve(window.confirm(message));
-  });
+  return new Promise(resolve => { resolve(window.confirm(message)); });
 }

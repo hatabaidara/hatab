@@ -3,7 +3,11 @@ import com.shaoume.dto.request.ProductRequest;
 import com.shaoume.dto.response.ApiResponse;
 import com.shaoume.dto.response.ProductResponse;
 import com.shaoume.service.ProductService;
+import com.shaoume.repository.UserRepository;
+import com.shaoume.entity.User;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,7 @@ import java.math.BigDecimal;
 @RestController @RequestMapping("/products") @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final UserRepository userRepository;
     @GetMapping
     public ResponseEntity<ApiResponse<Page<ProductResponse>>> getAll(@PageableDefault(size=12,sort="createdAt") Pageable p) {
         return ResponseEntity.ok(ApiResponse.success(productService.getAllProducts(p)));
@@ -43,6 +48,25 @@ public class ProductController {
             @PageableDefault(size=12) Pageable p) {
         return ResponseEntity.ok(ApiResponse.success(productService.filterProducts(categoryId,minPrice,maxPrice,brand,p)));
     }
+    @GetMapping("/seller/my-products") @PreAuthorize("hasAnyRole('SELLER','ADMIN')")
+    public ResponseEntity<ApiResponse<org.springframework.data.domain.Page<ProductResponse>>> getMyProducts(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PageableDefault(size=12) Pageable p) {
+        String email = userDetails.getUsername();
+        User seller = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        return ResponseEntity.ok(ApiResponse.success(
+            productService.getSellerProducts(seller.getId(), p)));
+    }
+
+    @PostMapping("/seller") @PreAuthorize("hasAnyRole('SELLER','ADMIN')")
+    public ResponseEntity<ApiResponse<ProductResponse>> createAsSeller(
+            @Valid @RequestBody ProductRequest r,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.created("Produit publie", productService.createProductAsSeller(r, userDetails.getUsername())));
+    }
+
     @PostMapping @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<ProductResponse>> create(@Valid @RequestBody ProductRequest r) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created("Produit créé",productService.createProduct(r)));

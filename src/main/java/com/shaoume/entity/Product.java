@@ -55,4 +55,11 @@ public class Product {
     private Category category;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User seller;
+
+    @Builder.Default
+    private boolean publishedPaid = false;
 }

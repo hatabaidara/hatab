@@ -9,28 +9,164 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="../assets/css/style.css" rel="stylesheet">
   <style>
-    * { font-family: 'Inter', sans-serif; }
-    body { background: #F8FAFC; }
-    .navbar-brand { font-weight: 800; }
-    .product-img { width:100%; border-radius:20px; max-height:420px; object-fit:cover; box-shadow:0 8px 32px rgba(0,0,0,0.12); }
-    .info-card { background:white; border-radius:20px; padding:32px; border:1px solid #E5E7EB; box-shadow:0 4px 16px rgba(0,0,0,0.06); }
-    .cat-tag { display:inline-block; font-size:0.72rem; font-weight:700; text-transform:uppercase; padding:4px 12px; border-radius:20px; background:#EFF6FF; color:#2563EB; margin-bottom:12px; }
-    .price-main { font-size:2rem; font-weight:800; color:#2563EB; }
-    .price-old { font-size:1.1rem; color:#94A3B8; text-decoration:line-through; margin-left:10px; }
-    .stock-box { border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:10px; }
-    .qty-btn { width:40px; height:40px; border-radius:10px; border:1px solid #E5E7EB; background:white; font-size:1.2rem; font-weight:700; cursor:pointer; }
-    .qty-btn:hover { background:#EFF6FF; border-color:#2563EB; color:#2563EB; }
-    .qty-input { width:60px; text-align:center; border:1px solid #E5E7EB; border-radius:10px; font-size:1.1rem; font-weight:700; padding:8px; }
-    .btn-cart { background:#2563EB; color:white; border:none; border-radius:14px; padding:14px 32px; font-weight:700; font-size:1rem; cursor:pointer; flex:1; transition:all 0.2s; }
-    .btn-cart:hover { background:#1D4ED8; transform:translateY(-2px); }
-    .btn-fav { background:white; color:#EF4444; border:2px solid #EF4444; border-radius:14px; padding:14px 20px; font-size:1.2rem; cursor:pointer; transition:all 0.2s; }
-    .btn-fav:hover { background:#FEF2F2; }
-    .related-card { background:white; border-radius:16px; overflow:hidden; border:1px solid #E5E7EB; cursor:pointer; transition:all 0.3s; }
-    .related-card:hover { transform:translateY(-6px); box-shadow:0 16px 32px rgba(37,99,235,0.12); }
-    .related-img { width:100%; height:160px; object-fit:cover; }
-    .nav-tabs .nav-link { color:#64748B; font-weight:600; border:none; border-bottom:3px solid transparent; padding:12px 20px; }
-    .nav-tabs .nav-link.active { color:#2563EB; border-bottom-color:#2563EB; background:none; }
+    * { font-family: "Inter", sans-serif; }
+    body { background: #F1F5F9; }
+
+    /* IMAGE */
+    .product-img-wrapper {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      aspect-ratio: 1;
+    }
+    .product-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .product-img-wrapper:hover .product-img { transform: scale(1.04); }
+    .product-img-placeholder {
+      width: 100%; aspect-ratio: 1;
+      background: linear-gradient(135deg, #F1F5F9, #E2E8F0);
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 24px;
+    }
+
+    /* INFO CARD */
+    .info-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    /* CATEGORY TAG */
+    .cat-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; padding: 5px 14px; border-radius: 20px;
+      background: #EFF6FF; color: #2563EB; margin-bottom: 14px;
+    }
+
+    /* PRICE */
+    .price-main { font-size: 2.2rem; font-weight: 900; color: #2563EB; letter-spacing: -0.04em; }
+    .price-old { font-size: 1.1rem; color: #94A3B8; text-decoration: line-through; margin-left: 12px; }
+
+    /* STOCK */
+    .stock-box {
+      border-radius: 14px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 600;
+    }
+
+    /* QUANTITY */
+    .qty-btn {
+      width: 42px; height: 42px; border-radius: 12px;
+      border: 1.5px solid #E2E8F0; background: white;
+      font-size: 1.3rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; color: #334155;
+    }
+    .qty-btn:hover { background: #EFF6FF; border-color: #2563EB; color: #2563EB; transform: scale(1.08); }
+    .qty-input {
+      width: 64px; text-align: center;
+      border: 1.5px solid #E2E8F0; border-radius: 12px;
+      font-size: 1.1rem; font-weight: 700; padding: 9px;
+      outline: none; transition: all 0.2s;
+    }
+    .qty-input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+    /* BUTTONS */
+    .btn-cart {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: white; border: none; border-radius: 14px;
+      padding: 15px 32px; font-weight: 700; font-size: 0.95rem;
+      cursor: pointer; flex: 1; transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(37,99,235,0.3);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-cart:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(37,99,235,0.4); }
+    .btn-cart:active { transform: translateY(0); }
+    .btn-cart:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .btn-fav {
+      background: white; color: #EF4444;
+      border: 2px solid #FECACA; border-radius: 14px;
+      padding: 15px 20px; font-size: 1.2rem; cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-fav:hover { background: #FEF2F2; border-color: #EF4444; transform: scale(1.06); }
+    .btn-fav.active { background: #FEF2F2; border-color: #EF4444; color: #EF4444; }
+
+    /* SPEC TABLE */
+    .spec-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid #F1F5F9;
+      font-size: 0.9rem;
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { color: #64748B; font-weight: 500; }
+    .spec-value { font-weight: 700; color: #0F172A; }
+
+    /* FEATURES */
+    .feature-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: #F8FAFC; border-radius: 12px;
+      padding: 10px 16px; font-size: 0.82rem; font-weight: 600;
+      color: #334155; border: 1px solid #E2E8F0;
+      flex: 1; min-width: 120px;
+    }
+
+    /* TABS */
+    .nav-tabs { border-bottom: 2px solid #E2E8F0; gap: 4px; }
+    .nav-tabs .nav-link {
+      color: #64748B; font-weight: 600; border: none;
+      border-bottom: 3px solid transparent; padding: 12px 20px;
+      border-radius: 0; margin-bottom: -2px; transition: all 0.2s;
+    }
+    .nav-tabs .nav-link:hover { color: #2563EB; background: #EFF6FF; border-radius: 8px 8px 0 0; }
+    .nav-tabs .nav-link.active { color: #2563EB; border-bottom-color: #2563EB; background: none; font-weight: 700; }
+
+    /* RELATED CARDS */
+    .related-card {
+      background: white; border-radius: 18px; overflow: hidden;
+      border: 1px solid #E2E8F0; cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .related-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(37,99,235,0.14); border-color: transparent; }
+    .related-card:hover .related-img { transform: scale(1.06); }
+    .related-img { width: 100%; height: 160px; object-fit: cover; transition: transform 0.4s ease; display: block; }
+
+    /* BREADCRUMB */
+    .breadcrumb-item a { color: #2563EB; text-decoration: none; font-weight: 500; }
+    .breadcrumb-item.active { color: #64748B; }
+
+    /* DELIVERY CARDS */
+    .delivery-card {
+      background: #F8FAFC; border-radius: 16px;
+      padding: 20px; text-align: center; border: 1px solid #E2E8F0;
+      transition: all 0.2s;
+    }
+    .delivery-card:hover { border-color: #2563EB; background: #EFF6FF; transform: translateY(-3px); }
+
+    /* SHARE BUTTONS */
+    .share-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid #E2E8F0; background: white;
+      color: #64748B; cursor: pointer; transition: all 0.2s;
+      text-decoration: none;
+    }
+    .share-btn:hover { border-color: #2563EB; color: #2563EB; background: #EFF6FF; transform: scale(1.1); }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Shaoume">
 </head>
 <body>
 
@@ -42,6 +178,7 @@
         <i class="bi bi-bag fs-5"></i>
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
       </button>
+      <a href="register-seller.html" class="btn btn-outline-success btn-sm rounded-pill px-3 me-1 d-none d-md-inline-flex"><i class="bi bi-shop me-1"></i>Vendre</a>
       <a href="home.html" class="btn btn-outline-primary btn-sm rounded-pill px-3"><i class="bi bi-arrow-left me-1"></i>Retour</a>
       <div id="user-menu" class="d-none">
         <div class="dropdown">
@@ -58,7 +195,7 @@
         </div>
       </div>
       <div id="guest-menu">
-        <a href="login.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Connexion</a>
+        <a href="login.html" class="btn btn-outline-secondary btn-sm rounded-pill px-3 d-none d-md-inline-flex">Connexion</a>
       </div>
     </div>
   </div>
@@ -81,7 +218,14 @@
     <div class="row g-4 mb-5">
       <div class="col-lg-5">
         <div id="product-image"></div>
-        <div class="d-flex gap-2 mt-3" id="product-badges"></div>
+        <div class="d-flex gap-2 mt-3 flex-wrap" id="product-badges"></div>
+        <div class="d-flex gap-2 mt-3 align-items-center">
+          <span class="text-muted" style="font-size:0.82rem">Partager :</span>
+          <a href="#" class="share-btn" title="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="share-btn" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+          <a href="#" class="share-btn" title="Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="share-btn" title="Copier le lien" onclick="navigator.clipboard.writeText(window.location.href);Toast.success('Lien copie !');return false;"><i class="bi bi-link-45deg"></i></a>
+        </div>
       </div>
       <div class="col-lg-7">
         <div class="info-card">
@@ -110,16 +254,16 @@
             <button class="btn-cart" id="btn-cart" onclick="addToCart()"><i class="bi bi-bag-plus me-2"></i>Ajouter au panier</button>
             <button class="btn-fav" id="btn-fav" onclick="toggleFav()"><i class="bi bi-heart"></i></button>
           </div>
-          <div class="border-top pt-3">
-            <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">SKU</span><span class="fw-semibold" id="spec-sku">-</span></div>
-            <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Marque</span><span class="fw-semibold" id="spec-brand">-</span></div>
-            <div class="d-flex justify-content-between py-2 border-bottom"><span class="text-muted">Catégorie</span><span class="fw-semibold" id="spec-cat">-</span></div>
-            <div class="d-flex justify-content-between py-2"><span class="text-muted">Stock</span><span class="fw-semibold" id="spec-stock">-</span></div>
+          <div class="border-top pt-3 mt-2">
+            <div class="spec-row"><span class="spec-label"><i class="bi bi-upc me-2"></i>SKU</span><span class="spec-value" id="spec-sku">-</span></div>
+            <div class="spec-row"><span class="spec-label"><i class="bi bi-tag me-2"></i>Marque</span><span class="spec-value" id="spec-brand">-</span></div>
+            <div class="spec-row"><span class="spec-label"><i class="bi bi-grid me-2"></i>Categorie</span><span class="spec-value" id="spec-cat">-</span></div>
+            <div class="spec-row"><span class="spec-label"><i class="bi bi-box me-2"></i>Stock</span><span class="spec-value" id="spec-stock">-</span></div>
           </div>
-          <div class="mt-4 p-3 bg-light rounded-3 d-flex gap-4 flex-wrap" style="font-size:0.85rem">
-            <span><i class="bi bi-truck text-primary me-1"></i>Livraison 24-48h</span>
-            <span><i class="bi bi-shield-check text-success me-1"></i>Paiement sécurisé</span>
-            <span><i class="bi bi-arrow-repeat text-warning me-1"></i>Retour 30 jours</span>
+          <div class="d-flex gap-2 flex-wrap mt-4">
+            <div class="feature-pill"><i class="bi bi-truck text-primary"></i>Livraison 24-48h</div>
+            <div class="feature-pill"><i class="bi bi-shield-check text-success"></i>Paiement securise</div>
+            <div class="feature-pill"><i class="bi bi-arrow-repeat text-warning"></i>Retour 30 jours</div>
           </div>
         </div>
       </div>
@@ -137,23 +281,29 @@
         <div class="tab-pane fade" id="tab-livraison">
           <div class="row g-3">
             <div class="col-md-4">
-              <div class="p-3 bg-light rounded-3 text-center">
-                <i class="bi bi-truck fs-2 text-primary mb-2 d-block"></i>
-                <h6 class="fw-bold">Livraison standard</h6>
-                <p class="text-muted mb-0" style="font-size:0.85rem">2-3 jours ouvrables<br>Gratuite dès 50 000 F CFA</p>
+              <div class="delivery-card">
+                <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style="width:56px;height:56px">
+                  <i class="bi bi-truck fs-4 text-primary"></i>
+                </div>
+                <h6 class="fw-bold mb-1">Livraison standard</h6>
+                <p class="text-muted mb-0" style="font-size:0.85rem">2-3 jours ouvrables<br>Gratuite des 50 000 F CFA</p>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="p-3 bg-light rounded-3 text-center">
-                <i class="bi bi-lightning-charge fs-2 text-warning mb-2 d-block"></i>
-                <h6 class="fw-bold">Livraison express</h6>
+              <div class="delivery-card">
+                <div class="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style="width:56px;height:56px">
+                  <i class="bi bi-lightning-charge fs-4 text-warning"></i>
+                </div>
+                <h6 class="fw-bold mb-1">Livraison express</h6>
                 <p class="text-muted mb-0" style="font-size:0.85rem">24h ouvrables<br>5 000 F CFA</p>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="p-3 bg-light rounded-3 text-center">
-                <i class="bi bi-shop fs-2 text-success mb-2 d-block"></i>
-                <h6 class="fw-bold">Retrait en boutique</h6>
+              <div class="delivery-card">
+                <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center mx-auto mb-3" style="width:56px;height:56px">
+                  <i class="bi bi-shop fs-4 text-success"></i>
+                </div>
+                <h6 class="fw-bold mb-1">Retrait en boutique</h6>
                 <p class="text-muted mb-0" style="font-size:0.85rem">Gratuit<br>Disponible sous 2h</p>
               </div>
             </div>
@@ -336,5 +486,10 @@
   initNavbar();
   loadProduct();
 </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
+  </script>
 </body>
 </html>

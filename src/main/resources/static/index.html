@@ -74,6 +74,12 @@
     }
     .feature i { font-size: 1.5rem; color: #2563EB; }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Shaoume">
 </head>
 <body>
   <div class="splash-card">
@@ -122,6 +128,11 @@
       window.location.href = Auth.isAdmin()
         ? 'pages/dashboard.html'
         : 'pages/home.html';
+    }
+  </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
   </script>
 </body>

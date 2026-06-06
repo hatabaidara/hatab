@@ -8,8 +8,144 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="../assets/css/style.css" rel="stylesheet">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Shaoume">
 </head>
-<body style="background:#F8FAFC">
+<style>
+  * { font-family: "Inter", sans-serif; }
+  body { background: #F1F5F9; }
+
+  .order-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    margin-bottom: 20px;
+  }
+  .order-card:hover { box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-2px); }
+
+  .order-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #F1F5F9;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    background: linear-gradient(135deg, #FAFBFC, #F8FAFC);
+  }
+
+  .order-number {
+    font-weight: 800; font-size: 0.95rem;
+    color: #0F172A; letter-spacing: -0.02em;
+  }
+
+  .order-date { font-size: 0.78rem; color: #94A3B8; margin-top: 2px; }
+
+  .order-body { padding: 20px 24px; }
+
+  /* Progress bar */
+  .progress-track {
+    position: relative; margin: 0 0 20px;
+    padding: 0 12px;
+  }
+  .progress-line {
+    position: absolute; top: 12px; left: 12%; right: 12%;
+    height: 2px; background: #E2E8F0; z-index: 0;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #2563EB, #60A5FA);
+    transition: width 0.6s ease; border-radius: 2px;
+  }
+  .progress-steps { display: flex; justify-content: space-between; position: relative; z-index: 1; }
+  .progress-step { text-align: center; }
+  .step-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 6px; font-size: 0.75rem; font-weight: 700;
+    transition: all 0.3s;
+  }
+  .step-dot.done { background: #2563EB; color: white; box-shadow: 0 2px 8px rgba(37,99,235,0.4); }
+  .step-dot.current { background: white; color: #2563EB; border: 2px solid #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+  .step-dot.pending { background: #F1F5F9; color: #CBD5E1; border: 2px solid #E2E8F0; }
+  .step-label { font-size: 0.62rem; font-weight: 600; white-space: nowrap; }
+  .step-label.done { color: #2563EB; }
+  .step-label.current { color: #2563EB; font-weight: 700; }
+  .step-label.pending { color: #CBD5E1; }
+
+  /* Product items */
+  .order-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; background: #F8FAFC;
+    border-radius: 12px; border: 1px solid #E2E8F0;
+    transition: all 0.2s;
+  }
+  .order-item:hover { background: #EFF6FF; border-color: #BFDBFE; }
+  .order-item-img {
+    width: 48px; height: 48px; min-width: 48px;
+    border-radius: 10px; overflow: hidden;
+    background: white; border: 1px solid #E2E8F0;
+  }
+  .order-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Cancelled alert */
+  .cancelled-alert {
+    background: #FEF2F2; border: 1px solid #FECACA;
+    border-radius: 12px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 10px;
+    color: #DC2626; font-size: 0.875rem; font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    background: white; border-radius: 24px;
+    border: 1px solid #E2E8F0; padding: 60px 40px;
+    text-align: center;
+  }
+  .empty-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: #EFF6FF; display: flex; align-items: center;
+    justify-content: center; margin: 0 auto 20px;
+    font-size: 2rem; color: #2563EB;
+  }
+
+  /* Page header */
+  .page-header {
+    background: white; border-radius: 20px;
+    border: 1px solid #E2E8F0; padding: 24px 28px;
+    margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+</style>
+<style>
+  * { font-family: "Inter", sans-serif; }
+  body { background: #F1F5F9; }
+  .order-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    margin-bottom: 20px;
+  }
+  .order-card:hover { box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-2px); }
+  .order-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #F1F5F9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .order-body { padding: 20px 24px; }
+</style>
+<body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
@@ -18,6 +154,8 @@
       <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
     </a>
     <div class="d-flex align-items-center gap-3">
+      <a href="register-seller.html" class="btn btn-outline-success btn-sm" style="border-radius:10px"><i class="bi bi-shop me-1"></i>Vendre</a>
+      
       <a href="home.html" class="btn btn-light btn-sm">
         <i class="bi bi-house me-1"></i>Accueil
       </a>
@@ -36,6 +174,16 @@
     <span id="orders-badge" class="badge bg-primary">0 commandes</span>
   </div>
 
+  <!-- Filtres statut -->
+  <div class="d-flex gap-2 flex-wrap mb-4" id="status-filters">
+    <button class="btn btn-primary btn-sm" onclick="filterOrders(null, this)">Tous</button>
+    <button class="btn btn-outline-warning btn-sm" onclick="filterOrders('PENDING', this)">En attente</button>
+    <button class="btn btn-outline-info btn-sm" onclick="filterOrders('CONFIRMED', this)">Confirmées</button>
+    <button class="btn btn-outline-primary btn-sm" onclick="filterOrders('PROCESSING', this)">En cours</button>
+    <button class="btn btn-outline-secondary btn-sm" onclick="filterOrders('SHIPPED', this)">Expédiées</button>
+    <button class="btn btn-outline-success btn-sm" onclick="filterOrders('DELIVERED', this)">Livrées</button>
+    <button class="btn btn-outline-danger btn-sm" onclick="filterOrders('CANCELLED', this)">Annulées</button>
+  </div>
   <!-- Liste commandes -->
   <div id="orders-list">
     <div class="text-center py-5">
@@ -95,7 +243,8 @@
     container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
 
     try {
-      const res = await Api.get(`/orders/my-orders?page=${page}&size=5&sort=createdAt,desc`);
+      const url = currentFilter ? `/orders/my-orders?page=${page}&size=5&sort=createdAt,desc&status=${currentFilter}` : `/orders/my-orders?page=${page}&size=5&sort=createdAt,desc`;
+      const res = await Api.get(url);
       const data = res.data;
       const orders = data?.content || [];
       const total = data?.totalElements || 0;
@@ -104,12 +253,12 @@
 
       if (orders.length === 0) {
         container.innerHTML = `
-          <div class="content-card text-center py-5">
-            <i class="bi bi-bag fs-1 text-muted d-block mb-3"></i>
-            <h5 class="text-muted">Aucune commande</h5>
-            <p class="text-muted mb-4">Vous n'avez pas encore passé de commande</p>
-            <a href="home.html" class="btn btn-primary">
-              <i class="bi bi-shop me-2"></i>Commencer les achats
+          <div class="empty-state">
+            <div class="empty-icon"><i class="bi bi-bag"></i></div>
+            <h5 class="fw-bold mb-2">Aucune commande</h5>
+            <p class="text-muted mb-4">Vous n avez pas encore passe de commande</p>
+            <a href="home.html" class="btn btn-primary px-4" style="border-radius:12px">
+              <i class="bi bi-shop me-2"></i>Decouvrir nos produits
             </a>
           </div>`;
         return;
@@ -119,9 +268,9 @@
         const stepIndex = getStepIndex(o.status);
         const isCancelled = o.status === 'CANCELLED';
         return `
-          <div class="content-card mb-4">
+          <div class="order-card">
             <!-- Header commande -->
-            <div class="content-card-header">
+            <div class="order-header">
               <div class="d-flex align-items-center gap-3">
                 <i class="bi ${statusIcons[o.status] || 'bi-circle'} fs-5"></i>
                 <div>
@@ -138,7 +287,7 @@
               </div>
             </div>
 
-            <div class="content-card-body">
+            <div class="order-body">
               <!-- Progression -->
               ${!isCancelled ? `
               <div class="mb-4">
@@ -187,7 +336,7 @@
                   <i class="bi bi-x-lg me-1"></i>Annuler
                 </button>` : ''}
                 ${o.status === 'DELIVERED' ? `
-                <button class="btn btn-outline-success btn-sm">
+                <button class="btn btn-outline-success btn-sm" onclick="reorder('${o.id}')">
                   <i class="bi bi-arrow-repeat me-1"></i>Commander à nouveau
                 </button>` : ''}
               </div>
@@ -197,7 +346,7 @@
 
       buildPagination(data.totalPages, page);
     } catch(e) {
-      container.innerHTML = '<div class="content-card text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>';
+      container.innerHTML = '<div class="order-card text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>';
     }
   }
 
@@ -271,8 +420,57 @@
     }
   }
 
+  let currentFilter = null;
+
+  function filterOrders(status, btn) {
+    currentFilter = status;
+    document.querySelectorAll('#status-filters button').forEach(b => {
+      b.className = b.className.replace('btn-primary', 'btn-outline-primary')
+                               .replace(/btn-warning/, 'btn-outline-warning')
+                               .replace(/btn-info/, 'btn-outline-info')
+                               .replace(/btn-secondary/, 'btn-outline-secondary')
+                               .replace(/btn-success/, 'btn-outline-success')
+                               .replace(/btn-danger/, 'btn-outline-danger');
+    });
+    if (status === null) {
+      btn.className = btn.className.replace('btn-outline-primary', 'btn-primary');
+    } else {
+      btn.className = btn.className
+        .replace('btn-outline-warning', 'btn-warning')
+        .replace('btn-outline-info', 'btn-info')
+        .replace('btn-outline-primary', 'btn-primary')
+        .replace('btn-outline-secondary', 'btn-secondary')
+        .replace('btn-outline-success', 'btn-success')
+        .replace('btn-outline-danger', 'btn-danger');
+    }
+    loadOrders(0);
+  }
+
+  async function reorder(id) {
+    try {
+      await Api.post(`/orders/${id}/reorder`);
+      Toast.success('Articles ajoutés au panier !');
+      setTimeout(() => window.location.href = 'cart.html', 1200);
+    } catch(e) {
+      Toast.error(e.message || 'Erreur lors du ré-achat');
+    }
+  }
+  async function reorder(id) {
+    try {
+      await Api.post(`/orders/${id}/reorder`);
+      Toast.success('Articles ajoutés au panier !');
+      setTimeout(() => window.location.href = 'cart.html', 1200);
+    } catch(e) {
+      Toast.error(e.message || 'Erreur lors du ré-achat');
+    }
+  }
   initUserInfo();
   loadOrders();
 </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    }
+  </script>
 </body>
 </html>

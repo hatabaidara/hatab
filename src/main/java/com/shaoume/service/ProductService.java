@@ -14,4 +14,6 @@ public interface ProductService {
     Page<ProductResponse> getFeaturedProducts(Pageable p);
     Page<ProductResponse> searchProducts(String kw, Pageable p);
     Page<ProductResponse> filterProducts(Long cid, BigDecimal min, BigDecimal max, String brand, Pageable p);
+    ProductResponse createProductAsSeller(ProductRequest r, String sellerEmail);
+    Page<ProductResponse> getSellerProducts(Long sellerId, Pageable p);
 }
