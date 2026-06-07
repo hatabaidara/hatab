@@ -11,7 +11,8 @@
 <script>
     const _t = localStorage.getItem("token");
     const _u = JSON.parse(localStorage.getItem("user") || "{}");
-    if (!_t || _u.role !== "ADMIN") { window.location.href = "admin-login.html"; }
+    if (!_t) { window.location.href = "login.html"; }
+    if (_u.role !== "SELLER" && _u.role !== "ADMIN") { window.location.href = "home.html"; }
   </script>
 </head>
 <style>

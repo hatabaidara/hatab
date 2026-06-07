@@ -12,7 +12,8 @@
 <script>
     const _t = localStorage.getItem("token");
     const _u = JSON.parse(localStorage.getItem("user") || "{}");
-    if (!_t || _u.role !== "ADMIN") { window.location.href = "admin-login.html"; }
+    if (!_t) { window.location.href = "login.html"; }
+    if (_u.role !== "SELLER" && _u.role !== "ADMIN") { window.location.href = "home.html"; }
   </script>
 </head>
 <style>
@@ -66,6 +67,32 @@
   .progress-bar-fill { height: 100%; border-radius: 3px; background: #2563EB; transition: width 0.5s; }
   .trend-up { color: #16A34A; font-size: 0.75rem; font-weight: 600; }
   .trend-down { color: #DC2626; font-size: 0.75rem; font-weight: 600; }
+
+  /* SELLER DASHBOARD MOBILE */
+  @media (max-width: 768px) {
+    body { background: #F8FAFC !important; padding-bottom: 80px !important; }
+
+    .stat-card { padding: 16px !important; }
+    .stat-icon { width: 40px !important; height: 40px !important; font-size: 1.1rem !important; }
+
+    .section-card-header { padding: 14px 16px !important; }
+    .section-card-body { padding: 14px 16px !important; }
+
+    /* Hero vendeur */
+    .seller-hero {
+      background: linear-gradient(160deg, #0F172A, #1E3A8A, #F59E0B) !important;
+      padding: 20px 16px !important;
+      border-radius: 0 0 24px 24px !important;
+      margin-bottom: 16px !important;
+      color: white !important;
+    }
+
+    /* Stats 2 colonnes */
+    .col-md-3 { width: 50% !important; flex: 0 0 50% !important; }
+
+    .container { padding: 0 12px !important; }
+  }
+
 </style>
 <body>
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
@@ -420,5 +447,19 @@
   if (user.firstName) document.getElementById("seller-name").textContent = user.firstName + " " + (user.lastName || "");
 
 </script>
+
+<nav style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #E2E8F0;z-index:9999;padding:8px 0 16px;box-shadow:0 -4px 24px rgba(0,0,0,0.08);" id="sellerNav">
+  <style>
+    @media(max-width:768px){#sellerNav{display:flex!important;}}
+    #sellerNav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#94A3B8;text-decoration:none;font-size:0.6rem;font-weight:600;}
+    #sellerNav a i{font-size:1.3rem;}
+    #sellerNav a.active{color:#2563EB;}
+  </style>
+  <a href="seller-dashboard.html" class="active"><i class="bi bi-grid"></i><span>Dashboard</span></a>
+  <a href="seller-publish.html"><i class="bi bi-plus-circle"></i><span>Publier</span></a>
+  <a href="my-orders.html"><i class="bi bi-box"></i><span>Commandes</span></a>
+  <a href="profile.html"><i class="bi bi-person"></i><span>Profil</span></a>
+  <a href="home.html"><i class="bi bi-house"></i><span>Accueil</span></a>
+</nav>
 </body>
 </html>
