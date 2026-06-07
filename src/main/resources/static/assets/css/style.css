@@ -602,3 +602,177 @@ body {
   flex-direction: column;
   gap: 16px;
 }
+
+/* ── MOBILE OPTIMIZATIONS ── */
+@media (max-width: 768px) {
+
+  /* Topbar mobile */
+  .topbar {
+    padding: 10px 14px !important;
+    gap: 10px;
+  }
+  .topbar-title { font-size: 0.9rem; }
+
+  /* Sidebar overlay */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-overlay.show { display: block; }
+
+  /* Sidebar mobile */
+  .sidebar {
+    width: 280px !important;
+    transform: translateX(-100%);
+    z-index: 1001;
+    box-shadow: none;
+  }
+  .sidebar.show {
+    transform: translateX(0);
+    box-shadow: 8px 0 32px rgba(0,0,0,0.2);
+  }
+
+  /* Main content */
+  .main-content {
+    margin-left: 0 !important;
+    padding-bottom: 80px;
+  }
+
+  /* Stat cards - 2 colonnes */
+  .row .col-md-3, .row .col-lg-3 {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+  .stat-card {
+    padding: 16px !important;
+    margin-bottom: 12px;
+  }
+  .stat-card .stat-value { font-size: 1.5rem !important; }
+  .stat-card .stat-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1rem !important;
+  }
+
+  /* Tables - scroll horizontal */
+  .table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table th, .table td {
+    padding: 10px 12px !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap;
+  }
+
+  /* Cards */
+  .content-card-header {
+    padding: 14px 16px !important;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .content-card-body { padding: 14px !important; }
+
+  /* Buttons mobile */
+  .btn { padding: 8px 14px !important; font-size: 0.85rem !important; }
+  .btn-sm { padding: 6px 10px !important; font-size: 0.78rem !important; }
+
+  /* Forms */
+  .form-control, .form-select {
+    font-size: 16px !important; /* Evite le zoom sur iOS */
+    padding: 12px 14px !important;
+  }
+
+  /* Modal fullscreen sur mobile */
+  .modal-dialog {
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .modal-content {
+    border-radius: 20px 20px 0 0 !important;
+    min-height: 50vh;
+  }
+  .modal-dialog { align-items: flex-end !important; }
+  .modal-dialog { display: flex !important; }
+
+  /* Bottom navigation bar */
+  .bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    z-index: 998;
+    padding: 8px 0 12px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  }
+  .bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.65rem;
+    font-weight: 600;
+    transition: var(--transition);
+    padding: 4px 0;
+  }
+  .bottom-nav a i { font-size: 1.3rem; }
+  .bottom-nav a.active { color: var(--primary); }
+  .bottom-nav a:hover { color: var(--primary); }
+
+  /* Login card */
+  .login-card {
+    padding: 32px 24px !important;
+    margin: 16px !important;
+    border-radius: 20px !important;
+  }
+
+  /* Page title */
+  h2, h3 { font-size: 1.2rem !important; }
+
+  /* Badges */
+  .badge-status { padding: 4px 8px !important; font-size: 0.68rem !important; }
+
+  /* Avatar */
+  .avatar { width: 34px !important; height: 34px !important; font-size: 0.75rem !important; }
+
+  /* Search bar */
+  .search-bar { width: 100% !important; }
+
+  /* Grid helpers */
+  .mobile-full { width: 100% !important; }
+  .mobile-hidden { display: none !important; }
+  .mobile-stack { flex-direction: column !important; }
+  .mobile-center { text-align: center !important; }
+}
+
+/* Bottom nav hidden on desktop */
+.bottom-nav { display: none; }
+
+/* Touch targets */
+@media (hover: none) {
+  .btn, .nav-link, .dropdown-item {
+    min-height: 44px;
+    display: flex !important;
+    align-items: center;
+  }
+}
+
+/* Safe area for iPhone notch */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .bottom-nav {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+  .main-content {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+}
