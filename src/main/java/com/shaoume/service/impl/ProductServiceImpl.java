@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
         Category cat=categoryRepository.findById(r.getCategoryId()).orElseThrow(()->new ResourceNotFoundException("Catégorie",r.getCategoryId()));
         return map(productRepository.save(Product.builder().name(r.getName()).description(r.getDescription())
             .price(r.getPrice()).discountPrice(r.getDiscountPrice()).stock(r.getStock())
-            .sku(r.getSku()).brand(r.getBrand()).imageUrl(r.getImageUrl()).images(r.getImages()).featured(r.isFeatured()).category(cat).build()));
+            .sku(r.getSku()).brand(r.getBrand()).imageUrl(r.getImageUrl()).images(r.getImages()).featured(r.isFeatured()).category(cat).active(true).build()));
     }
     @Override @Transactional
     public ProductResponse updateProduct(Long id,ProductRequest r) {
@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         p.setName(r.getName()); p.setDescription(r.getDescription()); p.setPrice(r.getPrice());
         p.setDiscountPrice(r.getDiscountPrice()); p.setStock(r.getStock()); p.setSku(r.getSku());
         p.setBrand(r.getBrand()); p.setImageUrl(r.getImageUrl()); p.setImages(r.getImages());
-        p.setFeatured(r.isFeatured()); p.setCategory(cat);
+        p.setFeatured(r.isFeatured()); p.setCategory(cat); p.setActive(true);
         return map(productRepository.save(p));
     }
     @Override @Transactional
