@@ -1,8 +1,13 @@
-const CACHE_NAME = "shaoume-v1";
+const CACHE_NAME = "shaoume-v2";
 const STATIC_ASSETS = [
   "/pages/home.html",
   "/pages/login.html",
   "/pages/register.html",
+  "/pages/search.html",
+  "/pages/cart.html",
+  "/pages/product-detail.html",
+  "/pages/my-orders.html",
+  "/pages/profile.html",
   "/assets/css/style.css",
   "/assets/js/app.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
@@ -32,4 +37,23 @@ self.addEventListener("fetch", e => {
       return cached || fetch(e.request).catch(() => caches.match("/pages/home.html"));
     })
   );
+});
+
+// Push notifications
+self.addEventListener("push", e => {
+  const data = e.data ? e.data.json() : {};
+  e.waitUntil(
+    self.registration.showNotification(data.title || "Shaoume", {
+      body: data.body || "Nouvelle notification",
+      icon: "/assets/icons/icon-192.svg",
+      badge: "/assets/icons/icon-192.svg",
+      vibrate: [100, 50, 100],
+      data: { url: data.url || "/pages/home.html" }
+    })
+  );
+});
+
+self.addEventListener("notificationclick", e => {
+  e.notification.close();
+  e.waitUntil(clients.openWindow(e.notification.data.url));
 });
