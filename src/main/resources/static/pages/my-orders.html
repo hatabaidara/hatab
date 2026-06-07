@@ -16,8 +16,7 @@
   <meta name="apple-mobile-web-app-title" content="Shaoume">
 <script>
     const _t = localStorage.getItem("token");
-    const _u = JSON.parse(localStorage.getItem("user") || "{}");
-    if (!_t || _u.role !== "ADMIN") { window.location.href = "admin-login.html"; }
+    if (!_t) { window.location.href = "login.html"; }
   </script>
 </head>
 <style>
@@ -126,6 +125,33 @@
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
   }
+
+  /* MOBILE ORDERS */
+  @media (max-width: 768px) {
+    body { background: #F8FAFC !important; }
+    .order-card {
+      border-radius: 16px !important;
+      margin-bottom: 12px !important;
+    }
+    .order-header {
+      padding: 14px 16px !important;
+    }
+    .order-body { padding: 14px 16px !important; }
+    .order-number { font-size: 0.85rem !important; }
+    .container { padding: 0 12px !important; }
+    body { padding-bottom: 80px !important; }
+
+    /* Header page */
+    .page-header {
+      background: linear-gradient(160deg, #0F172A, #1E3A8A) !important;
+      padding: 20px 16px !important;
+      color: white !important;
+      border-radius: 0 0 24px 24px !important;
+      margin-bottom: 16px !important;
+    }
+    .page-header h4 { color: white !important; font-size: 1.2rem !important; }
+  }
+
 </style>
 <style>
   * { font-family: "Inter", sans-serif; }
@@ -149,6 +175,33 @@
     gap: 16px;
   }
   .order-body { padding: 20px 24px; }
+
+  /* MOBILE ORDERS */
+  @media (max-width: 768px) {
+    body { background: #F8FAFC !important; }
+    .order-card {
+      border-radius: 16px !important;
+      margin-bottom: 12px !important;
+    }
+    .order-header {
+      padding: 14px 16px !important;
+    }
+    .order-body { padding: 14px 16px !important; }
+    .order-number { font-size: 0.85rem !important; }
+    .container { padding: 0 12px !important; }
+    body { padding-bottom: 80px !important; }
+
+    /* Header page */
+    .page-header {
+      background: linear-gradient(160deg, #0F172A, #1E3A8A) !important;
+      padding: 20px 16px !important;
+      color: white !important;
+      border-radius: 0 0 24px 24px !important;
+      margin-bottom: 16px !important;
+    }
+    .page-header h4 { color: white !important; font-size: 1.2rem !important; }
+  }
+
 </style>
 <body>
 
@@ -477,5 +530,20 @@
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
   </script>
+
+<!-- BOTTOM NAV MOBILE -->
+<nav style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #E2E8F0;z-index:9999;padding:8px 0 16px;box-shadow:0 -4px 24px rgba(0,0,0,0.08);" id="bottomNav">
+  <style>
+    @media(max-width:768px){#bottomNav{display:flex!important;}}
+    #bottomNav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#94A3B8;text-decoration:none;font-size:0.62rem;font-weight:600;}
+    #bottomNav a i{font-size:1.4rem;}
+    #bottomNav a.active{color:#2563EB;}
+  </style>
+  <a href="home.html"><i class="bi bi-house"></i><span>Accueil</span></a>
+  <a href="search.html"><i class="bi bi-search"></i><span>Recherche</span></a>
+  <a href="cart.html"><i class="bi bi-bag"></i><span>Panier</span></a>
+  <a href="my-orders.html" class="active"><i class="bi bi-box"></i><span>Commandes</span></a>
+  <a href="profile.html"><i class="bi bi-person"></i><span>Compte</span></a>
+</nav>
 </body>
 </html>
