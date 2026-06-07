@@ -56,7 +56,48 @@
     .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #E2E8F0; }
     .divider span { font-size: 0.78rem; color: #94A3B8; font-weight: 500; }
     @media (max-width: 768px) { .left-panel { display: none; } .right-panel { padding: 32px 20px; } }
-  </style>
+  
+    /* MOBILE IMPROVEMENTS */
+    @media (max-width: 768px) {
+      .right-panel { padding: 40px 24px 24px; background: white; }
+      .login-box { max-width: 100%; }
+      .login-box h3 { font-size: 1.6rem; }
+
+      /* Logo mobile */
+      .mobile-logo {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.3rem;
+        font-weight: 900;
+        color: #0F172A;
+        margin-bottom: 32px;
+        letter-spacing: -0.03em;
+      }
+      .mobile-logo span { color: #2563EB; }
+      .mobile-logo i { font-size: 1.5rem; color: #2563EB; }
+
+      /* Inputs plus grands */
+      .input-wrap input {
+        padding: 14px 14px 14px 42px !important;
+        font-size: 16px !important;
+        border-radius: 14px !important;
+      }
+
+      /* Bouton plus grand */
+      .btn-login {
+        padding: 16px !important;
+        font-size: 1rem !important;
+        border-radius: 14px !important;
+        margin-top: 8px;
+      }
+
+      /* Espacement */
+      .input-wrap { margin-bottom: 16px !important; }
+    }
+
+    .mobile-logo { display: none; }
+</style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">
@@ -90,6 +131,7 @@
 
 <div class="right-panel">
   <div class="login-box">
+    <div class="mobile-logo"><i class="bi bi-globe2"></i>Shaoume <span>Global</span></div>
     <h3>Connexion</h3>
     <p class="subtitle">Pas encore de compte ? <a href="register.html">Créer un compte</a></p>
     <div class="error-box" id="errorBox">
