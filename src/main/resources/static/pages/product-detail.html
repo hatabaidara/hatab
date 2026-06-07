@@ -167,6 +167,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Shaoume">
+<script>
+    const _t = localStorage.getItem("token");
+    const _u = JSON.parse(localStorage.getItem("user") || "{}");
+    if (!_t || _u.role !== "ADMIN") { window.location.href = "admin-login.html"; }
+  </script>
 </head>
 <body>
 
