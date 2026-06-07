@@ -86,16 +86,16 @@ public class MerchantController {
     // ADMIN
     @GetMapping("/admin/requests")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Page<MerchantPaymentRequest>>> getAllRequests(
+    public ResponseEntity<ApiResponse<?>> getAllRequests(
             @PageableDefault(size=20) Pageable p) {
-        return ResponseEntity.ok(ApiResponse.success(merchantService.getAllRequests(p)));
+        return ResponseEntity.ok(ApiResponse.success(merchantService.getAllRequestsDTO(p)));
     }
 
     @GetMapping("/admin/requests/pending")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Page<MerchantPaymentRequest>>> getPending(
+    public ResponseEntity<ApiResponse<?>> getPending(
             @PageableDefault(size=20) Pageable p) {
-        return ResponseEntity.ok(ApiResponse.success(merchantService.getPendingRequests(p)));
+        return ResponseEntity.ok(ApiResponse.success(merchantService.getPendingRequestsDTO(p)));
     }
 
     @PostMapping("/admin/requests/{id}/validate")

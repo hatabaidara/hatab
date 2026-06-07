@@ -1,6 +1,8 @@
 package com.shaoume.service;
 
 import com.shaoume.entity.*;
+import com.shaoume.dto.response.PaymentRequestDTO;
+
 import com.shaoume.entity.enums.MerchantStatus;
 import com.shaoume.entity.enums.PaymentRequestStatus;
 import com.shaoume.repository.*;
@@ -99,5 +101,30 @@ public class MerchantService {
 
     public List<MerchantPaymentRequest> getMerchantRequests(Merchant merchant) {
         return paymentRequestRepository.findByMerchantOrderByDateDemandeDesc(merchant);
+    }
+    public Page<PaymentRequestDTO> getAllRequestsDTO(Pageable p) {
+        return paymentRequestRepository.findAllByOrderByDateDemandeDesc(p).map(this::toDTO);
+    }
+
+    public Page<PaymentRequestDTO> getPendingRequestsDTO(Pageable p) {
+        return paymentRequestRepository.findByStatut(PaymentRequestStatus.EN_ATTENTE, p).map(this::toDTO);
+    }
+
+    private PaymentRequestDTO toDTO(MerchantPaymentRequest r) {
+        return PaymentRequestDTO.builder()
+            .id(r.getId())
+            .merchantId(r.getMerchant().getId())
+            .merchantName(r.getMerchant().getNom())
+            .merchantEmail(r.getMerchant().getEmail())
+            .montant(r.getMontant())
+            .moyenPaiement(r.getMoyenPaiement())
+            .numeroDeTelephone(r.getNumeroDeTelephone())
+            .referenceTransaction(r.getReferenceTransaction())
+            .recuImageUrl(r.getRecuImageUrl())
+            .statut(r.getStatut())
+            .motifRefus(r.getMotifRefus())
+            .dateDemande(r.getDateDemande())
+            .dateValidation(r.getDateValidation())
+            .build();
     }
 }
