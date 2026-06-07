@@ -546,6 +546,131 @@
     }
   </script>
 
+
+<!-- SECTION AVIS -->
+<div class="content-card mt-4" id="reviews-section">
+  <div class="p-4">
+    <h5 class="fw-bold mb-4"><i class="bi bi-star-fill text-warning me-2"></i>Avis clients</h5>
+    <div id="reviews-list">
+      <div class="text-center py-4">
+        <div class="spinner-border text-primary spinner-border-sm"></div>
+        <p class="text-muted mt-2 small">Chargement des avis...</p>
+      </div>
+    </div>
+    <!-- Formulaire avis -->
+    <div id="review-form-section" class="mt-4 pt-4 border-top" style="display:none">
+      <h6 class="fw-bold mb-3">Laisser un avis</h6>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold">Note</label>
+        <div class="d-flex gap-2" id="star-selector">
+          <i class="bi bi-star fs-4 text-muted" style="cursor:pointer" data-star="1"></i>
+          <i class="bi bi-star fs-4 text-muted" style="cursor:pointer" data-star="2"></i>
+          <i class="bi bi-star fs-4 text-muted" style="cursor:pointer" data-star="3"></i>
+          <i class="bi bi-star fs-4 text-muted" style="cursor:pointer" data-star="4"></i>
+          <i class="bi bi-star fs-4 text-muted" style="cursor:pointer" data-star="5"></i>
+        </div>
+        <input type="hidden" id="review-rating" value="0">
+      </div>
+      <div class="mb-3">
+        <input type="text" class="form-control" id="review-title" placeholder="Titre de votre avis">
+      </div>
+      <div class="mb-3">
+        <textarea class="form-control" id="review-comment" rows="3" placeholder="Votre commentaire..."></textarea>
+      </div>
+      <button class="btn btn-primary w-100" onclick="submitReview()">
+        <i class="bi bi-send me-2"></i>Envoyer mon avis
+      </button>
+    </div>
+    <div id="login-to-review" class="mt-4 pt-4 border-top text-center" style="display:none">
+      <p class="text-muted small">Connectez-vous pour laisser un avis</p>
+      <a href="login.html" class="btn btn-outline-primary btn-sm">Se connecter</a>
+    </div>
+  </div>
+</div>
+
+<script>
+let selectedRating = 0;
+
+// Star selector
+document.querySelectorAll('#star-selector i').forEach(star => {
+  star.addEventListener('click', () => {
+    selectedRating = parseInt(star.dataset.star);
+    document.getElementById('review-rating').value = selectedRating;
+    document.querySelectorAll('#star-selector i').forEach((s, i) => {
+      s.className = i < selectedRating ? 'bi bi-star-fill fs-4 text-warning' : 'bi bi-star fs-4 text-muted';
+      s.style.cursor = 'pointer';
+    });
+  });
+  star.addEventListener('mouseover', () => {
+    const n = parseInt(star.dataset.star);
+    document.querySelectorAll('#star-selector i').forEach((s, i) => {
+      s.className = i < n ? 'bi bi-star-fill fs-4 text-warning' : 'bi bi-star fs-4 text-muted';
+    });
+  });
+  star.addEventListener('mouseout', () => {
+    document.querySelectorAll('#star-selector i').forEach((s, i) => {
+      s.className = i < selectedRating ? 'bi bi-star-fill fs-4 text-warning' : 'bi bi-star fs-4 text-muted';
+    });
+  });
+});
+
+async function loadReviews() {
+  try {
+    const res = await Api.get(`/reviews/product/${productId}?size=10`);
+    const reviews = res.data?.content || [];
+    const list = document.getElementById('reviews-list');
+    if (!reviews.length) {
+      list.innerHTML = '<p class="text-muted text-center py-3">Aucun avis pour ce produit.</p>';
+    } else {
+      list.innerHTML = reviews.map(r => `
+        <div class="border-bottom pb-3 mb-3">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#F59E0B);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;">
+              ${r.user?.firstName?.charAt(0) || 'U'}
+            </div>
+            <div>
+              <div class="fw-semibold small">${r.user?.firstName || 'Anonyme'}</div>
+              <div>${[1,2,3,4,5].map(i => `<i class="bi bi-star${i <= r.rating ? '-fill text-warning' : ' text-muted'}" style="font-size:0.75rem"></i>`).join('')}</div>
+            </div>
+            <small class="text-muted ms-auto">${new Date(r.createdAt).toLocaleDateString('fr-FR')}</small>
+          </div>
+          ${r.title ? `<div class="fw-semibold small mb-1">${r.title}</div>` : ''}
+          ${r.comment ? `<div class="text-muted small">${r.comment}</div>` : ''}
+        </div>
+      `).join('');
+    }
+    // Show form
+    const token = localStorage.getItem('token');
+    if (token) {
+      document.getElementById('review-form-section').style.display = 'block';
+    } else {
+      document.getElementById('login-to-review').style.display = 'block';
+    }
+  } catch(e) {
+    document.getElementById('reviews-list').innerHTML = '<p class="text-muted text-center">Erreur de chargement.</p>';
+  }
+}
+
+async function submitReview() {
+  const rating = parseInt(document.getElementById('review-rating').value);
+  const title = document.getElementById('review-title').value;
+  const comment = document.getElementById('review-comment').value;
+  if (!rating) { alert('Veuillez choisir une note'); return; }
+  try {
+    await Api.post(`/reviews/product/${productId}`, { rating, title, comment });
+    alert('Avis soumis ! Il sera visible apres validation.');
+    document.getElementById('review-title').value = '';
+    document.getElementById('review-comment').value = '';
+    selectedRating = 0;
+    document.querySelectorAll('#star-selector i').forEach(s => s.className = 'bi bi-star fs-4 text-muted');
+  } catch(e) {
+    alert('Erreur: ' + (e.message || 'Connexion requise'));
+  }
+}
+
+// Load reviews when page loads
+setTimeout(loadReviews, 1500);
+</script>
 <!-- STICKY BUY BAR MOBILE -->
 <div class="sticky-buy-bar" id="stickyBar">
   <div class="d-flex align-items-center gap-2 flex-grow-1">
