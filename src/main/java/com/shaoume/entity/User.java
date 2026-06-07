@@ -1,4 +1,5 @@
 package com.shaoume.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shaoume.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +9,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity @Table(name="users") @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "orders", "cartItems", "favorites", "reviews", "notifications", "password", "refreshToken"})
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class User {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id;
