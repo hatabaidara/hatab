@@ -160,7 +160,61 @@
       text-decoration: none;
     }
     .share-btn:hover { border-color: #2563EB; color: #2563EB; background: #EFF6FF; transform: scale(1.1); }
-  </style>
+  
+    /* MOBILE IMPROVEMENTS */
+    @media (max-width: 768px) {
+      body { background: white !important; }
+
+      .product-img-wrapper {
+        border-radius: 0 0 24px 24px !important;
+        box-shadow: none !important;
+        aspect-ratio: 1 !important;
+      }
+
+      .info-card {
+        border-radius: 24px 24px 0 0 !important;
+        padding: 24px 20px !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-top: -20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .price-main { font-size: 1.8rem !important; }
+
+      .btn-cart {
+        padding: 16px !important;
+        font-size: 1rem !important;
+        border-radius: 16px !important;
+      }
+
+      .btn-fav {
+        padding: 16px !important;
+        border-radius: 16px !important;
+      }
+
+      .qty-btn { width: 48px !important; height: 48px !important; }
+      .qty-input { width: 60px !important; font-size: 1.2rem !important; }
+
+      /* Sticky bottom bar */
+      .sticky-buy-bar {
+        display: flex !important;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: white;
+        padding: 12px 16px 24px;
+        border-top: 1px solid #E2E8F0;
+        z-index: 9999;
+        gap: 12px;
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.08);
+      }
+
+      .container { padding-bottom: 100px !important; }
+    }
+
+    .sticky-buy-bar { display: none; }
+</style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">
@@ -491,5 +545,20 @@
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
   </script>
+
+<!-- STICKY BUY BAR MOBILE -->
+<div class="sticky-buy-bar" id="stickyBar">
+  <div class="d-flex align-items-center gap-2 flex-grow-1">
+    <button class="qty-btn" onclick="changeQty(-1)">−</button>
+    <input type="number" class="qty-input" id="qty2" value="1" min="1">
+    <button class="qty-btn" onclick="changeQty(1)">+</button>
+  </div>
+  <button class="btn-cart flex-grow-1" onclick="addToCart()">
+    <i class="bi bi-bag-plus"></i> Ajouter
+  </button>
+  <button class="btn-fav" onclick="toggleFavorite()" id="favBtn2">
+    <i class="bi bi-heart"></i>
+  </button>
+</div>
 </body>
 </html>
