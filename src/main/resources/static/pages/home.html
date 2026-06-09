@@ -619,6 +619,34 @@
         justify-content: center !important;
       }
       /* Social icons */
+      /* Social icons en ligne */
+      .social-links-row {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+      }
+      .social-btn {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 12px !important;
+        font-size: 1.1rem !important;
+      }
+      /* Instagram gradient */
+      .social-btn-instagram {
+        background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+        border-color: transparent !important;
+      }
+      .social-btn-instagram:hover { opacity: 0.85 !important; }
+      /* WhatsApp vert */
+      .social-btn-whatsapp {
+        background: #25D366 !important;
+        border-color: transparent !important;
+      }
+      .social-btn-whatsapp:hover { opacity: 0.85 !important; }
+
+      /* Footer mobile layout */
+      footer { padding: 32px 0 100px !important; }
+      footer .col-md-4, footer .col-6 { margin-bottom: 8px !important; }
+
       .social-links {
         display: flex !important;
         gap: 12px !important;
@@ -1051,11 +1079,11 @@
         <p style="color:rgba(255,255,255,0.45);font-size:0.875rem;line-height:1.7">
           Votre plateforme e-commerce de confiance. Qualité, rapidité et satisfaction garanties partout au Sénégal.
         </p>
-        <div class="d-flex gap-2 mt-3">
-          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-btn"><i class="bi bi-whatsapp"></i></a>
+        <div class="d-flex flex-row flex-wrap gap-2 mt-3 social-links-row">
+          <a href="https://facebook.com" target="_blank" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="https://twitter.com" target="_blank" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://instagram.com/shaoume_global" target="_blank" class="social-btn social-btn-instagram"><i class="bi bi-instagram"></i></a>
+          <a href="https://wa.me/221770000000" target="_blank" class="social-btn social-btn-whatsapp"><i class="bi bi-whatsapp"></i></a>
         </div>
       </div>
       <div class="col-6 col-md-2">
@@ -1625,6 +1653,34 @@
         justify-content: center !important;
       }
       /* Social icons */
+      /* Social icons en ligne */
+      .social-links-row {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+      }
+      .social-btn {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 12px !important;
+        font-size: 1.1rem !important;
+      }
+      /* Instagram gradient */
+      .social-btn-instagram {
+        background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+        border-color: transparent !important;
+      }
+      .social-btn-instagram:hover { opacity: 0.85 !important; }
+      /* WhatsApp vert */
+      .social-btn-whatsapp {
+        background: #25D366 !important;
+        border-color: transparent !important;
+      }
+      .social-btn-whatsapp:hover { opacity: 0.85 !important; }
+
+      /* Footer mobile layout */
+      footer { padding: 32px 0 100px !important; }
+      footer .col-md-4, footer .col-6 { margin-bottom: 8px !important; }
+
       .social-links {
         display: flex !important;
         gap: 12px !important;
