@@ -1,59 +1,17 @@
-const CACHE_NAME = "shaoume-v2";
-const STATIC_ASSETS = [
-  "/pages/home.html",
-  "/pages/login.html",
-  "/pages/register.html",
-  "/pages/search.html",
-  "/pages/cart.html",
-  "/pages/product-detail.html",
-  "/pages/my-orders.html",
-  "/pages/profile.html",
-  "/assets/css/style.css",
-  "/assets/js/app.js",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
-  "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+const CACHE_NAME = 'shaoume-v1';
+const urlsToCache = [
+  '/pages/home.html',
+  '/manifest.json',
+  '/assets/icons/icon-192.png',
+  '/assets/icons/icon-512.png'
 ];
 
-self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
-  );
-  self.skipWaiting();
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
 });
 
-self.addEventListener("activate", e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-self.addEventListener("fetch", e => {
-  if (e.request.url.includes("/api/")) return;
+self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      return cached || fetch(e.request).catch(() => caches.match("/pages/home.html"));
-    })
+    caches.match(e.request).then(r => r || fetch(e.request))
   );
-});
-
-// Push notifications
-self.addEventListener("push", e => {
-  const data = e.data ? e.data.json() : {};
-  e.waitUntil(
-    self.registration.showNotification(data.title || "Shaoume", {
-      body: data.body || "Nouvelle notification",
-      icon: "/assets/icons/icon-192.svg",
-      badge: "/assets/icons/icon-192.svg",
-      vibrate: [100, 50, 100],
-      data: { url: data.url || "/pages/home.html" }
-    })
-  );
-});
-
-self.addEventListener("notificationclick", e => {
-  e.notification.close();
-  e.waitUntil(clients.openWindow(e.notification.data.url));
 });
