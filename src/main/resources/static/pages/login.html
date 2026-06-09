@@ -57,43 +57,98 @@
     .divider span { font-size: 0.78rem; color: #94A3B8; font-weight: 500; }
     @media (max-width: 768px) { .left-panel { display: none; } .right-panel { padding: 32px 20px; } }
   
-    /* MOBILE IMPROVEMENTS */
+
+    /* === LOGIN MOBILE PREMIUM === */
     @media (max-width: 768px) {
-      .right-panel { padding: 40px 24px 24px; background: white; }
-      .login-box { max-width: 100%; }
-      .login-box h3 { font-size: 1.6rem; }
+      body { background: #F1F5F9 !important; }
+
+      .right-panel {
+        padding: 0 !important;
+        background: transparent !important;
+        align-items: flex-start !important;
+      }
+
+      .login-box {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
+      /* Header bleu en haut */
+      .login-box::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 180px;
+        background: linear-gradient(145deg, #0F172A, #1E3A8A, #2563EB);
+        border-radius: 0 0 32px 32px;
+        margin-bottom: -80px;
+      }
 
       /* Logo mobile */
       .mobile-logo {
         display: flex !important;
         align-items: center;
         gap: 10px;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 900;
-        color: #0F172A;
-        margin-bottom: 32px;
+        color: white !important;
+        padding: 28px 24px 0;
         letter-spacing: -0.03em;
+        position: relative;
+        z-index: 2;
       }
-      .mobile-logo span { color: #2563EB; }
-      .mobile-logo i { font-size: 1.5rem; color: #2563EB; }
+      .mobile-logo span { color: #60A5FA !important; }
+      .mobile-logo i { color: #60A5FA !important; }
 
-      /* Inputs plus grands */
+      /* Carte blanche flottante */
+      .login-form-card {
+        background: white;
+        border-radius: 24px;
+        margin: 16px 16px 32px;
+        padding: 28px 20px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+        position: relative;
+        z-index: 2;
+      }
+
+      .login-box h3 {
+        font-size: 1.4rem !important;
+        margin-bottom: 4px !important;
+      }
+      .subtitle { font-size: 0.85rem !important; margin-bottom: 20px !important; }
+
+      /* Inputs */
       .input-wrap input {
         padding: 14px 14px 14px 42px !important;
         font-size: 16px !important;
         border-radius: 14px !important;
+        background: #F8FAFC !important;
+        border-color: #E2E8F0 !important;
       }
+      .input-wrap input:focus {
+        background: white !important;
+        border-color: #2563EB !important;
+      }
+      .input-wrap { margin-bottom: 16px !important; }
 
-      /* Bouton plus grand */
+      /* Bouton */
       .btn-login {
         padding: 16px !important;
         font-size: 1rem !important;
         border-radius: 14px !important;
-        margin-top: 8px;
+        margin-top: 8px !important;
+        box-shadow: 0 4px 16px rgba(37,99,235,0.35) !important;
       }
 
-      /* Espacement */
-      .input-wrap { margin-bottom: 16px !important; }
+      /* Divider */
+      .divider { margin: 20px 0 !important; }
+
+      /* Error box */
+      .error-box {
+        border-radius: 12px !important;
+        font-size: 0.82rem !important;
+      }
     }
 
     .mobile-logo { display: none; }
@@ -130,7 +185,7 @@
 </div>
 
 <div class="right-panel">
-  <div class="login-box">
+  <div class="login-box"><div class="login-form-card">
     <div class="mobile-logo"><i class="bi bi-globe2"></i>Shaoume <span>Global</span></div>
     <h3>Connexion</h3>
     <p class="subtitle">Pas encore de compte ? <a href="register.html">Créer un compte</a></p>
@@ -164,6 +219,7 @@
         <i class="bi bi-arrow-left me-1"></i>Continuer sans compte
       </a>
     </div>
+    </div><!-- /login-form-card -->
   </div>
 </div>
 
