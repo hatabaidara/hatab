@@ -57,7 +57,10 @@ public class SecurityConfig {
                             "/api/upload/**",
                             "/uploads/**",
                             "/favicon.ico",
-                            "/favicon.png"
+                            "/favicon.png",
+                            "/sw.js",
+                            "/manifest.json",
+                            "/offline.html"
                     ).permitAll()
                 .requestMatchers(HttpMethod.GET,"/products/**","/categories/**","/reviews/product/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
