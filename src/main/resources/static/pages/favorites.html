@@ -16,87 +16,28 @@
   <meta name="apple-mobile-web-app-title" content="Shaoume">
 
 <style>
-  /* FAVORITES MOBILE */
+  /* FAVORITES MOBILE PREMIUM */
   @media (max-width: 768px) {
-    body { padding-bottom: 80px !important; }
-
-    .navbar { padding: 10px 16px !important; }
-
-    /* Header */
+    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
+    .navbar { padding: 8px 12px !important; }
     .fav-header {
-      background: linear-gradient(160deg, #0F172A, #DC2626) !important;
-      padding: 20px 16px !important;
-      border-radius: 0 0 24px 24px !important;
+      background: linear-gradient(145deg, #0F172A, #7F1D1D, #DC2626) !important;
+      padding: 24px 16px 36px !important;
+      border-radius: 0 0 28px 28px !important;
       margin-bottom: 16px !important;
     }
-    .fav-header h3 { color: white !important; font-size: 1.2rem !important; }
-
+    .fav-header h3 { color: white !important; font-size: 1.2rem !important; font-weight: 800 !important; }
     .container { padding: 0 12px !important; }
-
-    /* Cards 2 colonnes */
     .col-6 { padding: 4px !important; }
-
-    /* Image hauteur mobile */
-    .position-relative.overflow-hidden { height: 160px !important; }
-    .position-relative.overflow-hidden img { height: 160px !important; }
-
-    /* Padding cards */
-    .p-3 { padding: 10px !important; }
+    .product-card { border-radius: 12px !important; border: 1px solid #E2E8F0 !important; }
+    .position-relative.overflow-hidden { height: 140px !important; }
+    .position-relative.overflow-hidden img { height: 140px !important; object-fit: cover !important; }
+    .p-3 { padding: 8px !important; }
+    .fw-semibold { font-size: 0.75rem !important; }
+    .fw-bold.text-primary { font-size: 0.85rem !important; font-weight: 800 !important; color: #E53E3E !important; }
+    .row.g-4 { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; padding: 0 !important; }
+    .row.g-4 > div { width: 100% !important; flex: none !important; max-width: 100% !important; padding: 0 !important; }
   }
-
-  /* JUMIA STYLE MOBILE */
-  @media (max-width: 768px) {
-    .product-card {
-      border-radius: 8px !important;
-      border: 1px solid #E2E8F0 !important;
-    }
-    .product-img, .product-img img {
-      height: 140px !important;
-      object-fit: cover !important;
-    }
-    .product-body, .p-3 {
-      padding: 8px !important;
-    }
-    .product-name, .fw-semibold {
-      font-size: 0.75rem !important;
-      margin-bottom: 4px !important;
-    }
-    .product-price, .fw-bold.text-primary {
-      font-size: 0.85rem !important;
-      font-weight: 800 !important;
-      color: #E53E3E !important;
-    }
-    .product-cat-tag {
-      font-size: 0.6rem !important;
-      padding: 2px 6px !important;
-    }
-    .btn-add-cart, .btn.btn-primary.btn-sm {
-      width: 30px !important;
-      height: 30px !important;
-      padding: 0 !important;
-      font-size: 0.75rem !important;
-    }
-    .row.g-4 {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 8px !important;
-      padding: 0 8px !important;
-    }
-    .row.g-4 > div {
-      width: 100% !important;
-      flex: none !important;
-      max-width: 100% !important;
-      padding: 0 !important;
-    }
-    .position-relative.overflow-hidden {
-      height: 140px !important;
-    }
-    .position-relative.overflow-hidden img {
-      height: 140px !important;
-      object-fit: cover !important;
-    }
-  }
-
 </style>
 </head>
 <body style="background:#F8FAFC">
@@ -271,64 +212,28 @@
 <!-- BOTTOM NAV MOBILE -->
 <nav style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #E2E8F0;z-index:9999;padding:8px 0 16px;box-shadow:0 -4px 24px rgba(0,0,0,0.08);" id="favNav">
   <style>
-    @media(max-width:768px){#favNav{display:flex!important;}}
-    #favNav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#94A3B8;text-decoration:none;font-size:0.62rem;font-weight:600;}
-    #favNav a i{font-size:1.4rem;}
-    #favNav a.active{color:#EF4444;}
-  
-  /* JUMIA STYLE MOBILE */
+  /* FAVORITES MOBILE PREMIUM */
   @media (max-width: 768px) {
-    .product-card {
-      border-radius: 8px !important;
-      border: 1px solid #E2E8F0 !important;
+    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
+    .navbar { padding: 8px 12px !important; }
+    .fav-header {
+      background: linear-gradient(145deg, #0F172A, #7F1D1D, #DC2626) !important;
+      padding: 24px 16px 36px !important;
+      border-radius: 0 0 28px 28px !important;
+      margin-bottom: 16px !important;
     }
-    .product-img, .product-img img {
-      height: 140px !important;
-      object-fit: cover !important;
-    }
-    .product-body, .p-3 {
-      padding: 8px !important;
-    }
-    .product-name, .fw-semibold {
-      font-size: 0.75rem !important;
-      margin-bottom: 4px !important;
-    }
-    .product-price, .fw-bold.text-primary {
-      font-size: 0.85rem !important;
-      font-weight: 800 !important;
-      color: #E53E3E !important;
-    }
-    .product-cat-tag {
-      font-size: 0.6rem !important;
-      padding: 2px 6px !important;
-    }
-    .btn-add-cart, .btn.btn-primary.btn-sm {
-      width: 30px !important;
-      height: 30px !important;
-      padding: 0 !important;
-      font-size: 0.75rem !important;
-    }
-    .row.g-4 {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 8px !important;
-      padding: 0 8px !important;
-    }
-    .row.g-4 > div {
-      width: 100% !important;
-      flex: none !important;
-      max-width: 100% !important;
-      padding: 0 !important;
-    }
-    .position-relative.overflow-hidden {
-      height: 140px !important;
-    }
-    .position-relative.overflow-hidden img {
-      height: 140px !important;
-      object-fit: cover !important;
-    }
+    .fav-header h3 { color: white !important; font-size: 1.2rem !important; font-weight: 800 !important; }
+    .container { padding: 0 12px !important; }
+    .col-6 { padding: 4px !important; }
+    .product-card { border-radius: 12px !important; border: 1px solid #E2E8F0 !important; }
+    .position-relative.overflow-hidden { height: 140px !important; }
+    .position-relative.overflow-hidden img { height: 140px !important; object-fit: cover !important; }
+    .p-3 { padding: 8px !important; }
+    .fw-semibold { font-size: 0.75rem !important; }
+    .fw-bold.text-primary { font-size: 0.85rem !important; font-weight: 800 !important; color: #E53E3E !important; }
+    .row.g-4 { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; padding: 0 !important; }
+    .row.g-4 > div { width: 100% !important; flex: none !important; max-width: 100% !important; padding: 0 !important; }
   }
-
 </style>
   <a href="home.html"><i class="bi bi-house"></i><span>Accueil</span></a>
   <a href="search.html"><i class="bi bi-search"></i><span>Recherche</span></a>

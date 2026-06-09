@@ -54,6 +54,22 @@
     text-transform: uppercase; letter-spacing: 1px;
     margin-bottom: 16px; margin-top: 24px;
   }
+  @media (max-width: 768px) {
+    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
+    .left-panel { display: none !important; }
+    .right-panel { padding: 0 !important; background: transparent !important; align-items: flex-start !important; }
+    .register-box, .seller-box { max-width: 100% !important; width: 100% !important; }
+    .seller-box::before {
+      content: ""; display: block; width: 100%; height: 180px;
+      background: linear-gradient(145deg, #0F172A, #065F46, #10B981);
+      border-radius: 0 0 32px 32px; margin-bottom: -80px;
+    }
+    .mobile-logo { display: flex !important; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: 900; color: white !important; padding: 28px 24px 0; position: relative; z-index: 2; }
+    .seller-form-card { background: white; border-radius: 24px; margin: 16px 16px 32px; padding: 28px 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); position: relative; z-index: 2; }
+    .form-control, .form-select { font-size: 16px !important; padding: 13px 14px !important; border-radius: 14px !important; background: #F8FAFC !important; }
+    .btn-primary { padding: 16px !important; border-radius: 14px !important; font-size: 1rem !important; font-weight: 700 !important; }
+    .input-row { grid-template-columns: 1fr !important; }
+  }
 </style>
 <body>
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">

@@ -18,7 +18,19 @@
     .btn-admin { background: #334155; border: none; color: #E2E8F0; width: 100%; padding: 10px; border-radius: 8px; font-size: 0.9rem; transition: all 0.2s; }
     .btn-admin:hover { background: #475569; color: white; }
     .error-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #EF4444; border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; margin-bottom: 16px; display: none; }
-  </style>
+    @media (max-width: 768px) {
+    body { background: #0F172A !important; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px 16px; }
+    .admin-box {
+      background: #1E293B; border-radius: 24px; padding: 32px 24px;
+      width: 100%; max-width: 400px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .form-control { font-size: 16px !important; padding: 13px 14px !important; border-radius: 14px !important; background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.1) !important; color: white !important; }
+    .form-control::placeholder { color: rgba(255,255,255,0.3) !important; }
+    .btn { padding: 16px !important; border-radius: 14px !important; font-size: 1rem !important; font-weight: 700 !important; width: 100% !important; }
+  }
+</style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">

@@ -47,7 +47,21 @@
       height: 100%; border-radius: 4px; background: #2563EB;
       transition: width 0.3s; width: 0%;
     }
-  </style>
+    @media (max-width: 768px) {
+    .sidebar { display: none !important; }
+    .main-content { margin-left: 0 !important; }
+    .topbar { display: none !important; }
+    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
+    .content-card { border-radius: 16px !important; border: none !important; box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important; margin-bottom: 12px !important; }
+    .content-card-header { padding: 14px 16px !important; }
+    .content-card-body { padding: 14px 16px !important; }
+    .table { font-size: 0.78rem !important; }
+    .p-4 { padding: 12px !important; }
+    .container-fluid { padding: 0 12px !important; }
+    .btn-sm { font-size: 0.72rem !important; padding: 4px 8px !important; }
+    .form-control { font-size: 16px !important; padding: 13px !important; border-radius: 12px !important; }
+  }
+</style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">

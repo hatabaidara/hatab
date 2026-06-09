@@ -75,6 +75,20 @@
     display: inline-flex; align-items: center; justify-content: center;
     font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
   }
+  @media (max-width: 768px) {
+    .sidebar { display: none !important; }
+    .main-content { margin-left: 0 !important; }
+    .topbar { display: none !important; }
+    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
+    .content-card { border-radius: 16px !important; border: none !important; box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important; margin-bottom: 12px !important; }
+    .content-card-header { padding: 14px 16px !important; }
+    .content-card-body { padding: 14px 16px !important; }
+    .table { font-size: 0.78rem !important; }
+    .p-4 { padding: 12px !important; }
+    .container-fluid { padding: 0 12px !important; }
+    .btn-sm { font-size: 0.72rem !important; padding: 4px 8px !important; }
+    .form-control { font-size: 16px !important; padding: 13px !important; border-radius: 12px !important; }
+  }
 </style>
 <body>
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
