@@ -105,7 +105,7 @@
         margin-top: 12px !important;
       }
     }
-    .mobile-logo { display: none; }
+    .mobile-logo { display: none; } .left-panel { display: none !important; } .right-panel { padding: 0 !important; background: transparent !important; align-items: flex-start !important; }
 
   </style>
   <link rel="manifest" href="/manifest.json">
@@ -115,7 +115,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Shaoume">
 </head>
-<body>
+<body style="background:#F1F5F9;margin:0;padding:0">
+
+<!-- HEADER BLEU MOBILE -->
+<div id="mobileHeader" style="background:linear-gradient(145deg,#0F172A,#1E3A8A,#2563EB);padding:28px 24px 80px;border-radius:0 0 32px 32px;display:none">
+  <div style="font-size:1.4rem;font-weight:900;color:white;display:flex;align-items:center;gap:10px">
+    <i class="bi bi-globe2" style="color:#60A5FA"></i>
+    Shaoume <span style="color:#60A5FA">Global</span>
+  </div>
+  <div style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-top:6px">Créez votre compte gratuitement</div>
+</div>
+
+<script>
+  if (window.innerWidth <= 768) {
+    document.getElementById('mobileHeader').style.display = 'block';
+  }
+</script>
 
 <div class="left-panel">
   <div class="left-brand"><i class="bi bi-globe2 me-2"></i>Shaoume <span>Global</span></div>
