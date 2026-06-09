@@ -43,6 +43,60 @@
     /* Padding cards */
     .p-3 { padding: 10px !important; }
   }
+
+  /* JUMIA STYLE MOBILE */
+  @media (max-width: 768px) {
+    .product-card {
+      border-radius: 8px !important;
+      border: 1px solid #E2E8F0 !important;
+    }
+    .product-img, .product-img img {
+      height: 140px !important;
+      object-fit: cover !important;
+    }
+    .product-body, .p-3 {
+      padding: 8px !important;
+    }
+    .product-name, .fw-semibold {
+      font-size: 0.75rem !important;
+      margin-bottom: 4px !important;
+    }
+    .product-price, .fw-bold.text-primary {
+      font-size: 0.85rem !important;
+      font-weight: 800 !important;
+      color: #E53E3E !important;
+    }
+    .product-cat-tag {
+      font-size: 0.6rem !important;
+      padding: 2px 6px !important;
+    }
+    .btn-add-cart, .btn.btn-primary.btn-sm {
+      width: 30px !important;
+      height: 30px !important;
+      padding: 0 !important;
+      font-size: 0.75rem !important;
+    }
+    .row.g-4 {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+      padding: 0 8px !important;
+    }
+    .row.g-4 > div {
+      width: 100% !important;
+      flex: none !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
+    .position-relative.overflow-hidden {
+      height: 140px !important;
+    }
+    .position-relative.overflow-hidden img {
+      height: 140px !important;
+      object-fit: cover !important;
+    }
+  }
+
 </style>
 </head>
 <body style="background:#F8FAFC">
@@ -221,7 +275,61 @@
     #favNav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#94A3B8;text-decoration:none;font-size:0.62rem;font-weight:600;}
     #favNav a i{font-size:1.4rem;}
     #favNav a.active{color:#EF4444;}
-  </style>
+  
+  /* JUMIA STYLE MOBILE */
+  @media (max-width: 768px) {
+    .product-card {
+      border-radius: 8px !important;
+      border: 1px solid #E2E8F0 !important;
+    }
+    .product-img, .product-img img {
+      height: 140px !important;
+      object-fit: cover !important;
+    }
+    .product-body, .p-3 {
+      padding: 8px !important;
+    }
+    .product-name, .fw-semibold {
+      font-size: 0.75rem !important;
+      margin-bottom: 4px !important;
+    }
+    .product-price, .fw-bold.text-primary {
+      font-size: 0.85rem !important;
+      font-weight: 800 !important;
+      color: #E53E3E !important;
+    }
+    .product-cat-tag {
+      font-size: 0.6rem !important;
+      padding: 2px 6px !important;
+    }
+    .btn-add-cart, .btn.btn-primary.btn-sm {
+      width: 30px !important;
+      height: 30px !important;
+      padding: 0 !important;
+      font-size: 0.75rem !important;
+    }
+    .row.g-4 {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+      padding: 0 8px !important;
+    }
+    .row.g-4 > div {
+      width: 100% !important;
+      flex: none !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
+    .position-relative.overflow-hidden {
+      height: 140px !important;
+    }
+    .position-relative.overflow-hidden img {
+      height: 140px !important;
+      object-fit: cover !important;
+    }
+  }
+
+</style>
   <a href="home.html"><i class="bi bi-house"></i><span>Accueil</span></a>
   <a href="search.html"><i class="bi bi-search"></i><span>Recherche</span></a>
   <a href="cart.html"><i class="bi bi-bag"></i><span>Panier</span></a>
