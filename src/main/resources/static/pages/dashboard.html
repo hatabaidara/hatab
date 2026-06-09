@@ -458,7 +458,7 @@
           <div class="d-flex align-items-center gap-3 px-4 py-3 ${i < list.length-1 ? 'border-bottom' : ''}">
             <div class="fw-bold text-muted" style="width:20px;font-size:0.85rem">${i+1}</div>
             <div class="rounded-2 bg-light d-flex align-items-center justify-content-center overflow-hidden" style="width:42px;height:42px;min-width:42px">
-              ${p.imageUrl ? `<img src="${p.imageUrl}" style="width:42px;height:42px;object-fit:cover">` : '<i class="bi bi-image text-muted"></i>'}
+              ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" style="width:42px;height:42px;object-fit:cover">` : '<i class="bi bi-image text-muted"></i>'}
             </div>
             <div class="flex-grow-1">
               <div style="font-size:0.85rem;font-weight:600">${p.name}</div>

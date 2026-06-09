@@ -338,7 +338,7 @@
               <div class="upload-progress-bar" id="cat-upload-bar"></div>
             </div>
             <div class="upload-preview" id="cat-upload-preview">
-              <img id="cat-preview-img" src="" alt="preview">
+              <img loading="lazy" id="cat-preview-img" src="" alt="preview">
               <div class="flex-grow-1">
                 <div class="fw-semibold text-success" style="font-size:0.82rem" id="cat-preview-name"></div>
               </div>
@@ -349,7 +349,7 @@
             <input type="hidden" id="c-image-url">
             <div id="current-cat-image-wrap" style="display:none" class="mt-2">
               <small class="text-muted">Image actuelle :</small>
-              <img id="current-cat-img" src="" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;display:block;margin-top:4px">
+              <img loading="lazy" id="current-cat-img" src="" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0;display:block;margin-top:4px">
             </div>
           </div>
 
@@ -503,7 +503,7 @@
             <div class="cat-card" style="--cat-color:${palette.color};--cat-bg:${palette.bg}">
               <div class="cat-icon">
                 ${c.imageUrl
-                  ? `<img src="${c.imageUrl}" alt="${c.name}" onerror="this.parentElement.innerHTML='<i class=\\'bi ${icon}\\' style=\\'color:${palette.color};font-size:1.6rem\\'></i>'">`
+                  ? `<img loading="lazy" src="${c.imageUrl}" alt="${c.name}" onerror="this.parentElement.innerHTML='<i class=\\'bi ${icon}\\' style=\\'color:${palette.color};font-size:1.6rem\\'></i>'">`
                   : `<i class="bi ${icon}"></i>`}
               </div>
               <div class="cat-name">${c.name}</div>
@@ -555,7 +555,7 @@
                           <div class="d-flex align-items-center gap-3">
                             <div style="width:38px;height:38px;border-radius:10px;background:${palette.bg};display:flex;align-items:center;justify-content:center;overflow:hidden;min-width:38px">
                               ${c.imageUrl
-                                ? `<img src="${c.imageUrl}" style="width:38px;height:38px;object-fit:cover">`
+                                ? `<img loading="lazy" src="${c.imageUrl}" style="width:38px;height:38px;object-fit:cover">`
                                 : `<i class="bi ${icon}" style="color:${palette.color}"></i>`}
                             </div>
                             <span class="fw-semibold">${c.name}</span>

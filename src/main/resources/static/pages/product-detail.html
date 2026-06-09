@@ -507,7 +507,7 @@
 
       // Image
       document.getElementById('product-image').innerHTML = product.imageUrl
-        ? `<img src="${product.imageUrl}" class="product-img">`
+        ? `<img loading="lazy" src="${product.imageUrl}" class="product-img">`
         : `<div class="bg-light rounded-4 d-flex align-items-center justify-content-center" style="height:420px"><i class="bi bi-image fs-1 text-muted"></i></div>`;
 
       // Badges
@@ -577,7 +577,7 @@
         const price = p.discountPrice || p.price;
         return `<div class="col-6 col-md-3">
           <div class="related-card" onclick="window.location.href='product-detail.html?id=${p.id}'">
-            ${p.imageUrl ? `<img src="${p.imageUrl}" class="related-img">` : `<div class="bg-light d-flex align-items-center justify-content-center" style="height:160px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
+            ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="related-img">` : `<div class="bg-light d-flex align-items-center justify-content-center" style="height:160px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
             <div class="p-3">
               <div class="fw-semibold mb-1" style="font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
               <div class="text-primary fw-bold">${Format.currency(price)}</div>

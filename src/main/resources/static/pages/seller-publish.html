@@ -149,7 +149,7 @@
             <i class="bi bi-cloud-upload fs-2 text-muted d-block mb-2"></i>
             <div class="fw-semibold" style="font-size:0.85rem">Cliquez ou glissez une image</div>
             <div class="text-muted" style="font-size:0.75rem">PNG, JPG, JPEG — Max 5MB</div>
-            <img id="img-preview" style="display:none;max-width:100%;max-height:200px;border-radius:10px;margin-top:12px">
+            <img loading="lazy" id="img-preview" style="display:none;max-width:100%;max-height:200px;border-radius:10px;margin-top:12px">
             <div id="upload-progress" style="display:none" class="mt-2">
               <div class="spinner-border spinner-border-sm text-primary me-2"></div>
               <span style="font-size:0.85rem">Upload en cours...</span>
@@ -253,7 +253,7 @@
 
     document.getElementById("product-preview").innerHTML = `
       <div class="d-flex gap-3 align-items-start">
-        ${image ? `<img src="${image}" style="width:80px;height:80px;object-fit:cover;border-radius:10px">` : 
+        ${image ? `<img loading="lazy" src="${image}" style="width:80px;height:80px;object-fit:cover;border-radius:10px">` : 
           `<div class="d-flex align-items-center justify-content-center rounded-3 bg-white" style="width:80px;height:80px;border:1px solid #E2E8F0"><i class="bi bi-image text-muted fs-3"></i></div>`}
         <div>
           <div class="fw-bold mb-1">${name}</div>

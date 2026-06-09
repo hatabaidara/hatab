@@ -443,7 +443,7 @@
           <div class="col-6 col-md-4">
             <div class="product-card" onclick="location.href='product-detail.html?id='+${p.id}">
               ${p.imageUrl
-                ? `<img src="${p.imageUrl}" class="product-img">`
+                ? `<img loading="lazy" src="${p.imageUrl}" class="product-img">`
                 : `<div class="product-img d-flex align-items-center justify-content-center"><i class="bi bi-image fs-1 text-muted"></i></div>`}
               <div class="p-3">
                 <div class="text-muted mb-1" style="font-size:0.75rem">${p.category?.name || ""}</div>
@@ -470,7 +470,7 @@
         container.innerHTML = products.map(p => `
           <div class="product-card mb-3 d-flex" onclick="location.href='product-detail.html?id='+${p.id}">
             ${p.imageUrl
-              ? `<img src="${p.imageUrl}" style="width:120px;height:120px;object-fit:cover;border-radius:12px 0 0 12px">`
+              ? `<img loading="lazy" src="${p.imageUrl}" style="width:120px;height:120px;object-fit:cover;border-radius:12px 0 0 12px">`
               : `<div style="width:120px;height:120px;background:#F8FAFC;border-radius:12px 0 0 12px;display:flex;align-items:center;justify-content:center"><i class="bi bi-image fs-2 text-muted"></i></div>`}
             <div class="p-3 flex-grow-1">
               <div class="text-muted" style="font-size:0.75rem">${p.category?.name || ""}</div>

@@ -498,7 +498,7 @@
                   <div class="d-flex align-items-center gap-2 p-2 bg-light rounded-2">
                     <div class="rounded-2 overflow-hidden bg-white" style="width:44px;height:44px;min-width:44px">
                       ${item.product?.imageUrl
-                        ? `<img src="${item.product.imageUrl}" style="width:44px;height:44px;object-fit:cover">`
+                        ? `<img loading="lazy" src="${item.product.imageUrl}" style="width:44px;height:44px;object-fit:cover">`
                         : `<div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image text-muted"></i></div>`}
                     </div>
                     <div>

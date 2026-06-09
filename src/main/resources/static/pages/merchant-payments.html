@@ -146,7 +146,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body text-center">
-        <img id="modal-recu-img" src="" style="max-width:100%;border-radius:12px">
+        <img loading="lazy" id="modal-recu-img" src="" style="max-width:100%;border-radius:12px">
       </div>
     </div>
   </div>
@@ -220,7 +220,7 @@
           <div class="row g-3 align-items-start">
             <div class="col-md-4">
               ${r.recuImageUrl ? `
-                <img src="${r.recuImageUrl}" class="recu-img" onclick="viewRecu('${r.recuImageUrl}')" title="Cliquer pour agrandir">
+                <img loading="lazy" src="${r.recuImageUrl}" class="recu-img" onclick="viewRecu('${r.recuImageUrl}')" title="Cliquer pour agrandir">
               ` : `<div class="d-flex align-items-center justify-content-center rounded-3" style="height:160px;background:#F1F5F9;border:1px dashed #E2E8F0"><i class="bi bi-image fs-1 text-muted"></i></div>`}
             </div>
             <div class="col-md-5">

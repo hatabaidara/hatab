@@ -1289,7 +1289,7 @@
           <div class="${colClass}">
             <div class="product-card d-flex" onclick="window.location.href='product-detail.html?id=${p.id}'">
               <div class="product-img-wrapper flex-shrink-0" style="width:160px">
-                ${p.imageUrl ? `<img src="${p.imageUrl}" class="product-img" style="height:160px;width:160px">` : `<div class="product-img-placeholder" style="height:160px;width:160px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
+                ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="product-img" style="height:160px;width:160px">` : `<div class="product-img-placeholder" style="height:160px;width:160px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
                 ${hasDiscount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">-${discountPct}%</span>` : ''}
               </div>
               <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
@@ -1316,7 +1316,7 @@
         <div class="${colClass}">
           <div class="product-card" onclick="window.location.href='product-detail.html?id=${p.id}'">
             <div class="product-img-wrapper">
-              ${p.imageUrl ? `<img src="${p.imageUrl}" class="product-img">` : `<div class="product-img-placeholder"><i class="bi bi-image fs-1 text-muted"></i></div>`}
+              ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="product-img">` : `<div class="product-img-placeholder"><i class="bi bi-image fs-1 text-muted"></i></div>`}
               <div class="product-badge">
                 ${hasDiscount ? `<span class="badge bg-danger rounded-pill">-${discountPct}%</span>` : ''}
                 ${p.featured ? `<span class="badge bg-warning rounded-pill"><i class="bi bi-star-fill"></i></span>` : ''}

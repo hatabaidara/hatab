@@ -125,14 +125,14 @@
             <div style="font-size:0.85rem;opacity:0.8">Montant à payer</div>
             <div style="font-size:2.5rem;font-weight:800">5 000 FCFA</div>
           </div>
-          <div style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;display:flex;align-items:center;gap:8px"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Wave_money_logo.svg/120px-Wave_money_logo.svg.png" style="height:20px;filter:brightness(0) invert(1)" onerror="this.style.display='none'"><span>Wave Mobile Money</span></div>
+          <div style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;display:flex;align-items:center;gap:8px"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Wave_money_logo.svg/120px-Wave_money_logo.svg.png" style="height:20px;filter:brightness(0) invert(1)" onerror="this.style.display='none'"><span>Wave Mobile Money</span></div>
           <div class="payment-number">
             <span id="wave-number">77 521 80 52</span>
             <button class="copy-btn" onclick="copyNumber('wave-number')">
               <i class="bi bi-clipboard me-1"></i>Copier
             </button>
           </div>
-          <div style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;margin-top:12px;display:flex;align-items:center;gap:8px"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_logo.svg/120px-Orange_logo.svg.png" style="height:20px;filter:brightness(0) invert(1)" onerror="this.style.display='none'"><span>Orange Money</span></div>
+          <div style="font-size:0.8rem;opacity:0.8;margin-bottom:8px;margin-top:12px;display:flex;align-items:center;gap:8px"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Orange_logo.svg/120px-Orange_logo.svg.png" style="height:20px;filter:brightness(0) invert(1)" onerror="this.style.display='none'"><span>Orange Money</span></div>
           <div class="payment-number">
             <span id="om-number">77 521 80 52</span>
             <button class="copy-btn" onclick="copyNumber('om-number')">
@@ -185,7 +185,7 @@
             <i class="bi bi-cloud-upload fs-2 text-muted d-block mb-2"></i>
             <div class="fw-semibold" style="font-size:0.85rem">Cliquez pour uploader</div>
             <div class="text-muted" style="font-size:0.75rem">PNG, JPG, JPEG — Max 5MB</div>
-            <img id="preview-img" class="preview-img" style="display:none">
+            <img loading="lazy" id="preview-img" class="preview-img" style="display:none">
           </div>
           <input type="file" id="recu-file" accept="image/*" style="display:none" onchange="handleFileUpload(this)">
         </div>

@@ -248,7 +248,7 @@
                 <div class="upload-progress-bar" id="upload-progress-bar"></div>
               </div>
               <div class="upload-preview" id="upload-preview">
-                <img id="preview-img" src="" alt="preview">
+                <img loading="lazy" id="preview-img" src="" alt="preview">
                 <div class="file-info">
                   <div class="fw-semibold text-success" id="preview-name"></div>
                   <div class="text-muted" id="preview-size"></div>
@@ -262,7 +262,7 @@
               <div id="current-image-wrap" class="mt-2" style="display:none">
                 <small class="text-muted">Image actuelle :</small>
                 <div class="d-flex align-items-center gap-2 mt-1">
-                  <img id="current-image-preview" src="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0">
+                  <img loading="lazy" id="current-image-preview" src="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid #E2E8F0">
                   <small class="text-muted" id="current-image-url-text"></small>
                 </div>
               </div>
@@ -420,7 +420,7 @@
             <div class="d-flex align-items-center gap-3">
               <div class="rounded-2 bg-light d-flex align-items-center justify-content-center overflow-hidden"
                 style="width:44px;height:44px;min-width:44px">
-                ${p.imageUrl ? `<img src="${p.imageUrl}" style="width:44px;height:44px;object-fit:cover" onerror="this.parentElement.innerHTML='<i class=\\'bi bi-image text-muted\\'></i>'">` : '<i class="bi bi-image text-muted"></i>'}
+                ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" style="width:44px;height:44px;object-fit:cover" onerror="this.parentElement.innerHTML='<i class=\\'bi bi-image text-muted\\'></i>'">` : '<i class="bi bi-image text-muted"></i>'}
               </div>
               <div>
                 <div class="fw-semibold" style="font-size:0.9rem">${p.name}</div>
