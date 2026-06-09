@@ -813,9 +813,10 @@
         <li class="nav-item"><a class="nav-link" href="#features">Services</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2">
+      <a id="navProfileLink" href="profile.html" class="nav-link" title="Mon profil"><i class="bi bi-person-circle" style="font-size:1.3rem;"></i></a>
         <button class="nav-cart-btn" onclick="window.location.href='cart.html'" title="Panier">
           <i class="bi bi-bag fs-5"></i>
-          <span class="cart-badge" id="cart-count">0</span>
+          <span class="cart-badge" id="navCartBadge" style="display:none;" id="cart-count">0</span>
         </button>
         <button class="nav-cart-btn" onclick="window.location.href='favorites.html'" title="Favoris">
           <i class="bi bi-heart fs-5"></i>
@@ -1863,6 +1864,38 @@ function installApp() {
 window.addEventListener("appinstalled", () => {
   document.getElementById("installBanner").style.display = "none";
 });
+</script>
+
+<script>
+(function(){
+  const token = localStorage.getItem("token");
+  const profileLink = document.getElementById("navProfileLink");
+  const cartBadge = document.getElementById("navCartBadge");
+  if (profileLink) profileLink.href = token ? "profile.html" : "login.html";
+  if (cartBadge) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+    if (count > 0) { cartBadge.textContent = count; cartBadge.style.display = "flex"; }
+  }
+})();
+</script>
+
+<script>
+// Sync panier en temps réel
+window.addEventListener("storage", function(e) {
+  if (e.key === "cart") updateCartBadges();
+});
+function updateCartBadges() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+  ["navCartBadge", "bnCartBadge"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (count > 0) { el.textContent = count > 99 ? "99+" : count; el.style.display = "flex"; }
+    else { el.style.display = "none"; }
+  });
+}
+document.addEventListener("DOMContentLoaded", updateCartBadges);
 </script>
 </body>
 </html>

@@ -75,6 +75,7 @@
       <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
     </a>
     <div class="d-flex align-items-center gap-3">
+      <a id="navProfileLink" href="profile.html" class="nav-link" title="Mon profil"><i class="bi bi-person-circle" style="font-size:1.3rem;"></i></a>
       <a href="home.html" class="btn btn-light btn-sm"><i class="bi bi-house me-1"></i>Accueil</a>
       <div class="avatar" id="user-avatar" style="width:36px;height:36px;font-size:0.8rem">U</div>
     </div>
@@ -246,5 +247,95 @@
   <a href="contact.html" class="active"><i class="bi bi-chat-dots"></i><span>Contact</span></a>
   <a href="profile.html"><i class="bi bi-person"></i><span>Compte</span></a>
 </nav>
+
+<script>
+(function(){
+  const token = localStorage.getItem("token");
+  const profileLink = document.getElementById("navProfileLink");
+  const cartBadge = document.getElementById("navCartBadge");
+  if (profileLink) profileLink.href = token ? "profile.html" : "login.html";
+  if (cartBadge) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+    if (count > 0) { cartBadge.textContent = count; cartBadge.style.display = "flex"; }
+  }
+})();
+</script>
+
+<!-- BOTTOM NAV MOBILE -->
+<nav class="bottom-nav d-md-none">
+  <a href="home.html" class="bottom-nav-item" id="bnHome">
+    <i class="bi bi-house-fill"></i><span>Accueil</span>
+  </a>
+  <a href="search.html" class="bottom-nav-item" id="bnSearch">
+    <i class="bi bi-search"></i><span>Chercher</span>
+  </a>
+  <a href="favorites.html" class="bottom-nav-item" id="bnFavs">
+    <i class="bi bi-heart"></i><span>Favoris</span>
+  </a>
+  <a href="cart.html" class="bottom-nav-item" id="bnCart" style="position:relative;">
+    <i class="bi bi-bag"></i>
+    <span class="bn-badge" id="bnCartBadge" style="display:none;"></span>
+    <span>Panier</span>
+  </a>
+  <a href="profile.html" class="bottom-nav-item" id="bnProfile">
+    <i class="bi bi-person"></i><span>Profil</span>
+  </a>
+</nav>
+<style>
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid #E2E8F0;
+  display: flex; justify-content: space-around; align-items: center;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+}
+.bottom-nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px; text-decoration: none; color: #94A3B8;
+  font-size: 0.65rem; font-weight: 600; padding: 4px 12px;
+  border-radius: 10px; transition: all 0.2s; position: relative;
+}
+.bottom-nav-item.active { color: #2563EB; }
+.bottom-nav-item i { font-size: 1.3rem; }
+.bn-badge {
+  position: absolute; top: 0; right: 6px;
+  background: #EF4444; color: white; border-radius: 50%;
+  width: 16px; height: 16px; font-size: 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; border: 2px solid white;
+}
+body { padding-bottom: 70px; }
+@media (min-width: 768px) { body { padding-bottom: 0; } }
+</style>
+<script>
+(function(){
+  const path = window.location.pathname.split("/").pop();
+  const map = { "home.html":"bnHome","search.html":"bnSearch","favorites.html":"bnFavs","cart.html":"bnCart","profile.html":"bnProfile" };
+  if (map[path]) { const el=document.getElementById(map[path]); if(el) el.classList.add("active"); }
+  const cart = JSON.parse(localStorage.getItem("cart")||"[]");
+  const count = cart.reduce((s,i)=>s+(i.quantity||1),0);
+  const badge = document.getElementById("bnCartBadge");
+  if (badge && count > 0) { badge.textContent = count; badge.style.display = "flex"; }
+})();
+</script>
+
+<script>
+// Sync panier en temps réel
+window.addEventListener("storage", function(e) {
+  if (e.key === "cart") updateCartBadges();
+});
+function updateCartBadges() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+  ["navCartBadge", "bnCartBadge"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (count > 0) { el.textContent = count > 99 ? "99+" : count; el.style.display = "flex"; }
+    else { el.style.display = "none"; }
+  });
+}
+document.addEventListener("DOMContentLoaded", updateCartBadges);
+</script>
 </body>
 </html>

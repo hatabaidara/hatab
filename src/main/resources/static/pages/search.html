@@ -249,6 +249,7 @@
       </ul>
     </div>
     <div class="d-flex align-items-center gap-3">
+      <a id="navProfileLink" href="profile.html" class="nav-link" title="Mon profil"><i class="bi bi-person-circle" style="font-size:1.3rem;"></i></a>
       <a href="cart.html" class="btn btn-light btn-sm position-relative">
         <i class="bi bi-bag"></i>
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
@@ -643,5 +644,37 @@
   <a href="favorites.html" class="mobile-nav-item"><i class="bi bi-heart"></i><span>Favoris</span></a>
   <a href="login.html" class="mobile-nav-item"><i class="bi bi-person"></i><span>Compte</span></a>
 </nav>
+
+<script>
+(function(){
+  const token = localStorage.getItem("token");
+  const profileLink = document.getElementById("navProfileLink");
+  const cartBadge = document.getElementById("navCartBadge");
+  if (profileLink) profileLink.href = token ? "profile.html" : "login.html";
+  if (cartBadge) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+    if (count > 0) { cartBadge.textContent = count; cartBadge.style.display = "flex"; }
+  }
+})();
+</script>
+
+<script>
+// Sync panier en temps réel
+window.addEventListener("storage", function(e) {
+  if (e.key === "cart") updateCartBadges();
+});
+function updateCartBadges() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+  ["navCartBadge", "bnCartBadge"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (count > 0) { el.textContent = count > 99 ? "99+" : count; el.style.display = "flex"; }
+    else { el.style.display = "none"; }
+  });
+}
+document.addEventListener("DOMContentLoaded", updateCartBadges);
+</script>
 </body>
 </html>
