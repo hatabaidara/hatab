@@ -214,7 +214,91 @@
     }
 
     .sticky-buy-bar { display: none; }
-</style>
+
+  /* PRODUCT DETAIL MOBILE AMELIORE */
+  @media (max-width: 768px) {
+    /* Prix rouge comme Jumia */
+    .price-main {
+      font-size: 1.6rem !important;
+      color: #E53E3E !important;
+      font-weight: 900 !important;
+    }
+
+    /* Navbar compact */
+    .navbar { padding: 8px 12px !important; }
+    .navbar-brand { font-size: 1rem !important; }
+
+    /* Image produit plein ecran */
+    .product-img-wrapper {
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    /* Info card sans bordure */
+    .info-card {
+      border-radius: 20px 20px 0 0 !important;
+      padding: 20px 16px !important;
+      border: none !important;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08) !important;
+      margin-top: -20px !important;
+      position: relative !important;
+      z-index: 2 !important;
+    }
+
+    /* Badge categorie */
+    .cat-tag {
+      background: #FEF3C7 !important;
+      color: #92400E !important;
+      font-size: 0.65rem !important;
+    }
+
+    /* Nom produit */
+    #product-name {
+      font-size: 1.1rem !important;
+      font-weight: 700 !important;
+      line-height: 1.3 !important;
+    }
+
+    /* Sticky bar améliorée */
+    .sticky-buy-bar {
+      padding: 10px 12px 24px !important;
+      gap: 8px !important;
+    }
+    .sticky-buy-bar .btn-cart {
+      border-radius: 14px !important;
+      font-size: 0.9rem !important;
+      padding: 14px !important;
+      background: linear-gradient(135deg, #E53E3E, #C53030) !important;
+      box-shadow: 0 4px 16px rgba(229,62,62,0.4) !important;
+    }
+    .sticky-buy-bar .btn-fav {
+      border-radius: 14px !important;
+      padding: 14px 16px !important;
+    }
+
+    /* Quantite */
+    .qty-btn {
+      width: 44px !important;
+      height: 44px !important;
+    }
+    .qty-input {
+      font-size: 1rem !important;
+    }
+
+    /* Section avis mobile */
+    #reviews-section {
+      border-radius: 0 !important;
+      border-left: none !important;
+      border-right: none !important;
+      margin: 0 !important;
+    }
+
+    /* Container */
+    .container { padding: 0 !important; }
+    body { background: white !important; padding-bottom: 90px !important; }
+  }
+
+  </style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">
