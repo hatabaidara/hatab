@@ -2,369 +2,284 @@
 <html lang="fr">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil - Shaoume Global Business</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mon Profil - Shaoume Global Business</title>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Shaoume">
-<script>
-    const _t = localStorage.getItem("token");
-    if (!_t) { window.location.href = "login.html"; }
-  </script>
-
-<style>
-  /* PROFILE MOBILE PREMIUM */
-  @media (max-width: 768px) {
-    .sidebar { display: none !important; }
-    .main-content { margin-left: 0 !important; }
-    .topbar { display: none !important; }
-    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
-    .profile-hero {
-      background: linear-gradient(145deg, #0F172A, #1E3A8A, #2563EB) !important;
-      padding: 32px 20px 70px !important;
-      text-align: center !important;
-      color: white !important;
-      border-radius: 0 0 32px 32px !important;
-      position: relative !important;
-    }
-    .profile-avatar-big {
-      width: 90px !important; height: 90px !important;
-      border-radius: 50% !important;
-      background: linear-gradient(135deg, #60A5FA, #A78BFA) !important;
-      display: flex !important; align-items: center !important; justify-content: center !important;
-      font-size: 2rem !important; font-weight: 800 !important; color: white !important;
-      margin: 0 auto 12px !important;
-      border: 4px solid rgba(255,255,255,0.3) !important;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
-    }
-    .mobile-profile-nav {
-      display: flex !important; align-items: center !important;
-      justify-content: space-between !important;
-      padding: 14px 16px !important; background: white !important;
-      border-bottom: 1px solid #E2E8F0 !important;
-      position: sticky !important; top: 0 !important; z-index: 100 !important;
-    }
-    .content-card {
-      border-radius: 20px !important; margin: 0 12px 14px !important;
-      border: none !important; box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-    }
-    .col-md-4 .content-card { margin-top: -40px !important; position: relative !important; z-index: 2 !important; }
-    .col-md-4, .col-md-8 { width: 100% !important; }
-    .row.g-4 { margin: 0 !important; padding: 0 !important; }
-    .p-4 { padding: 0 !important; }
-    .form-control { font-size: 16px !important; padding: 13px 14px !important; border-radius: 12px !important; background: #F8FAFC !important; }
-    .form-label { font-size: 0.82rem !important; font-weight: 600 !important; color: #475569 !important; }
-    .btn-primary { padding: 14px !important; border-radius: 14px !important; font-size: 0.95rem !important; font-weight: 700 !important; width: 100% !important; }
-    .quick-menu {
-      display: flex !important; flex-direction: column !important;
-      background: white !important; border-radius: 20px !important;
-      margin: 0 12px 14px !important; overflow: hidden !important;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-    }
-    .quick-menu-item {
-      display: flex !important; align-items: center !important; gap: 14px !important;
-      padding: 16px 20px !important; border-bottom: 1px solid #F1F5F9 !important;
-      text-decoration: none !important; color: #0F172A !important;
-      font-weight: 500 !important; font-size: 0.9rem !important;
-    }
-    .quick-menu-item:last-child { border-bottom: none !important; }
-    .quick-menu-item i { font-size: 1.1rem; color: #2563EB; width: 24px; }
-    .quick-menu-item .arrow { margin-left: auto; color: #CBD5E1; }
-    .content-card.mt-4 { margin-top: 0 !important; }
-    .bg-light { background: #F8FAFC !important; border-radius: 12px !important; }
-  }
-</style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: "Inter", sans-serif; }
+    body { background: #F1F5F9; min-height: 100vh; }
+    .navbar { background: white; box-shadow: 0 1px 0 #E2E8F0; padding: 14px 0; }
+    .navbar-brand { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.03em; color: #0F172A !important; }
+    .navbar-brand span { color: #2563EB; }
+    .nav-link { font-weight: 500; font-size: 0.9rem; color: #334155 !important; padding: 6px 12px !important; border-radius: 8px; transition: all 0.2s; }
+    .nav-link:hover { background: #F1F5F9; color: #2563EB !important; }
+    .profile-header { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 45%, #2563EB 100%); padding: 48px 0 80px; position: relative; overflow: hidden; }
+    .profile-header::before { content: ""; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%); border-radius: 50%; }
+    .avatar-wrapper { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, #60A5FA, #A78BFA); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: white; border: 4px solid rgba(255,255,255,0.3); position: relative; flex-shrink: 0; }
+    .avatar-edit { position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; background: #2563EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid white; font-size: 0.7rem; color: white; }
+    .profile-name { font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -0.02em; }
+    .profile-email { color: rgba(255,255,255,0.65); font-size: 0.88rem; }
+    .profile-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: white; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600; }
+    .stats-bar { background: white; border-radius: 16px; padding: 20px 24px; margin-top: -36px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); position: relative; z-index: 10; }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 1.5rem; font-weight: 800; color: #0F172A; letter-spacing: -0.03em; }
+    .stat-label { font-size: 0.75rem; color: #94A3B8; font-weight: 500; margin-top: 2px; }
+    .stat-divider { width: 1px; background: #E2E8F0; }
+    .profile-tabs { border-bottom: 2px solid #E2E8F0; background: white; }
+    .tab-btn { background: none; border: none; padding: 14px 20px; font-weight: 600; font-size: 0.88rem; color: #94A3B8; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+    .tab-btn.active { color: #2563EB; border-bottom-color: #2563EB; }
+    .tab-btn:hover:not(.active) { color: #334155; }
+    .tab-btn i { margin-right: 6px; }
+    .card-section { background: white; border-radius: 16px; padding: 24px; border: none; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .section-title { font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 20px; }
+    .form-label { font-size: 0.82rem; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .form-control, .form-select { border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; color: #0F172A; transition: all 0.2s; }
+    .form-control:focus, .form-select:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    .btn-save { background: #2563EB; color: white; border: none; border-radius: 10px; padding: 11px 24px; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; cursor: pointer; }
+    .btn-save:hover { background: #1D4ED8; transform: translateY(-1px); }
+    .btn-outline-danger { border: 1.5px solid #FEE2E2; color: #EF4444; border-radius: 10px; padding: 11px 24px; font-weight: 600; font-size: 0.9rem; background: #FFF5F5; transition: all 0.2s; cursor: pointer; }
+    .btn-outline-danger:hover { background: #FEE2E2; }
+    .order-card { border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; cursor: pointer; }
+    .order-card:hover { border-color: #BFDBFE; background: #F8FAFF; }
+    .order-id { font-size: 0.82rem; font-weight: 700; color: #2563EB; }
+    .order-date { font-size: 0.78rem; color: #94A3B8; }
+    .order-total { font-size: 1rem; font-weight: 800; color: #0F172A; }
+    .badge-status { font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+    .badge-delivered { background: #DCFCE7; color: #16A34A; }
+    .badge-pending { background: #FEF9C3; color: #CA8A04; }
+    .badge-cancelled { background: #FEE2E2; color: #DC2626; }
+    .badge-shipping { background: #DBEAFE; color: #2563EB; }
+    .fav-card { border: 1.5px solid #E2E8F0; border-radius: 12px; overflow: hidden; transition: all 0.2s; }
+    .fav-card:hover { border-color: #BFDBFE; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.1); }
+    .fav-img { width: 100%; height: 140px; object-fit: cover; background: #F1F5F9; display: flex; align-items: center; justify-content: center; }
+    .fav-body { padding: 12px; }
+    .fav-name { font-size: 0.85rem; font-weight: 600; color: #0F172A; }
+    .fav-price { font-size: 1rem; font-weight: 800; color: #2563EB; }
+    .btn-fav-remove { background: none; border: none; color: #CBD5E1; padding: 4px; cursor: pointer; transition: color 0.2s; }
+    .btn-fav-remove:hover { color: #EF4444; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #F1F5F9; }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label { font-size: 0.9rem; font-weight: 600; color: #0F172A; }
+    .setting-desc { font-size: 0.78rem; color: #94A3B8; margin-top: 2px; }
+    .form-switch .form-check-input { width: 44px; height: 24px; cursor: pointer; }
+    .form-check-input:checked { background-color: #2563EB; border-color: #2563EB; }
+    .danger-zone { border: 1.5px solid #FEE2E2; border-radius: 16px; padding: 24px; background: #FFFAFA; }
+    .danger-title { font-size: 0.9rem; font-weight: 700; color: #EF4444; margin-bottom: 4px; }
+    .danger-desc { font-size: 0.82rem; color: #94A3B8; }
+    .tab-content-section { display: none; }
+    .tab-content-section.active { display: block; }
+    .toast-custom { position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: #0F172A; color: white; border-radius: 12px; padding: 14px 20px; font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 10px; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+    .toast-custom.show { transform: translateY(0); opacity: 1; }
+    .toast-custom i { color: #4ADE80; font-size: 1.1rem; }
+    @media (max-width: 768px) { .tab-btn { padding: 12px 14px; font-size: 0.8rem; } .tab-btn span { display: none; } .tab-btn i { margin-right: 0; font-size: 1.1rem; } }
+  </style>
 </head>
 <body>
-
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand">
-    <h5><i class="bi bi-globe2 me-2"></i>Shaoume <span>Global</span></h5>
-    <small style="color:rgba(255,255,255,0.4);font-size:0.75rem">Business Platform</small>
-  </div>
-  <nav class="py-3">
-    <ul class="nav flex-column">
-      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="bi bi-grid"></i> Dashboard</a></li>
-      <li class="nav-item"><a href="products.html" class="nav-link"><i class="bi bi-box-seam"></i> Produits</a></li>
-      <li class="nav-item"><a href="categories.html" class="nav-link"><i class="bi bi-tags"></i> Catégories</a></li>
-      <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-bag-check"></i> Commandes</a></li>
-      <li class="nav-item"><a href="users.html" class="nav-link"><i class="bi bi-people"></i> Utilisateurs</a></li>
-      <li class="nav-item"><a href="reviews.html" class="nav-link"><i class="bi bi-star"></i> Avis</a></li>
-      <div class="px-3 py-2 mt-2">
-        <small style="color:rgba(255,255,255,0.3);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em">Mon Compte</small>
-      </div>
-      <li class="nav-item"><a href="profile.html" class="nav-link active"><i class="bi bi-person"></i> Profil</a></li>
-      <li class="nav-item"><a href="#" class="nav-link text-danger" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
-    </ul>
-  </nav>
-</aside>
-
-<!-- MAIN -->
-<div class="main-content">
-  <div class="topbar">
-    <div class="d-flex align-items-center gap-3">
-      <button class="btn btn-light btn-sm d-md-none" onclick="document.getElementById('sidebar').classList.toggle('show')">
-        <i class="bi bi-list fs-5"></i>
-      </button>
-      <span class="topbar-title">Mon Profil</span>
-    </div>
-    <div class="topbar-user">
-      <div class="avatar" id="user-avatar">AD</div>
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="home.html">Shaoume<span>.</span></a>
+    <div class="d-flex align-items-center gap-2">
+      <a href="home.html" class="nav-link"><i class="bi bi-house"></i></a>
+      <a href="cart.html" class="nav-link"><i class="bi bi-bag"></i></a>
     </div>
   </div>
-
-  <div class="p-4">
-    <div class="row g-4">
-
-      <!-- Carte profil -->
-      <div class="col-md-4">
-        <div class="content-card text-center p-4">
-          <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-bold"
-            style="width:80px;height:80px;font-size:1.8rem" id="profile-avatar">AD</div>
-          <h5 class="fw-bold mb-1" id="profile-name">...</h5>
-          <p class="text-muted mb-2" id="profile-email" style="font-size:0.9rem">...</p>
-          <span class="badge bg-primary" id="profile-role">USER</span>
-          <hr class="my-3">
-          <div class="text-start">
-            <div class="d-flex align-items-center gap-2 mb-2 text-muted" style="font-size:0.85rem">
-              <i class="bi bi-phone text-primary"></i>
-              <span id="profile-phone">-</span>
-            </div>
-            <div class="d-flex align-items-center gap-2 mb-2 text-muted" style="font-size:0.85rem">
-              <i class="bi bi-geo-alt text-primary"></i>
-              <span id="profile-city">-</span>
-            </div>
-            <div class="d-flex align-items-center gap-2 text-muted" style="font-size:0.85rem">
-              <i class="bi bi-calendar text-primary"></i>
-              <span id="profile-date">-</span>
-            </div>
-          </div>
-        </div>
+</nav>
+<div class="profile-header">
+  <div class="container">
+    <div class="d-flex align-items-center gap-4">
+      <div class="avatar-wrapper" id="avatarCircle">
+        <span id="avatarInitials">?</span>
+        <div class="avatar-edit" onclick="document.getElementById('avatarInput').click()"><i class="bi bi-camera-fill"></i></div>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="changeAvatar(this)">
       </div>
-
-      <!-- Formulaire modification -->
-      <div class="col-md-8">
-        <div class="content-card">
-          <div class="content-card-header">
-            <h6><i class="bi bi-pencil me-2 text-primary"></i>Modifier mon profil</h6>
-          </div>
-          <div class="content-card-body">
-            <form id="profile-form">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label">Prénom</label>
-                  <input type="text" id="p-firstName" class="form-control" placeholder="Prénom">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Nom</label>
-                  <input type="text" id="p-lastName" class="form-control" placeholder="Nom">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Téléphone</label>
-                  <input type="tel" id="p-phone" class="form-control" placeholder="+224 600 000 000">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Ville</label>
-                  <input type="text" id="p-city" class="form-control" placeholder="Conakry">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Pays</label>
-                  <input type="text" id="p-country" class="form-control" placeholder="Guinée">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Code postal</label>
-                  <input type="text" id="p-postalCode" class="form-control" placeholder="00224">
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Adresse</label>
-                  <input type="text" id="p-address" class="form-control" placeholder="Rue, quartier...">
-                </div>
-                <div class="col-12">
-                  <button type="button" id="btn-save-profile" class="btn btn-primary" onclick="saveProfile()">
-                    <i class="bi bi-check-lg me-2"></i>Enregistrer les modifications
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Sécurité -->
-        <div class="content-card mt-4">
-          <div class="content-card-header">
-            <h6><i class="bi bi-shield-lock me-2 text-warning"></i>Sécurité du compte</h6>
-          </div>
-          <div class="content-card-body">
-            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3">
-              <div>
-                <div class="fw-semibold" style="font-size:0.9rem">Mot de passe</div>
-                <div class="text-muted" style="font-size:0.8rem">Dernière modification inconnue</div>
-              </div>
-              <button class="btn btn-outline-warning btn-sm">
-                <i class="bi bi-key me-1"></i>Changer
-              </button>
-            </div>
-            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mt-3">
-              <div>
-                <div class="fw-semibold" style="font-size:0.9rem">Déconnexion</div>
-                <div class="text-muted" style="font-size:0.8rem">Se déconnecter de tous les appareils</div>
-              </div>
-              <button class="btn btn-outline-danger btn-sm" onclick="logout()">
-                <i class="bi bi-box-arrow-right me-1"></i>Déconnexion
-              </button>
-            </div>
-          </div>
-        </div>
+      <div>
+        <div class="profile-name" id="profileName">Chargement...</div>
+        <div class="profile-email" id="profileEmail"></div>
+        <div class="mt-2"><span class="profile-badge" id="profileRole"><i class="bi bi-shield-check me-1"></i>Client</span></div>
       </div>
     </div>
   </div>
 </div>
-
+<div class="container" style="position:relative;z-index:10;margin-top:-36px;">
+  <div class="stats-bar">
+    <div class="row g-0 align-items-center">
+      <div class="col stat-item"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Commandes</div></div>
+      <div class="col-auto stat-divider" style="height:40px;"></div>
+      <div class="col stat-item"><div class="stat-value" id="statFavs">0</div><div class="stat-label">Favoris</div></div>
+      <div class="col-auto stat-divider" style="height:40px;"></div>
+      <div class="col stat-item"><div class="stat-value" id="statTotal">0</div><div class="stat-label">FCFA dépensés</div></div>
+      <div class="col-auto stat-divider" style="height:40px;"></div>
+      <div class="col stat-item"><div class="stat-value" id="statMember">-</div><div class="stat-label">Membre depuis</div></div>
+    </div>
+  </div>
+</div>
+<div class="container mt-4">
+  <div class="profile-tabs rounded-top-3 px-2">
+    <div class="d-flex overflow-auto" style="gap:4px;">
+      <button class="tab-btn active" onclick="switchTab('infos',this)"><i class="bi bi-person-fill"></i><span>Mes infos</span></button>
+      <button class="tab-btn" onclick="switchTab('orders',this)"><i class="bi bi-bag-fill"></i><span>Commandes</span></button>
+      <button class="tab-btn" onclick="switchTab('favorites',this)"><i class="bi bi-heart-fill"></i><span>Favoris</span></button>
+      <button class="tab-btn" onclick="switchTab('settings',this)"><i class="bi bi-gear-fill"></i><span>Paramètres</span></button>
+    </div>
+  </div>
+  <div class="tab-content-section active mt-3" id="tab-infos">
+    <div class="card-section">
+      <div class="section-title">Informations personnelles</div>
+      <div class="row g-3">
+        <div class="col-md-6"><label class="form-label">Prénom</label><input type="text" class="form-control" id="fieldFirstName" placeholder="Votre prénom"></div>
+        <div class="col-md-6"><label class="form-label">Nom</label><input type="text" class="form-control" id="fieldLastName" placeholder="Votre nom"></div>
+        <div class="col-md-6"><label class="form-label">Email</label><input type="email" class="form-control" id="fieldEmail"></div>
+        <div class="col-md-6"><label class="form-label">Téléphone</label><input type="tel" class="form-control" id="fieldPhone" placeholder="+221 7X XXX XX XX"></div>
+        <div class="col-12"><label class="form-label">Adresse de livraison</label><input type="text" class="form-control" id="fieldAddress" placeholder="Votre adresse complète"></div>
+        <div class="col-md-6"><label class="form-label">Ville</label><input type="text" class="form-control" id="fieldCity" placeholder="Dakar"></div>
+        <div class="col-md-6"><label class="form-label">Pays</label><select class="form-select" id="fieldCountry"><option value="SN" selected>Sénégal</option><option value="CI">Côte d'Ivoire</option><option value="ML">Mali</option><option value="GN">Guinée</option><option value="BF">Burkina Faso</option></select></div>
+        <div class="col-12 mt-2"><button class="btn-save" onclick="saveProfile()"><i class="bi bi-check2 me-1"></i> Enregistrer</button></div>
+      </div>
+    </div>
+    <div class="card-section mt-3">
+      <div class="section-title">Changer le mot de passe</div>
+      <div class="row g-3">
+        <div class="col-md-4"><label class="form-label">Mot de passe actuel</label><input type="password" class="form-control" id="oldPassword" placeholder="••••••••"></div>
+        <div class="col-md-4"><label class="form-label">Nouveau mot de passe</label><input type="password" class="form-control" id="newPassword" placeholder="••••••••"></div>
+        <div class="col-md-4"><label class="form-label">Confirmer</label><input type="password" class="form-control" id="confirmPassword" placeholder="••••••••"></div>
+        <div class="col-12"><button class="btn-save" onclick="changePassword()"><i class="bi bi-lock me-1"></i> Changer le mot de passe</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content-section mt-3" id="tab-orders">
+    <div class="card-section">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="section-title mb-0">Mes commandes</div>
+        <select class="form-select form-select-sm w-auto" onchange="filterOrders(this.value)">
+          <option value="all">Toutes</option>
+          <option value="DELIVERED">Livrées</option>
+          <option value="PENDING">En attente</option>
+          <option value="SHIPPING">En livraison</option>
+          <option value="CANCELLED">Annulées</option>
+        </select>
+      </div>
+      <div id="ordersList"><div class="text-center py-4 text-muted"><i class="bi bi-bag-x" style="font-size:2.5rem;opacity:0.3;"></i><div class="mt-2" style="font-size:0.9rem;">Chargement...</div></div></div>
+    </div>
+  </div>
+  <div class="tab-content-section mt-3" id="tab-favorites">
+    <div class="card-section">
+      <div class="section-title">Mes favoris</div>
+      <div id="favoritesList" class="row g-3"></div>
+    </div>
+  </div>
+  <div class="tab-content-section mt-3" id="tab-settings">
+    <div class="card-section">
+      <div class="section-title">Notifications</div>
+      <div class="setting-row"><div><div class="setting-label">Notifications commandes</div><div class="setting-desc">Recevoir des alertes sur vos commandes</div></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div></div>
+      <div class="setting-row"><div><div class="setting-label">Promotions et offres</div><div class="setting-desc">Recevoir les meilleures offres par email</div></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div></div>
+      <div class="setting-row"><div><div class="setting-label">Nouveaux produits</div><div class="setting-desc">Être informé des nouvelles arrivées</div></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div></div>
+    </div>
+    <div class="card-section mt-3">
+      <div class="section-title">Confidentialité</div>
+      <div class="setting-row"><div><div class="setting-label">Profil public</div><div class="setting-desc">Permettre aux autres de voir votre profil</div></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div></div>
+      <div class="setting-row"><div><div class="setting-label">Historique de navigation</div><div class="setting-desc">Sauvegarder vos produits consultés</div></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div></div>
+    </div>
+    <div class="danger-zone mt-3">
+      <div class="danger-title"><i class="bi bi-exclamation-triangle me-1"></i>Zone de danger</div>
+      <div class="danger-desc mb-3">Ces actions sont irréversibles.</div>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn-outline-danger" onclick="confirmLogout()"><i class="bi bi-box-arrow-right me-1"></i> Se déconnecter</button>
+        <button class="btn-outline-danger" onclick="confirmDelete()"><i class="bi bi-trash me-1"></i> Supprimer mon compte</button>
+      </div>
+    </div>
+  </div>
+  <div style="height:40px;"></div>
+</div>
+<div class="toast-custom" id="toast"><i class="bi bi-check-circle-fill"></i><span id="toastMsg">Modifications enregistrées</span></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/app.js"></script>
 <script>
-  if (!checkAuth()) {}
-
-  async function loadProfile() {
+  let allOrders = [];
+  document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem("token");
+    if (!token) { window.location.href = "login.html"; return; }
+    await loadProfile(token);
+    await loadOrders(token);
+    loadFavorites();
+  });
+  async function loadProfile(token) {
     try {
-      const res = await Api.get('/users/me');
-      const u = res.data;
-
-      // Carte profil
-      const initials = (u.firstName?.[0] || '') + (u.lastName?.[0] || '');
-      document.getElementById('profile-avatar').textContent = initials;
-      document.getElementById('user-avatar').textContent = initials;
-      document.getElementById('profile-name').textContent = u.firstName + ' ' + u.lastName;
-      document.getElementById('profile-email').textContent = u.email;
-      document.getElementById('profile-role').textContent = u.role;
-      document.getElementById('profile-phone').textContent = u.phone || 'Non renseigné';
-      document.getElementById('profile-city').textContent = u.city ? u.city + ', ' + (u.country || '') : 'Non renseigné';
-      document.getElementById('profile-date').textContent = 'Inscrit le ' + Format.date(u.createdAt);
-
-      // Formulaire
-      document.getElementById('p-firstName').value = u.firstName || '';
-      document.getElementById('p-lastName').value = u.lastName || '';
-      document.getElementById('p-phone').value = u.phone || '';
-      document.getElementById('p-city').value = u.city || '';
-      document.getElementById('p-country').value = u.country || '';
-      document.getElementById('p-postalCode').value = u.postalCode || '';
-      document.getElementById('p-address').value = u.address || '';
-    } catch(e) {
-      Toast.error('Erreur de chargement du profil');
-    }
+      const res = await fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } });
+      if (!res.ok) { localStorage.removeItem("token"); window.location.href = "login.html"; return; }
+      const u = await res.json();
+      const name = (u.firstName||"") + " " + (u.lastName||"");
+      document.getElementById("profileName").textContent = name.trim() || u.email;
+      document.getElementById("profileEmail").textContent = u.email;
+      document.getElementById("avatarInitials").textContent = getInitials(u.firstName, u.lastName, u.email);
+      document.getElementById("profileRole").innerHTML = "<i class=\"bi bi-shield-check me-1\"></i>" + (u.role==="ADMIN"?"Administrateur":"Client");
+      document.getElementById("fieldFirstName").value = u.firstName||"";
+      document.getElementById("fieldLastName").value = u.lastName||"";
+      document.getElementById("fieldEmail").value = u.email||"";
+      document.getElementById("fieldPhone").value = u.phone||"";
+      document.getElementById("fieldAddress").value = u.address||"";
+      document.getElementById("fieldCity").value = u.city||"";
+      if (u.createdAt) { const d=new Date(u.createdAt); document.getElementById("statMember").textContent=d.toLocaleDateString("fr-FR",{month:"short",year:"numeric"}); }
+    } catch(e) { console.error(e); }
   }
-
+  async function loadOrders(token) {
+    try {
+      const res = await fetch("/api/orders/my", { headers: { Authorization: "Bearer " + token } });
+      if (!res.ok) { renderOrders([]); return; }
+      allOrders = await res.json();
+      renderOrders(allOrders);
+      document.getElementById("statOrders").textContent = allOrders.length;
+      const total = allOrders.filter(o=>o.status==="DELIVERED").reduce((s,o)=>s+(o.totalAmount||0),0);
+      document.getElementById("statTotal").textContent = total>999?Math.round(total/1000)+"k":total;
+    } catch(e) { renderOrders([]); }
+  }
+  function renderOrders(orders) {
+    const el = document.getElementById("ordersList");
+    if (!orders.length) { el.innerHTML="<div class=\"text-center py-5 text-muted\"><i class=\"bi bi-bag-x\" style=\"font-size:2.5rem;opacity:0.3;\"></i><div class=\"mt-2\" style=\"font-size:0.9rem;\">Aucune commande pour l'instant</div><a href=\"home.html\" class=\"btn-save d-inline-block mt-3\" style=\"text-decoration:none;\">Explorer la boutique</a></div>"; return; }
+    el.innerHTML = orders.map(o=>"<div class=\"order-card\"><div class=\"d-flex justify-content-between align-items-start\"><div><div class=\"order-id\">#"+(o.id||o.orderNumber||"—")+"</div><div class=\"order-date\">"+(o.createdAt?new Date(o.createdAt).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}):"—")+"</div></div><div class=\"text-end\"><span class=\"badge-status "+getBadgeClass(o.status)+"\">"+getStatusLabel(o.status)+"</span><div class=\"order-total mt-1\">"+(o.totalAmount||0).toLocaleString("fr-FR")+" FCFA</div></div></div></div>").join("");
+  }
+  function filterOrders(s) { renderOrders(s==="all"?allOrders:allOrders.filter(o=>o.status===s)); }
+  function getBadgeClass(s) { return {DELIVERED:"badge-delivered",PENDING:"badge-pending",CANCELLED:"badge-cancelled",SHIPPING:"badge-shipping"}[s]||"badge-pending"; }
+  function getStatusLabel(s) { return {DELIVERED:"Livré",PENDING:"En attente",CANCELLED:"Annulée",SHIPPING:"En livraison"}[s]||s||"En attente"; }
+  function loadFavorites() {
+    const favs = JSON.parse(localStorage.getItem("favorites")||"[]");
+    document.getElementById("statFavs").textContent = favs.length;
+    const el = document.getElementById("favoritesList");
+    if (!favs.length) { el.innerHTML="<div class=\"col-12 text-center py-5 text-muted\"><i class=\"bi bi-heart\" style=\"font-size:2.5rem;opacity:0.3;\"></i><div class=\"mt-2\" style=\"font-size:0.9rem;\">Aucun favori</div></div>"; return; }
+    el.innerHTML = favs.map((p,i)=>"<div class=\"col-6 col-md-3\"><div class=\"fav-card\"><div class=\"fav-img\">"+(p.imageUrl?"<img loading=\"lazy\" src=\""+p.imageUrl+"\" style=\"width:100%;height:100%;object-fit:cover;\">":"<i class=\"bi bi-image\" style=\"font-size:2rem;color:#CBD5E1;\"></i>")+"</div><div class=\"fav-body\"><div class=\"d-flex justify-content-between\"><div class=\"fav-name\">"+(p.name||"Produit")+"</div><button class=\"btn-fav-remove\" onclick=\"removeFav("+i+")\"><i class=\"bi bi-heart-fill\"></i></button></div><div class=\"fav-price mt-1\">"+(p.price||0).toLocaleString("fr-FR")+" FCFA</div></div></div></div>").join("");
+  }
+  function removeFav(i) { const f=JSON.parse(localStorage.getItem("favorites")||"[]"); f.splice(i,1); localStorage.setItem("favorites",JSON.stringify(f)); loadFavorites(); showToast("Retiré des favoris"); }
   async function saveProfile() {
-    const btn = document.getElementById('btn-save-profile');
-    const data = {
-      firstName: document.getElementById('p-firstName').value.trim(),
-      lastName: document.getElementById('p-lastName').value.trim(),
-      phone: document.getElementById('p-phone').value.trim(),
-      city: document.getElementById('p-city').value.trim(),
-      country: document.getElementById('p-country').value.trim(),
-      postalCode: document.getElementById('p-postalCode').value.trim(),
-      address: document.getElementById('p-address').value.trim(),
-    };
-    Loader.show(btn);
+    const token = localStorage.getItem("token");
+    const data = { firstName:document.getElementById("fieldFirstName").value, lastName:document.getElementById("fieldLastName").value, phone:document.getElementById("fieldPhone").value, address:document.getElementById("fieldAddress").value, city:document.getElementById("fieldCity").value, country:document.getElementById("fieldCountry").value };
     try {
-      await Api.put('/users/me', data);
-      Toast.success('Profil mis à jour avec succès');
-      loadProfile();
-    } catch(e) {
-      Toast.error(e.message || 'Erreur lors de la mise à jour');
-    } finally {
-      Loader.hide(btn);
-    }
+      const res = await fetch("/api/users/profile", { method:"PUT", headers:{"Content-Type":"application/json","Authorization":"Bearer "+token}, body:JSON.stringify(data) });
+      document.getElementById("profileName").textContent = (data.firstName+" "+data.lastName).trim();
+      document.getElementById("avatarInitials").textContent = getInitials(data.firstName,data.lastName,"");
+      showToast(res.ok?"Profil mis à jour ✓":"Erreur lors de la sauvegarde");
+    } catch(e) { showToast("Erreur réseau"); }
   }
-
-  loadProfile();
+  async function changePassword() {
+    const np=document.getElementById("newPassword").value, cp=document.getElementById("confirmPassword").value;
+    if (np!==cp) { showToast("Les mots de passe ne correspondent pas"); return; }
+    if (np.length<6) { showToast("Mot de passe trop court (min 6 car.)"); return; }
+    const token=localStorage.getItem("token");
+    try {
+      const res=await fetch("/api/users/password",{method:"PUT",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({oldPassword:document.getElementById("oldPassword").value,newPassword:np})});
+      showToast(res.ok?"Mot de passe changé ✓":"Mot de passe actuel incorrect");
+      if(res.ok){document.getElementById("oldPassword").value="";document.getElementById("newPassword").value="";document.getElementById("confirmPassword").value="";}
+    } catch(e){showToast("Erreur réseau");}
+  }
+  function changeAvatar(input) { const f=input.files[0]; if(!f)return; const r=new FileReader(); r.onload=e=>{const a=document.getElementById("avatarCircle");a.style.backgroundImage="url("+e.target.result+")";a.style.backgroundSize="cover";document.getElementById("avatarInitials").style.display="none";showToast("Photo mise à jour");}; r.readAsDataURL(f); }
+  function switchTab(name,btn) { document.querySelectorAll(".tab-content-section").forEach(el=>el.classList.remove("active")); document.querySelectorAll(".tab-btn").forEach(el=>el.classList.remove("active")); document.getElementById("tab-"+name).classList.add("active"); btn.classList.add("active"); }
+  function confirmLogout() { if(confirm("Se déconnecter ?")){localStorage.removeItem("token");localStorage.removeItem("user");window.location.href="login.html";} }
+  function confirmDelete() { showToast("Contactez le support pour supprimer votre compte"); }
+  function getInitials(f,l,e) { if(f&&l)return(f[0]+l[0]).toUpperCase(); if(f)return f[0].toUpperCase(); if(e)return e[0].toUpperCase(); return"?"; }
+  function showToast(msg) { const t=document.getElementById("toast"); document.getElementById("toastMsg").textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
+  if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js");
 </script>
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
-    }
-  </script>
-
-<!-- BOTTOM NAV MOBILE -->
-<nav style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #E2E8F0;z-index:9999;padding:8px 0 16px;box-shadow:0 -4px 24px rgba(0,0,0,0.08);" id="profileNav">
-  <style>
-  /* PROFILE MOBILE PREMIUM */
-  @media (max-width: 768px) {
-    .sidebar { display: none !important; }
-    .main-content { margin-left: 0 !important; }
-    .topbar { display: none !important; }
-    body { background: #F1F5F9 !important; padding-bottom: 80px !important; }
-    .profile-hero {
-      background: linear-gradient(145deg, #0F172A, #1E3A8A, #2563EB) !important;
-      padding: 32px 20px 70px !important;
-      text-align: center !important;
-      color: white !important;
-      border-radius: 0 0 32px 32px !important;
-      position: relative !important;
-    }
-    .profile-avatar-big {
-      width: 90px !important; height: 90px !important;
-      border-radius: 50% !important;
-      background: linear-gradient(135deg, #60A5FA, #A78BFA) !important;
-      display: flex !important; align-items: center !important; justify-content: center !important;
-      font-size: 2rem !important; font-weight: 800 !important; color: white !important;
-      margin: 0 auto 12px !important;
-      border: 4px solid rgba(255,255,255,0.3) !important;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
-    }
-    .mobile-profile-nav {
-      display: flex !important; align-items: center !important;
-      justify-content: space-between !important;
-      padding: 14px 16px !important; background: white !important;
-      border-bottom: 1px solid #E2E8F0 !important;
-      position: sticky !important; top: 0 !important; z-index: 100 !important;
-    }
-    .content-card {
-      border-radius: 20px !important; margin: 0 12px 14px !important;
-      border: none !important; box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-    }
-    .col-md-4 .content-card { margin-top: -40px !important; position: relative !important; z-index: 2 !important; }
-    .col-md-4, .col-md-8 { width: 100% !important; }
-    .row.g-4 { margin: 0 !important; padding: 0 !important; }
-    .p-4 { padding: 0 !important; }
-    .form-control { font-size: 16px !important; padding: 13px 14px !important; border-radius: 12px !important; background: #F8FAFC !important; }
-    .form-label { font-size: 0.82rem !important; font-weight: 600 !important; color: #475569 !important; }
-    .btn-primary { padding: 14px !important; border-radius: 14px !important; font-size: 0.95rem !important; font-weight: 700 !important; width: 100% !important; }
-    .quick-menu {
-      display: flex !important; flex-direction: column !important;
-      background: white !important; border-radius: 20px !important;
-      margin: 0 12px 14px !important; overflow: hidden !important;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-    }
-    .quick-menu-item {
-      display: flex !important; align-items: center !important; gap: 14px !important;
-      padding: 16px 20px !important; border-bottom: 1px solid #F1F5F9 !important;
-      text-decoration: none !important; color: #0F172A !important;
-      font-weight: 500 !important; font-size: 0.9rem !important;
-    }
-    .quick-menu-item:last-child { border-bottom: none !important; }
-    .quick-menu-item i { font-size: 1.1rem; color: #2563EB; width: 24px; }
-    .quick-menu-item .arrow { margin-left: auto; color: #CBD5E1; }
-    .content-card.mt-4 { margin-top: 0 !important; }
-    .bg-light { background: #F8FAFC !important; border-radius: 12px !important; }
-  }
-</style>
-  <a href="home.html"><i class="bi bi-house"></i><span>Accueil</span></a>
-  <a href="search.html"><i class="bi bi-search"></i><span>Recherche</span></a>
-  <a href="cart.html"><i class="bi bi-bag"></i><span>Panier</span></a>
-  <a href="my-orders.html"><i class="bi bi-box"></i><span>Commandes</span></a>
-  <a href="profile.html" class="active"><i class="bi bi-person-fill"></i><span>Compte</span></a>
-</nav>
 </body>
 </html>
