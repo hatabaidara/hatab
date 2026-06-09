@@ -13,6 +13,7 @@
   <link href="../assets/css/style.css" rel="stylesheet">
   <style>
     * { font-family: 'Inter', sans-serif; }
+    body { overflow-x: hidden; max-width: 100vw; }
 
     /* ── NAVBAR ── */
     .navbar {
@@ -155,7 +156,7 @@
       .hero-search { padding: 0 8px !important; }
       .hero-search input { font-size: 0.85rem !important; min-width: 0; }
       .hero-search button { padding: 12px 14px !important; font-size: 0.85rem !important; flex-shrink: 0; white-space: nowrap; }
-      .navbar-collapse { background: white; padding: 16px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-top: 8px; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; }
+      .navbar-collapse { background: white; padding: 16px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-top: 8px; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; width: 100%; max-width: 100vw; overflow-x: hidden; box-sizing: border-box; }
       .navbar-collapse .nav-link { padding: 12px 0; border-bottom: 1px solid #F1F5F9; font-weight: 600; color: #1e293b !important; }
       .navbar-collapse .d-flex { flex-direction: column; align-items: stretch !important; gap: 8px !important; margin-top: 12px; }
       .navbar-collapse .btn { width: 100%; text-align: center; justify-content: center; }
@@ -1253,8 +1254,8 @@
     grid.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
     try {
       let url = `/products?page=${page}&size=12&sort=${sort}`;
-      if (kw) url = `/products/search?keyword=${kw}&page=${page}&size=12`;
-      else if (currentCategory) url = `/products/category/${currentCategory}?page=${page}&size=12`;
+      if (kw) url = `/products/search?keyword=${kw}&page=${page}&size=12&sort=${sort}`;
+      else if (currentCategory) url = `/products/category/${currentCategory}?page=${page}&size=12&sort=${sort}`;
       const res = await Api.get(url);
       const data = res.data;
       const products = data?.content || [];
