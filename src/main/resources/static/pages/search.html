@@ -207,6 +207,29 @@
     }
   }
 
+
+    /* Fix text overflow dans cards */
+    @media (max-width: 768px) {
+      #results-container .product-card { overflow: hidden !important; }
+      #results-container .p-3, #results-container .p-2 { padding: 8px !important; overflow: hidden !important; }
+      #results-container .fw-bold, #results-container .fw-semibold {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: block !important;
+        max-width: 100% !important;
+      }
+      #results-container .text-primary.fw-bold {
+        font-size: 0.82rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+      }
+      #results-container img {
+        width: 100% !important;
+        height: 130px !important;
+        object-fit: cover !important;
+      }
+    }
 </style>
 <body>
 
