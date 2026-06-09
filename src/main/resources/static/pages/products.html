@@ -571,9 +571,18 @@
   async function deleteProduct(id) {
     if (!confirm('Confirmer la suppression de ce produit ?')) return;
     try {
-      await Api.delete('/products/' + id);
-      Toast.success('Produit supprimé');
-      loadProducts(currentPage);
+      const token = Auth.getToken();
+      const res = await fetch('/products/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (res.ok || res.status === 204) {
+        Toast.success('Produit supprimé');
+        setTimeout(() => loadProducts(currentPage), 500);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        Toast.error(data.message || 'Erreur ' + res.status);
+      }
     } catch(e) {
       Toast.error(e.message || 'Erreur lors de la suppression');
     }
