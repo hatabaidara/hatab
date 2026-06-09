@@ -105,9 +105,17 @@
         margin-top: 12px !important;
       }
     }
-    .mobile-logo { display: none; } .left-panel { display: none !important; } .right-panel { padding: 0 !important; background: transparent !important; align-items: flex-start !important; }
+    .mobile-logo { display: none; } .right-panel { padding: 0 !important; background: transparent !important; align-items: flex-start !important; }
 
-  </style>
+  
+  @media (max-width: 768px) {
+    body { overflow-x: hidden !important; }
+    #leftPanel { display: none !important; width: 0 !important; overflow: hidden !important; }
+    .left-panel { display: none !important; width: 0 !important; }
+    .right-panel { width: 100% !important; max-width: 100% !important; padding: 0 !important; background: transparent !important; }
+    body { display: block !important; }
+  }
+</style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">
@@ -132,7 +140,7 @@
   }
 </script>
 
-<div class="left-panel">
+<div class="left-panel" id="leftPanel">
   <div class="left-brand"><i class="bi bi-globe2 me-2"></i>Shaoume <span>Global</span></div>
   <div class="left-content">
     <h2>Rejoignez<br>notre <span>communaute</span> 🚀</h2>
