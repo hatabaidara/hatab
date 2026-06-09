@@ -151,7 +151,7 @@
         <div class="content-card">
           <div class="content-card-header">
             <h6><i class="bi bi-bar-chart me-2 text-primary"></i>Commandes par mois</h6>
-            <span class="badge bg-primary-subtle text-primary">2024</span>
+            <span class="badge bg-primary-subtle text-primary" id="yearBadge">2026</span>
           </div>
           <div class="content-card-body">
             <canvas id="ordersChart" height="100"></canvas>
@@ -475,7 +475,29 @@
       }
     } catch(e) {}
 
-    document.getElementById('stat-revenue').textContent = 'XOF --';
+    // Calcul revenu depuis les commandes
+    try {
+      const revRes = await fetch('/api/orders/revenue', { headers: { Authorization: 'Bearer ' + token } });
+      if (revRes.ok) {
+        const revData = await revRes.json();
+        const amount = revData.total || revData.revenue || revData.totalRevenue || 0;
+        document.getElementById('stat-revenue').textContent = amount.toLocaleString('fr-FR') + ' FCFA';
+      } else {
+        // Calculer depuis les commandes déjà chargées
+        const ordersRes = await fetch('/api/orders', { headers: { Authorization: 'Bearer ' + token } });
+        if (ordersRes.ok) {
+          const orders = await ordersRes.json();
+          const total = (Array.isArray(orders) ? orders : orders.content || [])
+            .filter(o => o.status === 'DELIVERED')
+            .reduce((s, o) => s + (o.totalAmount || 0), 0);
+          document.getElementById('stat-revenue').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+        } else {
+          document.getElementById('stat-revenue').textContent = '0 FCFA';
+        }
+      }
+    } catch(e) {
+      document.getElementById('stat-revenue').textContent = '0 FCFA';
+    }
   }
 
   async function logout() {
