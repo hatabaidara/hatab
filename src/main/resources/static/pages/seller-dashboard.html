@@ -225,9 +225,11 @@
     <a class="navbar-brand fw-bold text-primary" href="home.html">
       <i class="bi bi-globe2 me-2"></i>Shaoume <span class="text-dark">Global</span>
     </a>
-    <div class="d-flex align-items-center gap-3">
+    <div class="d-flex align-items-center gap-2">
+      <!-- Mobile: juste icones -->
       <a href="seller-publish.html" class="btn btn-primary btn-sm" style="border-radius:10px">
-        <i class="bi bi-plus-lg me-1"></i>Publier un produit
+        <i class="bi bi-plus-lg"></i>
+        <span class="d-none d-md-inline ms-1">Publier un produit</span>
       </a>
       <div class="position-relative">
         <button class="btn btn-light btn-sm" onclick="toggleNotifs()" style="border-radius:10px">
@@ -235,11 +237,21 @@
           <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="notif-badge" style="display:none;font-size:0.65rem">0</span>
         </button>
       </div>
-      <a href="home.html" class="btn btn-light btn-sm" style="border-radius:10px"><i class="bi bi-shop me-1"></i>Boutique</a>
+      <a href="home.html" class="btn btn-light btn-sm d-none d-md-inline-flex" style="border-radius:10px"><i class="bi bi-shop me-1"></i>Boutique</a>
       <div class="avatar" id="user-avatar" style="width:36px;height:36px;font-size:0.8rem">S</div>
     </div>
   </div>
 </nav>
+
+<!-- HERO MOBILE VENDEUR -->
+<div class="d-md-none" style="background:linear-gradient(145deg,#0F172A,#1E3A8A,#F59E0B);padding:20px 16px 32px;border-radius:0 0 28px 28px;margin-bottom:16px">
+  <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:4px">Espace Vendeur</div>
+  <div style="font-size:1.2rem;font-weight:800;color:white">Bienvenue, <span id="seller-name-mobile">Vendeur</span> 👋</div>
+  <div style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-top:4px">Gérez vos produits et ventes</div>
+  <a href="seller-publish.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:8px 16px;font-size:0.85rem;font-weight:600;text-decoration:none">
+    <i class="bi bi-plus-lg"></i> Nouveau produit
+  </a>
+</div>
 
 <div class="container-fluid px-4 py-4">
 
