@@ -6,128 +6,267 @@
   <title>Shaoume Global Business</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #1E293B 0%, #2563EB 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .splash-card {
-      background: white;
-      border-radius: 20px;
-      padding: 50px 40px;
-      text-align: center;
-      max-width: 480px;
-      width: 90%;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-    }
-    .logo { font-size: 3rem; color: #2563EB; margin-bottom: 10px; }
-    .brand { font-size: 1.8rem; font-weight: 800; color: #1E293B; }
-    .brand span { color: #2563EB; }
-    .tagline { color: #64748B; margin-bottom: 40px; }
-    .btn-start {
-      background: #2563EB;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 40px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn-start:hover {
-      background: #1D4ED8;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37,99,235,0.4);
-      color: white;
-    }
-    .btn-secondary-link {
-      display: block;
-      margin-top: 16px;
-      color: #64748B;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .btn-secondary-link:hover { color: #2563EB; }
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin: 32px 0;
-      flex-wrap: wrap;
-    }
-    .feature {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      color: #64748B;
-    }
-    .feature i { font-size: 1.5rem; color: #2563EB; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Shaoume">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: "Inter", sans-serif;
+      background: #0F172A;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, #0F172A 0%, #1E3A8A 50%, #F59E0B 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -150px; left: -150px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    /* LOGO */
+    .logo-wrap {
+      position: relative; z-index: 1;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo-icon {
+      width: 90px; height: 90px;
+      background: linear-gradient(135deg, #2563EB, #F59E0B);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; color: white;
+      margin: 0 auto 16px;
+      box-shadow: 0 20px 40px rgba(245,158,11,0.3);
+    }
+    .brand-name {
+      font-size: 2rem; font-weight: 900;
+      color: white; letter-spacing: -0.04em;
+    }
+    .brand-name span { color: #F59E0B; }
+    .tagline {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem; margin-top: 8px;
+    }
+
+    /* STATS */
+    .stats-row {
+      display: flex; gap: 24px;
+      margin: 24px 0;
+      position: relative; z-index: 1;
+    }
+    .stat {
+      text-align: center;
+      color: white;
+    }
+    .stat-value {
+      font-size: 1.4rem; font-weight: 800;
+      color: #F59E0B;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .stat-divider {
+      width: 1px; background: rgba(255,255,255,0.15);
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+      width: 100%;
+      max-width: 400px;
+      position: relative; z-index: 1;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+      color: white;
+    }
+    .feature-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .feature-text { font-size: 0.78rem; font-weight: 600; }
+
+    /* BUTTONS */
+    .btn-wrap {
+      display: flex; flex-direction: column;
+      gap: 12px; width: 100%; max-width: 360px;
+      position: relative; z-index: 1;
+      margin-top: 8px;
+    }
+    .btn-main {
+      background: linear-gradient(135deg, #F59E0B, #EF4444);
+      color: white; border: none;
+      border-radius: 16px; padding: 18px;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 8px 24px rgba(245,158,11,0.4);
+      transition: all 0.2s;
+    }
+    .btn-main:hover { transform: translateY(-2px); color: white; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white; border-radius: 16px; padding: 16px;
+      font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.15); color: white; }
+
+    /* FOOTER */
+    .splash-footer {
+      margin-top: 32px;
+      text-align: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.75rem;
+      position: relative; z-index: 1;
+    }
+
+    /* CATEGORIES PILLS */
+    .cat-pills {
+      display: flex; gap: 8px;
+      flex-wrap: wrap; justify-content: center;
+      margin: 20px 0;
+      position: relative; z-index: 1;
+    }
+    .cat-pill {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.8);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cat-pill:hover { background: rgba(245,158,11,0.3); color: white; border-color: #F59E0B; }
+  </style>
 </head>
 <body>
-  <div class="splash-card">
-    <div class="logo"><i class="bi bi-globe2"></i></div>
-    <div class="brand">Shaoume <span>Global</span></div>
-    <p class="tagline mt-2">Votre plateforme e-commerce professionnelle</p>
+  <div class="hero">
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo-icon"><i class="bi bi-globe2"></i></div>
+      <div class="brand-name">Shaoume <span>Global</span></div>
+      <p class="tagline">Shopping moderne & sans frontieres</p>
+    </div>
 
-    <div class="features">
-      <div class="feature">
-        <i class="bi bi-shield-check"></i>
-        <span>Sécurisé</span>
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-value">59+</div>
+        <div class="stat-label">Produits</div>
       </div>
-      <div class="feature">
-        <i class="bi bi-lightning-charge"></i>
-        <span>Rapide</span>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Categories</div>
       </div>
-      <div class="feature">
-        <i class="bi bi-phone"></i>
-        <span>Responsive</span>
-      </div>
-      <div class="feature">
-        <i class="bi bi-truck"></i>
-        <span>Livraison</span>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-value">24h</div>
+        <div class="stat-label">Livraison</div>
       </div>
     </div>
 
-    <a href="pages/home.html" class="btn-start">
-      <i class="bi bi-shop me-2"></i>Accéder à la boutique
-    </a>
-    <a href="pages/login.html" class="btn-secondary-link">
-      <i class="bi bi-person me-1"></i>Se connecter à son compte
-    </a>
+    <!-- Categories -->
+    <div class="cat-pills">
+      <a href="pages/home.html?category=1" class="cat-pill">📱 Electronique</a>
+      <a href="pages/home.html?category=2" class="cat-pill">👗 Mode</a>
+      <a href="pages/home.html?category=3" class="cat-pill">🏠 Maison</a>
+      <a href="pages/home.html?category=4" class="cat-pill">💄 Beaute</a>
+    </div>
 
-    <div class="mt-4 pt-4 border-top">
-      <p style="font-size:0.8rem;color:#94A3B8;margin:0">
-        <i class="bi bi-lock me-1"></i>
-        Connexion sécurisée JWT • API Spring Boot
-      </p>
+    <!-- Features -->
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(37,99,235,0.3)">
+          <i class="bi bi-shield-check" style="color:#60A5FA"></i>
+        </div>
+        <div class="feature-text">Paiement securise</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(245,158,11,0.3)">
+          <i class="bi bi-truck" style="color:#FCD34D"></i>
+        </div>
+        <div class="feature-text">Livraison rapide</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(16,185,129,0.3)">
+          <i class="bi bi-arrow-repeat" style="color:#6EE7B7"></i>
+        </div>
+        <div class="feature-text">Retour gratuit</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(239,68,68,0.3)">
+          <i class="bi bi-headset" style="color:#FCA5A5"></i>
+        </div>
+        <div class="feature-text">Support 24/7</div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-wrap">
+      <a href="pages/home.html" class="btn-main">
+        <i class="bi bi-shop"></i> Acceder a la boutique
+      </a>
+      <a href="pages/login.html" class="btn-secondary">
+        <i class="bi bi-person"></i> Se connecter
+      </a>
+    </div>
+
+    <div class="splash-footer">
+      <i class="bi bi-lock me-1"></i>
+      Site securise SSL • Shaoume Global Business © 2026
     </div>
   </div>
 
   <script src="assets/js/app.js"></script>
   <script>
-    // Redirection automatique si déjà connecté
     if (Auth.isLogged()) {
       window.location.href = Auth.isAdmin()
-        ? 'pages/dashboard.html'
-        : 'pages/home.html';
+        ? "pages/dashboard.html"
+        : "pages/home.html";
     }
   </script>
   <script>
