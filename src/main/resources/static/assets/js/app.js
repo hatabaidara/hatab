@@ -224,3 +224,7 @@ function buildPagination(containerId, totalPages, currentPage, onPageChange) {
 function confirmDialog(message) {
   return new Promise(resolve => { resolve(window.confirm(message)); });
 }
+// Keep server alive - ping every 14 minutes
+setInterval(() => {
+  fetch('/api/health').catch(() => {});
+}, 14 * 60 * 1000);
