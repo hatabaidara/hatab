@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@org.springframework.data.web.config.EnableSpringDataWebSupport(pageSerializationMode = org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 @org.springframework.data.jpa.repository.config.EnableJpaAuditing
 @ComponentScan(basePackages = "com.shaoume")
 public class ShaoumeglobalBusinessApplication {
