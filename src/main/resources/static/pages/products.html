@@ -407,7 +407,8 @@
       const res = await Api.get(url);
       const data = res?.data || res;
       const products = data?.content || (Array.isArray(data) ? data : []);
-      const total = data?.totalElements || products.length || 0;
+      const total = data?.page?.totalElements || data?.totalElements || products.length || 0;
+      const totalPages = data?.page?.totalPages || data?.totalPages || 1;
 
       document.getElementById('products-count').textContent = total + ' produits';
       document.getElementById('pagination-info').textContent = `Affichage ${products.length} sur ${total} produits`;
@@ -458,7 +459,7 @@
           </td>
         </tr>`).join('');
 
-      buildPagination(data.totalPages, page);
+      buildPagination(totalPages, page);
     } catch(e) {
       tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</td></tr>';
     }
