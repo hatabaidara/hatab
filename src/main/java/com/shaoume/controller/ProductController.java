@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ProductController {
     private final ProductService productService;
     private final UserRepository userRepository;
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getAll(@PageableDefault(size=12,sort="createdAt") Pageable p) {
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getAll(@PageableDefault(size=12,sort="createdAt",direction=Sort.Direction.DESC) Pageable p) {
         return ResponseEntity.ok(ApiResponse.success(productService.getAllProducts(p)));
     }
     @GetMapping("/{id}")
