@@ -405,9 +405,9 @@
       else if (categoryId) url = `/products/category/${categoryId}?page=${page}&size=10`;
 
       const res = await Api.get(url);
-      const data = res.data;
-      const products = data?.content || [];
-      const total = data?.totalElements || 0;
+      const data = res?.data || res;
+      const products = data?.content || (Array.isArray(data) ? data : []);
+      const total = data?.totalElements || products.length || 0;
 
       document.getElementById('products-count').textContent = total + ' produits';
       document.getElementById('pagination-info').textContent = `Affichage ${products.length} sur ${total} produits`;
