@@ -561,7 +561,7 @@
       if (res.ok) {
         Toast.success(editingId ? 'Produit mis à jour avec succès' : 'Produit créé avec succès');
         bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
-        setTimeout(() => loadProducts(currentPage), 500);
+        setTimeout(() => loadProducts(editingId ? currentPage : 0), 500);
       } else {
         const err = await res.json().catch(() => ({}));
         Toast.error(err.message || 'Erreur ' + res.status);
