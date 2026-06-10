@@ -50,6 +50,7 @@ public class SecurityConfig {
                             "/api/register",
                             "/api/login",
                             "/api/auth/register",
+                            "/api/health",
                             "/api/auth/login",
                             "/api/categories",
                             "/api/products/**",
