@@ -550,15 +550,22 @@
 
     Loader.show(btn);
     try {
-      if (editingId) {
-        await Api.put('/products/' + editingId, data);
-        Toast.success('Produit mis à jour avec succès');
+      const token = Auth.getToken();
+      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId ? '/products/' + editingId : '/products';
+      const res = await fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        Toast.success(editingId ? 'Produit mis à jour avec succès' : 'Produit créé avec succès');
+        bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+        setTimeout(() => loadProducts(currentPage), 500);
       } else {
-        await Api.post('/products', data);
-        Toast.success('Produit créé avec succès');
+        const err = await res.json().catch(() => ({}));
+        Toast.error(err.message || 'Erreur ' + res.status);
       }
-      bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
-      loadProducts(currentPage);
     } catch(e) {
       Toast.error(e.message || 'Erreur lors de l\'enregistrement');
     } finally {
