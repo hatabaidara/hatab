@@ -1,0 +1,36 @@
+/* SHAOUME GLOBAL - MOBILE CSS */
+@media (max-width: 768px) {
+  body { padding-bottom: 75px !important; }
+  .container { padding: 0 10px !important; }
+  .navbar { padding: 8px 12px !important; }
+  .navbar-brand { font-size: 1.1rem !important; font-weight: 900 !important; }
+  .nav-cart-btn { background: #EFF6FF !important; border-radius: 12px !important; color: #2563EB !important; }
+  .hero { background: linear-gradient(160deg, #0F172A 0%, #1E3A8A 40%, #F59E0B 100%) !important; padding: 32px 16px 40px !important; min-height: auto !important; }
+  .hero h1 { font-size: 1.9rem !important; line-height: 1.15 !important; }
+  .hero h1 .highlight { color: #FCD34D !important; -webkit-text-fill-color: #FCD34D !important; }
+  .hero-search { border-radius: 16px !important; padding: 6px !important; max-width: 100% !important; }
+  .hero-search button { background: linear-gradient(135deg, #F59E0B, #EF4444) !important; border-radius: 12px !important; }
+  .hero-stats { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 12px !important; margin-top: 16px !important; }
+  .hero-illustration { display: none !important; }
+  .stat-divider { display: none !important; }
+  .categories-bar { display: flex !important; overflow-x: auto !important; gap: 8px !important; padding: 10px 12px !important; scrollbar-width: none !important; }
+  .categories-bar::-webkit-scrollbar { display: none !important; }
+  .cat-pill { flex-shrink: 0 !important; padding: 7px 14px !important; border-radius: 20px !important; font-size: 0.76rem !important; font-weight: 600 !important; background: #F1F5F9 !important; color: #334155 !important; border: none !important; white-space: nowrap !important; }
+  .cat-pill.active { background: linear-gradient(135deg, #2563EB, #1D4ED8) !important; color: white !important; }
+  #products-grid, #featured-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; padding: 0 8px !important; }
+  #products-grid > div, #featured-grid > div { width: 100% !important; flex: none !important; max-width: 100% !important; padding: 0 !important; }
+  .product-card { border-radius: 10px !important; }
+  .product-img { height: 140px !important; }
+  .product-img-placeholder { height: 140px !important; }
+  .product-body { padding: 8px !important; }
+  .product-name { font-size: 0.74rem !important; margin-bottom: 4px !important; }
+  .product-price { font-size: 0.85rem !important; font-weight: 800 !important; color: #E53E3E !important; }
+  .product-cat-tag { font-size: 0.58rem !important; padding: 2px 6px !important; margin-bottom: 4px !important; }
+  .btn-add-cart { width: 30px !important; height: 30px !important; font-size: 0.75rem !important; }
+  .product-footer { flex-direction: row !important; align-items: center !important; }
+  .section-title { font-size: 1rem !important; font-weight: 800 !important; }
+  .promo-banner { border-radius: 16px !important; padding: 20px !important; margin: 0 8px 16px !important; }
+  footer { padding: 28px 16px 100px !important; }
+  .mobile-bottom-nav { display: flex !important; }
+}
+.mobile-bottom-nav { display: none; }
