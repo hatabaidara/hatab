@@ -32,6 +32,9 @@ self.addEventListener('activate', e => {
 
 // Fetch - cache first pour statique, network first pour API
 self.addEventListener('fetch', e => {
+  // Ne pas intercepter PUT, POST, DELETE
+  if (e.request.method !== 'GET') return;
+
   const url = new URL(e.request.url);
 
   // Ne pas cacher les appels API
