@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     boolean existsBySku(String sku);
     @Query("SELECT p FROM Product p LEFT JOIN p.category c WHERE p.active=true AND (LOWER(p.name) LIKE LOWER(CONCAT('%',:kw,'%')) OR LOWER(p.description) LIKE LOWER(CONCAT('%',:kw,'%')) OR LOWER(p.brand) LIKE LOWER(CONCAT('%',:kw,'%')) OR LOWER(c.name) LIKE LOWER(CONCAT('%',:kw,'%')))")
     Page<Product> searchProducts(@Param("kw") String keyword, Pageable pageable);
-    @Query("SELECT p FROM Product p WHERE p.active=true AND (:cid IS NULL OR p.category.id=:cid) AND (:min IS NULL OR p.price>=:min) AND (:max IS NULL OR p.price<=:max) AND (:brand IS NULL OR LOWER(p.brand)=LOWER(:brand))")
+    @Query("SELECT p FROM Product p WHERE p.active=true AND (:cid IS NULL OR p.category.id=:cid) AND (:min IS NULL OR p.price>=:min) AND (:max IS NULL OR p.price<=:max) AND (:brand IS NULL OR p.brand=:brand)")
     Page<Product> filterProducts(@Param("cid") Long cid, @Param("min") BigDecimal min, @Param("max") BigDecimal max, @Param("brand") String brand, Pageable pageable);
     @Query("SELECT p FROM Product p WHERE p.active=true AND p.stock<=:threshold")
     List<Product> findLowStockProducts(@Param("threshold") int threshold);
