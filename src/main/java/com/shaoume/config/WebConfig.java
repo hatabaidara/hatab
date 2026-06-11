@@ -8,8 +8,10 @@ import java.nio.file.Paths;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/*.html", "/pages/*.html", "/assets/**", "/static/**", "/manifest.json", "/sw.js")
+        registry.addResourceHandler("/*.html", "/pages/**", "/assets/**", "/static/**", "/manifest.json", "/sw.js", "/icons/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/pages/*.html")
+                .addResourceLocations("classpath:/static/pages/");
 
         String uploadPath = Paths.get("uploads").toAbsolutePath().toUri().toString();
         registry.addResourceHandler("/uploads/**")
