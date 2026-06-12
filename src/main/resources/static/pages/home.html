@@ -1318,8 +1318,8 @@
         return `
           <div class="${colClass}">
             <div class="product-card d-flex" onclick="window.location.href='product-detail.html?id=${p.id}'">
-              <div class="product-img-wrapper flex-shrink-0" style="width:100px">
-                ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="product-img" style="height:70px;width:70px;min-width:70px;object-fit:cover;border-radius:10px;">` : `<div class="product-img-placeholder" style="height:70px;width:70px;min-width:70px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
+              <div class="product-img-wrapper flex-shrink-0" style="width:70px;min-width:70px;max-width:70px;">
+                ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="product-img" style="height:70px;width:70px;min-width:70px;max-width:70px;object-fit:cover;border-radius:10px;flex-shrink:0;">` : `<div class="product-img-placeholder" style="height:70px;width:70px;min-width:70px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
                 ${hasDiscount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">-${discountPct}%</span>` : ''}
               </div>
               <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
