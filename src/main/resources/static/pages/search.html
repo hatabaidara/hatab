@@ -426,8 +426,8 @@
       }
 
       const products = res.data?.content || [];
-      const total = res.data?.totalElements || 0;
-      const totalPages = res.data?.totalPages || 0;
+      const total = res.data?.page?.totalElements || res.data?.totalElements || 0;
+      const totalPages = res.data?.page?.totalPages || res.data?.totalPages || 0;
 
       document.getElementById("results-count").textContent = total + " résultats";
       document.getElementById("search-label").textContent = currentKeyword ? `pour "${currentKeyword}"` : "";
