@@ -1199,8 +1199,9 @@
 
   async function loadHeroStats() {
     try {
-      const products = await Api.get('/products?size=1');
-      const total = products.data?.totalElements || 0;
+      const res = await fetch('/products?size=1');
+      const products = await res.json();
+      const total = products.data?.page?.totalElements || products.data?.totalElements || 0;
       const el = document.getElementById('stat-products-hero');
       if (el) el.textContent = total > 999 ? Math.floor(total/1000) + 'K+' : total + '+';
     } catch(e) {}
