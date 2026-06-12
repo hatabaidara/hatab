@@ -794,7 +794,24 @@
     }
   }
 
-  </style>
+  
+    /* Vue liste mobile - images plus petites */
+    @media (max-width: 768px) {
+      .product-list-item img,
+      .list-view img,
+      #products-container .d-flex img {
+        width: 80px !important;
+        height: 80px !important;
+        min-width: 80px !important;
+        object-fit: cover !important;
+        border-radius: 10px !important;
+      }
+      #products-container .d-flex {
+        gap: 10px !important;
+        padding: 10px !important;
+      }
+    }
+</style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
   <meta name="mobile-web-app-capable" content="yes">
@@ -1302,7 +1319,7 @@
           <div class="${colClass}">
             <div class="product-card d-flex" onclick="window.location.href='product-detail.html?id=${p.id}'">
               <div class="product-img-wrapper flex-shrink-0" style="width:100px">
-                ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="product-img" style="height:100px;width:100px;object-fit:cover;">` : `<div class="product-img-placeholder" style="height:100px;width:100px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
+                ${p.imageUrl ? `<img loading="lazy" src="${p.imageUrl}" class="product-img" style="height:70px;width:70px;min-width:70px;object-fit:cover;border-radius:10px;">` : `<div class="product-img-placeholder" style="height:70px;width:70px;min-width:70px"><i class="bi bi-image fs-2 text-muted"></i></div>`}
                 ${hasDiscount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">-${discountPct}%</span>` : ''}
               </div>
               <div class="p-3 flex-grow-1 d-flex flex-column justify-content-between">
