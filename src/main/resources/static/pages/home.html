@@ -1284,7 +1284,7 @@
       const res = await Api.get(url);
       const data = res.data;
       const products = data?.content || [];
-      document.getElementById('products-count-text').textContent = `${data?.totalElements || 0} produits disponibles`;
+      document.getElementById('products-count-text').textContent = `${data?.page?.totalElements || data?.totalElements || 0} produits disponibles`;
       if (products.length === 0) {
         grid.innerHTML = `
           <div class="col-12 text-center py-5">
