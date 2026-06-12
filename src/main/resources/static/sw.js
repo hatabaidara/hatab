@@ -1,6 +1,6 @@
 const CACHE_NAME = 'shaoume-v2';
-const STATIC_CACHE = 'shaoume-static-v2';
-const DYNAMIC_CACHE = 'shaoume-dynamic-v2';
+const STATIC_CACHE = 'shaoume-v3';
+const DYNAMIC_CACHE = 'shaoume-dynamic-v3';
 
 const staticAssets = [
   '/pages/home.html',
