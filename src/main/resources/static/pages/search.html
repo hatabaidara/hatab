@@ -425,8 +425,9 @@
         res = await Api.get(url);
       }
 
-      const products = res.data?.content || [];
-      const total = res.data?.page?.totalElements || res.data?.totalElements || 0;
+      console.log("RES DATA:", JSON.stringify(res?.data).substring(0,200));
+      const products = res.data?.content || res?.content || [];
+      const total = res.data?.page?.totalElements || res.data?.totalElements || res?.page?.totalElements || 0;
       const totalPages = res.data?.page?.totalPages || res.data?.totalPages || 0;
 
       document.getElementById("results-count").textContent = total + " résultats";
