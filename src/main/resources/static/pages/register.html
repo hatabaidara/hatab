@@ -68,57 +68,11 @@
     @media (max-width: 768px) { .left-panel { display: none; } .right-panel { padding: 32px 20px; } .input-row { grid-template-columns: 1fr; } }
   
     /* REGISTER MOBILE */
-    @media (max-width: 768px) {
-      .left-panel { display: none !important; }
-      .right-panel { padding: 32px 24px 24px !important; background: white !important; }
-      .register-box { max-width: 100% !important; }
-      .register-box h3 { font-size: 1.6rem !important; }
-
-      /* Logo mobile */
-      .mobile-logo {
-        display: flex !important;
-        align-items: center;
-        gap: 10px;
-        font-size: 1.3rem;
-        font-weight: 900;
-        color: #0F172A;
-        margin-bottom: 28px;
-        letter-spacing: -0.03em;
-      }
-      .mobile-logo span { color: #2563EB; }
-      .mobile-logo i { font-size: 1.5rem; color: #2563EB; }
-
-      /* Input row en colonne */
-      .input-row {
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-      }
-
-      /* Inputs plus grands */
-      .input-wrap input {
-        padding: 14px 14px 14px 42px !important;
-        font-size: 16px !important;
-        border-radius: 14px !important;
-      }
-
-      /* Bouton plus grand */
-      .btn-register {
-        padding: 16px !important;
-        font-size: 1rem !important;
-        border-radius: 14px !important;
-        margin-top: 12px !important;
-      }
-    }
+    
     .mobile-logo { display: none; } .right-panel { padding: 0 !important; background: transparent !important; align-items: flex-start !important; }
 
   
-  @media (max-width: 768px) {
-    body { overflow-x: hidden !important; }
-    #leftPanel { display: none !important; width: 0 !important; overflow: hidden !important; }
-    .left-panel { display: none !important; width: 0 !important; }
-    .right-panel { width: 100% !important; max-width: 100% !important; padding: 0 !important; background: transparent !important; }
-    body { display: block !important; }
-  }
+  
 </style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
