@@ -302,6 +302,105 @@
     body { background: white !important; padding-bottom: 90px !important; }
   }
 
+  
+  /* PRODUCT DETAIL MOBILE FIX */
+  @media (max-width: 768px) {
+    body { background: white !important; padding-bottom: 90px !important; }
+    
+    /* Container sans padding */
+    .container { padding: 0 !important; }
+    
+    /* Navbar compact */
+    .navbar { padding: 8px 12px !important; }
+    .navbar-brand { font-size: 1rem !important; }
+
+    /* Image plein largeur */
+    .product-img-wrapper {
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      aspect-ratio: 1 !important;
+      width: 100% !important;
+    }
+    .product-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      background: #F8FAFC !important;
+    }
+
+    /* Info card */
+    .info-card {
+      border-radius: 20px 20px 0 0 !important;
+      padding: 20px 16px !important;
+      border: none !important;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+      margin-top: 0 !important;
+    }
+
+    /* Categorie tag */
+    .cat-tag {
+      font-size: 0.65rem !important;
+      padding: 4px 10px !important;
+    }
+
+    /* Nom produit */
+    #product-name {
+      font-size: 1.1rem !important;
+      font-weight: 700 !important;
+      line-height: 1.35 !important;
+      color: #0F172A !important;
+    }
+
+    /* Prix rouge */
+    .price-main {
+      font-size: 1.5rem !important;
+      color: #E53E3E !important;
+      font-weight: 900 !important;
+    }
+
+    /* Partager boutons */
+    .share-btns {
+      display: flex !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+      margin: 8px 0 !important;
+    }
+
+    /* Quantite */
+    .qty-btn { width: 44px !important; height: 44px !important; border-radius: 12px !important; }
+    .qty-input { width: 56px !important; font-size: 1rem !important; border-radius: 12px !important; }
+
+    /* Sticky bar */
+    .sticky-buy-bar {
+      padding: 10px 12px 24px !important;
+      gap: 10px !important;
+    }
+    .sticky-buy-bar .btn-cart {
+      border-radius: 14px !important;
+      font-size: 0.95rem !important;
+      padding: 14px !important;
+      background: linear-gradient(135deg, #E53E3E, #C53030) !important;
+    }
+    .sticky-buy-bar .btn-fav {
+      border-radius: 14px !important;
+      padding: 14px 18px !important;
+    }
+
+    /* Produits similaires */
+    .related-product-img { height: 120px !important; }
+
+    /* Reviews */
+    #reviews-section {
+      border-radius: 0 !important;
+      border-left: none !important;
+      border-right: none !important;
+    }
+
+    /* Row */
+    .row { margin: 0 !important; }
+    .col-md-6, .col-lg-6 { padding: 0 !important; }
+  }
+
   </style>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2563EB">
@@ -834,7 +933,106 @@ setTimeout(loadReviews, 1500);
 }
 body { padding-bottom: 70px; }
 @media (min-width: 768px) { body { padding-bottom: 0; } }
-</style>
+
+  /* PRODUCT DETAIL MOBILE FIX */
+  @media (max-width: 768px) {
+    body { background: white !important; padding-bottom: 90px !important; }
+    
+    /* Container sans padding */
+    .container { padding: 0 !important; }
+    
+    /* Navbar compact */
+    .navbar { padding: 8px 12px !important; }
+    .navbar-brand { font-size: 1rem !important; }
+
+    /* Image plein largeur */
+    .product-img-wrapper {
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      aspect-ratio: 1 !important;
+      width: 100% !important;
+    }
+    .product-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      background: #F8FAFC !important;
+    }
+
+    /* Info card */
+    .info-card {
+      border-radius: 20px 20px 0 0 !important;
+      padding: 20px 16px !important;
+      border: none !important;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+      margin-top: 0 !important;
+    }
+
+    /* Categorie tag */
+    .cat-tag {
+      font-size: 0.65rem !important;
+      padding: 4px 10px !important;
+    }
+
+    /* Nom produit */
+    #product-name {
+      font-size: 1.1rem !important;
+      font-weight: 700 !important;
+      line-height: 1.35 !important;
+      color: #0F172A !important;
+    }
+
+    /* Prix rouge */
+    .price-main {
+      font-size: 1.5rem !important;
+      color: #E53E3E !important;
+      font-weight: 900 !important;
+    }
+
+    /* Partager boutons */
+    .share-btns {
+      display: flex !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+      margin: 8px 0 !important;
+    }
+
+    /* Quantite */
+    .qty-btn { width: 44px !important; height: 44px !important; border-radius: 12px !important; }
+    .qty-input { width: 56px !important; font-size: 1rem !important; border-radius: 12px !important; }
+
+    /* Sticky bar */
+    .sticky-buy-bar {
+      padding: 10px 12px 24px !important;
+      gap: 10px !important;
+    }
+    .sticky-buy-bar .btn-cart {
+      border-radius: 14px !important;
+      font-size: 0.95rem !important;
+      padding: 14px !important;
+      background: linear-gradient(135deg, #E53E3E, #C53030) !important;
+    }
+    .sticky-buy-bar .btn-fav {
+      border-radius: 14px !important;
+      padding: 14px 18px !important;
+    }
+
+    /* Produits similaires */
+    .related-product-img { height: 120px !important; }
+
+    /* Reviews */
+    #reviews-section {
+      border-radius: 0 !important;
+      border-left: none !important;
+      border-right: none !important;
+    }
+
+    /* Row */
+    .row { margin: 0 !important; }
+    .col-md-6, .col-lg-6 { padding: 0 !important; }
+  }
+
+  </style>
 <script>
 (function(){
   const path = window.location.pathname.split("/").pop();
