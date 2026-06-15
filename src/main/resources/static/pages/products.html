@@ -152,6 +152,11 @@
               <i class="bi bi-funnel me-1"></i>Filtrer
             </button>
           </div>
+          <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" onclick="loadProducts(0, true)">
+              <i class="bi bi-grid me-1"></i>Tous
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -392,31 +397,36 @@
 
   // ── LISTE PRODUITS ──────────────────────────────────────────────────────────
 
-  async function loadProducts(page = 0) {
+  let showAll = false;
+
+  async function loadProducts(page = 0, all = false) {
+    if (all) { showAll = true; page = 0; }
     currentPage = page;
     const keyword = document.getElementById('search-input').value;
     const categoryId = document.getElementById('category-filter').value;
     const sort = document.getElementById('sort-filter').value;
+    const size = showAll ? 200 : 10;
     const tbody = document.getElementById('products-table');
     tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm text-primary me-2"></div>Chargement...</td></tr>';
 
     try {
-      let url = `/products?page=${page}&size=10&sort=${sort}`;
-      if (keyword) url = `/products/search?keyword=${keyword}&page=${page}&size=10`;
-      else if (categoryId) url = `/products/category/${categoryId}?page=${page}&size=10`;
+      let url = `/products?page=${page}&size=${size}&sort=${sort}`;
+      if (keyword) { url = `/products/search?keyword=${keyword}&page=${page}&size=${size}`; showAll = false; }
+      else if (categoryId) { url = `/products/category/${categoryId}?page=${page}&size=${size}`; showAll = false; }
 
       const res = await Api.get(url);
-      // Api.get retourne deja res.data, donc res = {content, page}
       const data = res?.content ? res : (res?.data || res);
       const products = data?.content || [];
       const total = data?.page?.totalElements || data?.totalElements || products.length || 0;
-      const totalPages = data?.page?.totalPages || data?.totalPages || 1;
+      const totalPages = showAll ? 1 : (data?.page?.totalPages || data?.totalPages || 1);
 
       document.getElementById('products-count').textContent = total + ' produits';
-      document.getElementById('pagination-info').textContent = `Affichage ${products.length} sur ${total} produits`;
+      document.getElementById('pagination-info').textContent =
+        showAll ? `Tous les ${total} produits` : `Page ${page+1} sur ${totalPages} — ${total} produits`;
 
       if (products.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4"><i class="bi bi-inbox fs-2 d-block mb-2"></i>Aucun produit trouvé</td></tr>';
+        document.getElementById('pagination').innerHTML = '';
         return;
       }
 
@@ -470,10 +480,23 @@
   function buildPagination(totalPages, currentPage) {
     const ul = document.getElementById('pagination');
     ul.innerHTML = '';
+    if (showAll || totalPages <= 1) return;
+    // Precedent
+    ul.innerHTML += `<li class="page-item ${currentPage===0?'disabled':''}">
+      <a class="page-link" href="#" onclick="event.preventDefault();loadProducts(${currentPage-1})">&#8249;</a></li>`;
+    // Pages avec ellipsis
     for (let i = 0; i < totalPages; i++) {
-      ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-        <a class="page-link" href="#" onclick="loadProducts(${i})">${i + 1}</a></li>`;
+      if (totalPages > 7 && Math.abs(i - currentPage) > 2 && i !== 0 && i !== totalPages-1) {
+        if (i === 1 || i === totalPages-2)
+          ul.innerHTML += `<li class="page-item disabled"><a class="page-link">…</a></li>`;
+        continue;
+      }
+      ul.innerHTML += `<li class="page-item ${i===currentPage?'active':''}">
+        <a class="page-link" href="#" onclick="event.preventDefault();loadProducts(${i})">${i+1}</a></li>`;
     }
+    // Suivant
+    ul.innerHTML += `<li class="page-item ${currentPage===totalPages-1?'disabled':''}">
+      <a class="page-link" href="#" onclick="event.preventDefault();loadProducts(${currentPage+1})">&#8250;</a></li>`;
   }
 
   // ── MODAL ───────────────────────────────────────────────────────────────────
