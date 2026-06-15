@@ -287,10 +287,10 @@
         res = await Api.get(url);
       }
 
-      console.log("RES DATA:", JSON.stringify(res?.data).substring(0,200));
-      const products = res.data?.content || res?.content || [];
-      const total = res.data?.page?.totalElements || res.data?.totalElements || res?.page?.totalElements || 0;
-      const totalPages = res.data?.page?.totalPages || res.data?.totalPages || 0;
+      const raw = res?.data || res || {};
+      const products = raw?.content || [];
+      const total = raw?.page?.totalElements || raw?.totalElements || products.length || 0;
+      const totalPages = raw?.page?.totalPages || raw?.totalPages || 1;
 
       document.getElementById("results-count").textContent = total + " résultats";
       document.getElementById("search-label").textContent = currentKeyword ? `pour "${currentKeyword}"` : "";
@@ -310,7 +310,7 @@
           <div class="col-6 col-md-4">
             <div class="product-card" onclick="location.href='product-detail.html?id='+${p.id}">
               ${p.imageUrl
-                ? `<img loading="lazy" src="${p.imageUrl}" class="product-img">`
+                ? `<img loading="lazy" src="${p.imageUrl}" class="product-img" onerror="this.src='https://via.placeholder.com/400x300?text=Image+non+disponible'">`
                 : `<div class="product-img d-flex align-items-center justify-content-center"><i class="bi bi-image fs-1 text-muted"></i></div>`}
               <div class="p-3">
                 <div class="text-muted mb-1" style="font-size:0.75rem">${p.category?.name || ""}</div>
@@ -337,7 +337,7 @@
         container.innerHTML = products.map(p => `
           <div class="product-card mb-3 d-flex" onclick="location.href='product-detail.html?id='+${p.id}">
             ${p.imageUrl
-              ? `<img loading="lazy" src="${p.imageUrl}" style="width:120px;height:120px;object-fit:cover;border-radius:12px 0 0 12px">`
+              ? `<img loading="lazy" src="${p.imageUrl}" style="width:120px;height:120px;object-fit:cover;border-radius:12px 0 0 12px" onerror="this.src='https://via.placeholder.com/120x120?text=N/A'">`
               : `<div style="width:120px;height:120px;background:#F8FAFC;border-radius:12px 0 0 12px;display:flex;align-items:center;justify-content:center"><i class="bi bi-image fs-2 text-muted"></i></div>`}
             <div class="p-3 flex-grow-1">
               <div class="text-muted" style="font-size:0.75rem">${p.category?.name || ""}</div>
@@ -366,10 +366,15 @@
     const ul = document.getElementById("pagination");
     ul.innerHTML = "";
     if (totalPages <= 1) return;
+    ul.innerHTML += `<li class="page-item ${current===0?'disabled':''}"><a class="page-link" href="#" onclick="event.preventDefault();doSearch(${current-1})">&#8249;</a></li>`;
     for (let i = 0; i < totalPages; i++) {
-      ul.innerHTML += `<li class="page-item ${i === current ? "active" : ""}">
-        <a class="page-link" href="#" onclick="doSearch(${i})">${i+1}</a></li>`;
+      if (totalPages > 7 && Math.abs(i - current) > 2 && i !== 0 && i !== totalPages-1) {
+        if (i === 1 || i === totalPages-2) ul.innerHTML += `<li class="page-item disabled"><a class="page-link">&#8230;</a></li>`;
+        continue;
+      }
+      ul.innerHTML += `<li class="page-item ${i===current?'active':''}"><a class="page-link" href="#" onclick="event.preventDefault();doSearch(${i})">${i+1}</a></li>`;
     }
+    ul.innerHTML += `<li class="page-item ${current===totalPages-1?'disabled':''}"><a class="page-link" href="#" onclick="event.preventDefault();doSearch(${current+1})">&#8250;</a></li>`;
   }
 
   function applyFilters() { doSearch(0); }
