@@ -17,11 +17,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 @RestController @RequestMapping("/orders") @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<OrderResponse>>> getOrders(@AuthenticationPrincipal UserDetails ud,@PageableDefault(size=10) Pageable p) {
+        return ResponseEntity.ok(ApiResponse.success(orderService.getUserOrders(uid(ud),p)));
+    }
     @PostMapping
     public ResponseEntity<ApiResponse<OrderResponse>> create(@Valid @RequestBody OrderRequest r,@AuthenticationPrincipal UserDetails ud) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created("Commande créée",orderService.createOrder(uid(ud),r)));
@@ -53,13 +60,15 @@ public class OrderController {
     }
     @GetMapping("/admin/stats") @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> adminStats() {
-        java.util.Map<String, Object> stats = new java.util.HashMap<>();
-        stats.put("pending", orderRepository.countByStatus(OrderStatus.PENDING));
+        Map<String,Object> stats = new HashMap<>();
+        stats.put("pending",    orderRepository.countByStatus(OrderStatus.PENDING));
         stats.put("processing", orderRepository.countByStatus(OrderStatus.PROCESSING));
-        stats.put("delivered", orderRepository.countByStatus(OrderStatus.DELIVERED));
-        stats.put("cancelled", orderRepository.countByStatus(OrderStatus.CANCELLED));
-        stats.put("total", orderRepository.count());
-        stats.put("revenue", orderRepository.calculateTotalRevenue());
+        stats.put("confirmed",  orderRepository.countByStatus(OrderStatus.CONFIRMED));
+        stats.put("delivered",  orderRepository.countByStatus(OrderStatus.DELIVERED));
+        stats.put("cancelled",  orderRepository.countByStatus(OrderStatus.CANCELLED));
+        stats.put("total",      orderRepository.count());
+        BigDecimal revenue = orderRepository.calculateTotalRevenue();
+        stats.put("revenue", revenue != null ? revenue : BigDecimal.ZERO);
         return ResponseEntity.ok(stats);
     }
     private Long uid(UserDetails ud) { return userRepository.findByEmail(ud.getUsername()).orElseThrow().getId(); }

@@ -27,108 +27,74 @@ public class OrderServiceImpl implements OrderService {
     private final NotificationService notificationService;
     @Override @Transactional
     public OrderResponse createOrder(Long userId, OrderRequest request) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", userId));
-        Order order = Order.builder()
-            .orderNumber("SGB-" + System.currentTimeMillis())
-            .status(OrderStatus.PENDING)
-            .shippingAddress(request.getShippingAddress())
-            .shippingCity(request.getShippingCity())
-            .shippingCountry(request.getShippingCountry())
-            .shippingPostalCode(request.getShippingPostalCode())
-            .notes(request.getNotes())
-            .user(user).build();
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Utilisateur",userId));
+        Order order = Order.builder().orderNumber("SGB-"+System.currentTimeMillis()).status(OrderStatus.PENDING)
+            .shippingAddress(request.getShippingAddress()).shippingCity(request.getShippingCity())
+            .shippingCountry(request.getShippingCountry()).shippingPostalCode(request.getShippingPostalCode())
+            .notes(request.getNotes()).user(user).build();
         List<OrderItem> items = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
         for (OrderRequest.OrderItemRequest ir : request.getItems()) {
-            Product p = productRepository.findById(ir.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Produit", ir.getProductId()));
-            if (!p.isActive()) throw new BadRequestException("Produit non disponible: " + p.getName());
-            if (p.getStock() < ir.getQuantity()) throw new BadRequestException("Stock insuffisant: " + p.getName());
-            BigDecimal unitPrice = p.getDiscountPrice() != null ? p.getDiscountPrice() : p.getPrice();
+            Product p = productRepository.findById(ir.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Produit",ir.getProductId()));
+            if (!p.isActive()) throw new BadRequestException("Produit non disponible: "+p.getName());
+            if (p.getStock()==null||p.getStock()<=0) throw new BadRequestException("Produit en rupture de stock: "+p.getName());
+            if (p.getStock()<ir.getQuantity()) throw new BadRequestException("Stock insuffisant pour "+p.getName()+" (disponible: "+p.getStock()+", demande: "+ir.getQuantity()+")");
+            BigDecimal unitPrice = p.getDiscountPrice()!=null ? p.getDiscountPrice() : p.getPrice();
             BigDecimal itemTotal = unitPrice.multiply(BigDecimal.valueOf(ir.getQuantity()));
-            items.add(OrderItem.builder().order(order).product(p)
-                .quantity(ir.getQuantity()).unitPrice(unitPrice).totalPrice(itemTotal).build());
+            items.add(OrderItem.builder().order(order).product(p).quantity(ir.getQuantity()).unitPrice(unitPrice).totalPrice(itemTotal).build());
             total = total.add(itemTotal);
-            p.setStock(p.getStock() - ir.getQuantity());
+            p.setStock(p.getStock()-ir.getQuantity());
             productRepository.save(p);
-            // Notifier le vendeur si le produit a un vendeur
-            if (p.getSeller() != null) {
-                notificationService.notifyNewOrder(p.getSeller(), order.getOrderNumber(), p.getName(), ir.getQuantity());
-            }
+            if (p.getSeller()!=null) notificationService.notifyNewOrder(p.getSeller(),order.getOrderNumber(),p.getName(),ir.getQuantity());
         }
         order.setOrderItems(items);
         order.setTotalAmount(total);
         Order saved = orderRepository.save(order);
-        paymentRepository.save(Payment.builder()
-            .transactionId(UUID.randomUUID().toString())
-            .amount(total).currency("XOF")
-            .status(PaymentStatus.PENDING)
-            .method(request.getPaymentMethod())
-            .order(saved).build());
+        paymentRepository.save(Payment.builder().transactionId(UUID.randomUUID().toString())
+            .amount(total).currency("XOF").status(PaymentStatus.PENDING).method(request.getPaymentMethod()).order(saved).build());
         return mapToResponse(saved);
     }
     @Override @Transactional(readOnly=true)
-    public OrderResponse getOrderById(Long id, Long userId) {
-        return mapToResponse(orderRepository.findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ResourceNotFoundException("Commande", id)));
+    public OrderResponse getOrderById(Long id,Long userId) {
+        return mapToResponse(orderRepository.findByIdAndUserId(id,userId).orElseThrow(()->new ResourceNotFoundException("Commande",id)));
     }
     @Override @Transactional(readOnly=true)
     public OrderResponse getOrderByNumber(String num) {
-        return mapToResponse(orderRepository.findByOrderNumber(num)
-            .orElseThrow(() -> new ResourceNotFoundException("Commande introuvable: " + num)));
+        return mapToResponse(orderRepository.findByOrderNumber(num).orElseThrow(()->new ResourceNotFoundException("Commande introuvable: "+num)));
     }
     @Override @Transactional(readOnly=true)
-    public Page<OrderResponse> getUserOrders(Long uid, Pageable p) {
-        return orderRepository.findByUserId(uid, p).map(this::mapToResponse);
-    }
+    public Page<OrderResponse> getUserOrders(Long uid,Pageable p) { return orderRepository.findByUserId(uid,p).map(this::mapToResponse); }
     @Override @Transactional(readOnly=true)
-    public Page<OrderResponse> getAllOrders(Pageable p) {
-        return orderRepository.findAll(p).map(this::mapToResponse);
-    }
+    public Page<OrderResponse> getAllOrders(Pageable p) { return orderRepository.findAll(p).map(this::mapToResponse); }
     @Override @Transactional
-    public OrderResponse updateOrderStatus(Long id, OrderStatus status) {
-        Order o = orderRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Commande", id));
+    public OrderResponse updateOrderStatus(Long id,OrderStatus status) {
+        Order o = orderRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Commande",id));
         o.setStatus(status);
-        if (status == OrderStatus.DELIVERED) o.setDeliveredAt(LocalDateTime.now());
+        if (status==OrderStatus.DELIVERED) o.setDeliveredAt(LocalDateTime.now());
         return mapToResponse(orderRepository.save(o));
     }
     @Override @Transactional
-    public void cancelOrder(Long id, Long userId) {
-        Order o = orderRepository.findByIdAndUserId(id, userId)
-            .orElseThrow(() -> new ResourceNotFoundException("Commande", id));
-        if (o.getStatus() != OrderStatus.PENDING && o.getStatus() != OrderStatus.CONFIRMED)
-            throw new BadRequestException("Commande non annulable");
-        o.getOrderItems().forEach(item -> {
-            Product p = item.getProduct();
-            p.setStock(p.getStock() + item.getQuantity());
-            productRepository.save(p);
-        });
+    public void cancelOrder(Long id,Long userId) {
+        Order o = orderRepository.findByIdAndUserId(id,userId).orElseThrow(()->new ResourceNotFoundException("Commande",id));
+        if (o.getStatus()!=OrderStatus.PENDING&&o.getStatus()!=OrderStatus.CONFIRMED) throw new BadRequestException("Commande non annulable dans son etat: "+o.getStatus());
+        o.getOrderItems().forEach(item->{Product p=item.getProduct();p.setStock(p.getStock()+item.getQuantity());productRepository.save(p);});
         o.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(o);
     }
     private OrderResponse mapToResponse(Order o) {
-        List<OrderResponse.OrderItemResponse> items = o.getOrderItems().stream()
-            .map(i -> OrderResponse.OrderItemResponse.builder()
-                .id(i.getId()).quantity(i.getQuantity())
-                .unitPrice(i.getUnitPrice()).totalPrice(i.getTotalPrice())
-                .product(ProductResponse.builder()
-                    .id(i.getProduct().getId())
-                    .name(i.getProduct().getName())
-                    .imageUrl(i.getProduct().getImageUrl())
-                    .price(i.getProduct().getPrice()).build()).build())
-            .collect(Collectors.toList());
-        return OrderResponse.builder()
-            .id(o.getId()).orderNumber(o.getOrderNumber()).status(o.getStatus())
-            .totalAmount(o.getTotalAmount()).shippingAddress(o.getShippingAddress())
-            .shippingCity(o.getShippingCity()).shippingCountry(o.getShippingCountry())
-            .notes(o.getNotes()).deliveredAt(o.getDeliveredAt())
-            .user(UserResponse.builder()
-                .id(o.getUser().getId())
-                .firstName(o.getUser().getFirstName())
-                .lastName(o.getUser().getLastName())
-                .email(o.getUser().getEmail()).build())
-            .orderItems(items).createdAt(o.getCreatedAt()).build();
+        List<OrderResponse.OrderItemResponse> items = Collections.emptyList();
+        if (o.getOrderItems()!=null) {
+            items = o.getOrderItems().stream().map(i->{
+                ProductResponse pr = null;
+                if (i.getProduct()!=null) pr = ProductResponse.builder().id(i.getProduct().getId()).name(i.getProduct().getName()).imageUrl(i.getProduct().getImageUrl()).price(i.getProduct().getPrice()).build();
+                return OrderResponse.OrderItemResponse.builder().id(i.getId()).quantity(i.getQuantity()).unitPrice(i.getUnitPrice()).totalPrice(i.getTotalPrice()).product(pr).build();
+            }).collect(Collectors.toList());
+        }
+        UserResponse ur = null;
+        if (o.getUser()!=null) ur = UserResponse.builder().id(o.getUser().getId()).firstName(o.getUser().getFirstName()).lastName(o.getUser().getLastName()).email(o.getUser().getEmail()).build();
+        return OrderResponse.builder().id(o.getId()).orderNumber(o.getOrderNumber()).status(o.getStatus())
+            .totalAmount(o.getTotalAmount()).shippingAddress(o.getShippingAddress()).shippingCity(o.getShippingCity())
+            .shippingCountry(o.getShippingCountry()).notes(o.getNotes()).deliveredAt(o.getDeliveredAt())
+            .user(ur).orderItems(items).createdAt(o.getCreatedAt()).build();
     }
 }
