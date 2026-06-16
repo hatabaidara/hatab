@@ -209,9 +209,10 @@
   });
   async function loadProfile(token) {
     try {
-      const res = await fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } });
+      const res = await fetch("/users/me", { headers: { Authorization: "Bearer " + token } });
       if (!res.ok) { localStorage.removeItem("token"); window.location.href = "login.html"; return; }
-      const u = await res.json();
+      const json = await res.json();
+      const u = json.data || json;
       const name = (u.firstName||"") + " " + (u.lastName||"");
       document.getElementById("profileName").textContent = name.trim() || u.email;
       document.getElementById("profileEmail").textContent = u.email;
@@ -228,9 +229,10 @@
   }
   async function loadOrders(token) {
     try {
-      const res = await fetch("/api/orders/my", { headers: { Authorization: "Bearer " + token } });
+      const res = await fetch("/orders/my-orders?size=50", { headers: { Authorization: "Bearer " + token } });
       if (!res.ok) { renderOrders([]); return; }
-      allOrders = await res.json();
+      const ordersJson = await res.json();
+      allOrders = ordersJson?.data?.content || ordersJson?.data || [];
       renderOrders(allOrders);
       document.getElementById("statOrders").textContent = allOrders.length;
       const total = allOrders.filter(o=>o.status==="DELIVERED").reduce((s,o)=>s+(o.totalAmount||0),0);
@@ -257,7 +259,7 @@
     const token = localStorage.getItem("token");
     const data = { firstName:document.getElementById("fieldFirstName").value, lastName:document.getElementById("fieldLastName").value, phone:document.getElementById("fieldPhone").value, address:document.getElementById("fieldAddress").value, city:document.getElementById("fieldCity").value, country:document.getElementById("fieldCountry").value };
     try {
-      const res = await fetch("/api/users/profile", { method:"PUT", headers:{"Content-Type":"application/json","Authorization":"Bearer "+token}, body:JSON.stringify(data) });
+      const res = await fetch("/users/me", { method:"PUT", headers:{"Content-Type":"application/json","Authorization":"Bearer "+token}, body:JSON.stringify(data) });
       document.getElementById("profileName").textContent = (data.firstName+" "+data.lastName).trim();
       document.getElementById("avatarInitials").textContent = getInitials(data.firstName,data.lastName,"");
       showToast(res.ok?"Profil mis à jour ✓":"Erreur lors de la sauvegarde");
@@ -269,7 +271,7 @@
     if (np.length<6) { showToast("Mot de passe trop court (min 6 car.)"); return; }
     const token=localStorage.getItem("token");
     try {
-      const res=await fetch("/api/users/password",{method:"PUT",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({oldPassword:document.getElementById("oldPassword").value,newPassword:np})});
+      const res=await fetch("/users/me/password",{method:"PUT",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({oldPassword:document.getElementById("oldPassword").value,newPassword:np})});
       showToast(res.ok?"Mot de passe changé ✓":"Mot de passe actuel incorrect");
       if(res.ok){document.getElementById("oldPassword").value="";document.getElementById("newPassword").value="";document.getElementById("confirmPassword").value="";}
     } catch(e){showToast("Erreur réseau");}
