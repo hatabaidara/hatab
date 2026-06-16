@@ -73,6 +73,11 @@ public class SecurityConfig {
                 .requestMatchers("/wave/**").hasAnyRole("SELLER","ADMIN")
                 .requestMatchers("/merchants/admin/**").hasRole("ADMIN")
                 .requestMatchers("/merchants/**").hasAnyRole("SELLER","ADMIN","USER")
+                .requestMatchers("/users/me").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/users/me").authenticated()
+                .requestMatchers("/merchants/status").authenticated()
+                .requestMatchers("/merchants/payment-request").authenticated()
+                .requestMatchers("/merchants/my-requests").authenticated()
                 .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class);
