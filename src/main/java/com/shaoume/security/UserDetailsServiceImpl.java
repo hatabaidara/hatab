@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             .username(user.getEmail())
             .password(user.getPassword())
             .authorities(List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole().name())))
-            .accountLocked(!user.isEnabled())
+            .accountLocked(false)
             .disabled(!user.isEnabled())
             .build();
     }
