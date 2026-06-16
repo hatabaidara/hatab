@@ -263,8 +263,10 @@
     const container = document.getElementById('cart-items');
     try {
       const res = await Api.get('/cart');
-      cartItems = res.data || [];
+      cartItems = res?.data || res?.content || (Array.isArray(res) ? res : []);
       document.getElementById('cart-count-badge').textContent = cartItems.length + ' articles';
+      const mobileBadge = document.getElementById('cart-count-badge-mobile');
+      if (mobileBadge) mobileBadge.textContent = cartItems.length + ' articles';
 
       if (cartItems.length === 0) {
         container.innerHTML = `
@@ -319,6 +321,8 @@
 
       document.getElementById('subtotal').textContent = Format.currency(subtotal);
       document.getElementById('total').textContent = Format.currency(subtotal);
+      const totalMobile = document.getElementById('total-mobile');
+      if (totalMobile) totalMobile.textContent = Format.currency(subtotal);
       document.getElementById('btn-checkout').disabled = false;
     } catch(e) {
       container.innerHTML = '<div class="text-center text-danger py-4">Erreur de chargement</div>';
@@ -327,6 +331,7 @@
 
   async function updateQty(id, qty) {
     if (qty < 0) return;
+    if (qty === 0) { return removeItem(id); }
     try {
       await Api.put(`/cart/${id}?quantity=${qty}`);
       loadCart();
@@ -405,7 +410,7 @@
     <div class="total-label">Total</div>
     <div class="total-amount" id="total-mobile">-</div>
   </div>
-  <button class="btn-checkout flex-grow-1" onclick="checkout()">
+  <button class="btn-checkout flex-grow-1" onclick="goToCheckout()">
     <i class="bi bi-bag-check me-2"></i>Commander
   </button>
 </div>
