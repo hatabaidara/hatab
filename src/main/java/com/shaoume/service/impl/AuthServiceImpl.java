@@ -67,9 +67,13 @@ public class AuthServiceImpl implements AuthService {
         String access=jwtUtils.generateToken(ud,claims);
         String refresh=jwtUtils.generateRefreshToken(ud);
         user.setRefreshToken(refresh);
-        if(user.getCreatedAt()==null) user.setCreatedAt(java.time.LocalDateTime.now());
-        if(user.getUpdatedAt()==null) user.setUpdatedAt(java.time.LocalDateTime.now());
-        userRepository.save(user);
+        try {
+            if(user.getCreatedAt()==null) user.setCreatedAt(java.time.LocalDateTime.now());
+            if(user.getUpdatedAt()==null) user.setUpdatedAt(java.time.LocalDateTime.now());
+            userRepository.save(user);
+        } catch(Exception e) {
+            log.warn("Impossible de sauvegarder le refresh token: {}", e.getMessage());
+        }
         return AuthResponse.builder()
             .accessToken(access).refreshToken(refresh).tokenType("Bearer").expiresIn(jwtExpiration)
             .user(UserResponse.builder().id(user.getId()).firstName(user.getFirstName()).lastName(user.getLastName())
