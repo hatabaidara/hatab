@@ -25,6 +25,7 @@ public class MerchantController {
     private final UserRepository userRepository;
 
     @GetMapping("/status")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<Map<String,Object>>> getStatus(
             @AuthenticationPrincipal UserDetails ud) {
         User user = getUser(ud);
@@ -44,7 +45,7 @@ public class MerchantController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("hasAnyRole('SELLER','ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<Map<String,Object>>> register(
             @AuthenticationPrincipal UserDetails ud) {
         User user = getUser(ud);
@@ -56,7 +57,7 @@ public class MerchantController {
     }
 
     @PostMapping("/payment-request")
-    @PreAuthorize("hasAnyRole('SELLER','ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<String>> submitRequest(
             @AuthenticationPrincipal UserDetails ud,
             @RequestBody Map<String,String> body) {
@@ -74,7 +75,7 @@ public class MerchantController {
     }
 
     @GetMapping("/my-requests")
-    @PreAuthorize("hasAnyRole('SELLER','ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<?>> getMyRequests(
             @AuthenticationPrincipal UserDetails ud) {
         User user = getUser(ud);
