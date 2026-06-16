@@ -79,7 +79,7 @@
     @media (max-width: 768px) { .tab-btn { padding: 12px 14px; font-size: 0.8rem; } .tab-btn span { display: none; } .tab-btn i { margin-right: 0; font-size: 1.1rem; } }
   </style>
 </head>
-<body>
+<body style="opacity:1">
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
     <a class="navbar-brand" href="home.html">Shaoume<span>.</span></a>
@@ -203,14 +203,23 @@
   document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     if (!token) { window.location.href = "login.html"; return; }
-    await loadProfile(token);
-    await loadOrders(token);
-    loadFavorites();
+    document.body.style.opacity = "1";
+    try {
+      await loadProfile(token);
+      await loadOrders(token);
+      loadFavorites();
+    } catch(e) {
+      console.error("Erreur chargement profil:", e);
+    }
   });
   async function loadProfile(token) {
     try {
       const res = await fetch("/users/me", { headers: { Authorization: "Bearer " + token } });
-      if (!res.ok) { localStorage.removeItem("token"); window.location.href = "login.html"; return; }
+      if (!res.ok) {
+        if (res.status === 401) { localStorage.removeItem("token"); window.location.href = "login.html"; return; }
+        console.error("Erreur profil:", res.status);
+        return;
+      }
       const json = await res.json();
       const u = json.data || json;
       const name = (u.firstName||"") + " " + (u.lastName||"");
