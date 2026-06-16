@@ -291,11 +291,11 @@
     container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
 
     try {
-      const url = currentFilter ? `/orders/my-orders?page=${page}&size=5&sort=createdAt,desc&status=${currentFilter}` : `/orders/my-orders?page=${page}&size=5&sort=createdAt,desc`;
+      const url = `/orders/my-orders?page=${page}&size=5&sort=createdAt,desc`;
       const res = await Api.get(url);
-      const data = res.data;
+      const data = res?.data || res || {};
       const orders = data?.content || [];
-      const total = data?.totalElements || 0;
+      const total = data?.page?.totalElements || data?.totalElements || 0;
 
       document.getElementById('orders-badge').textContent = total + ' commandes';
 
@@ -392,7 +392,7 @@
           </div>`;
       }).join('');
 
-      buildPagination(data.totalPages, page);
+      buildPagination(data?.page?.totalPages || data?.totalPages || 1, page);
     } catch(e) {
       container.innerHTML = '<div class="order-card text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</div>';
     }
@@ -458,14 +458,19 @@
     }
   }
 
-  function buildPagination(totalPages, currentPage) {
+  function buildPagination(totalPages, cur) {
     const ul = document.getElementById('pagination');
     ul.innerHTML = '';
     if (totalPages <= 1) return;
+    ul.innerHTML += `<li class="page-item ${cur===0?'disabled':''}"><a class="page-link" href="#" onclick="event.preventDefault();loadOrders(${cur-1})">&#8249;</a></li>`;
     for (let i = 0; i < totalPages; i++) {
-      ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-        <a class="page-link" href="#" onclick="loadOrders(${i})">${i + 1}</a></li>`;
+      if (totalPages > 7 && Math.abs(i-cur) > 2 && i !== 0 && i !== totalPages-1) {
+        if (i===1||i===totalPages-2) ul.innerHTML += `<li class="page-item disabled"><a class="page-link">&#8230;</a></li>`;
+        continue;
+      }
+      ul.innerHTML += `<li class="page-item ${i===cur?'active':''}"><a class="page-link" href="#" onclick="event.preventDefault();loadOrders(${i})">${i+1}</a></li>`;
     }
+    ul.innerHTML += `<li class="page-item ${cur===totalPages-1?'disabled':''}"><a class="page-link" href="#" onclick="event.preventDefault();loadOrders(${cur+1})">&#8250;</a></li>`;
   }
 
   let currentFilter = null;
@@ -494,15 +499,6 @@
     loadOrders(0);
   }
 
-  async function reorder(id) {
-    try {
-      await Api.post(`/orders/${id}/reorder`);
-      Toast.success('Articles ajoutés au panier !');
-      setTimeout(() => window.location.href = 'cart.html', 1200);
-    } catch(e) {
-      Toast.error(e.message || 'Erreur lors du ré-achat');
-    }
-  }
   async function reorder(id) {
     try {
       await Api.post(`/orders/${id}/reorder`);

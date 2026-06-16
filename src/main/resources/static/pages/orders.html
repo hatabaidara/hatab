@@ -231,9 +231,9 @@
     try {
       let url = `/orders/admin/all?page=${page}&size=10&sort=createdAt,desc`;
       const res = await Api.get(url);
-      const data = res.data;
+      const data = res?.data || res || {};
       const orders = data?.content || [];
-      const total = data?.totalElements || 0;
+      const total = data?.page?.totalElements || data?.totalElements || 0;
 
       document.getElementById('orders-count').textContent = total + ' commandes';
       document.getElementById('pagination-info').textContent = `Affichage ${orders.length} sur ${total}`;
@@ -254,7 +254,7 @@
           <td>${Format.statusBadge(o.status)}</td>
           <td>
             <span class="badge bg-light text-dark">
-              <i class="bi bi-credit-card me-1"></i>${o.payment?.method || 'N/A'}
+              <i class="bi bi-credit-card me-1"></i>Mobile Money
             </span>
           </td>
           <td class="text-muted" style="font-size:0.85rem">${Format.date(o.createdAt)}</td>
@@ -270,7 +270,7 @@
           </td>
         </tr>`).join('');
 
-      buildPagination(data.totalPages, page);
+      buildPagination(data?.page?.totalPages || data?.totalPages || 1, page);
     } catch(e) {
       tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger py-4"><i class="bi bi-exclamation-triangle me-2"></i>Erreur de chargement</td></tr>';
     }
@@ -358,13 +358,19 @@
     }
   }
 
-  function buildPagination(totalPages, currentPage) {
+  function buildPagination(totalPages, cur) {
     const ul = document.getElementById('pagination');
     ul.innerHTML = '';
+    if (totalPages <= 1) return;
+    ul.innerHTML += `<li class="page-item ${cur===0?'disabled':''}"><a class="page-link" href="#" onclick="event.preventDefault();loadOrders(${cur-1})">&#8249;</a></li>`;
     for (let i = 0; i < totalPages; i++) {
-      ul.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-        <a class="page-link" href="#" onclick="loadOrders(${i})">${i + 1}</a></li>`;
+      if (totalPages > 7 && Math.abs(i-cur) > 2 && i !== 0 && i !== totalPages-1) {
+        if (i===1||i===totalPages-2) ul.innerHTML += `<li class="page-item disabled"><a class="page-link">&#8230;</a></li>`;
+        continue;
+      }
+      ul.innerHTML += `<li class="page-item ${i===cur?'active':''}"><a class="page-link" href="#" onclick="event.preventDefault();loadOrders(${i})">${i+1}</a></li>`;
     }
+    ul.innerHTML += `<li class="page-item ${cur===totalPages-1?'disabled':''}"><a class="page-link" href="#" onclick="event.preventDefault();loadOrders(${cur+1})">&#8250;</a></li>`;
   }
 
   initUserInfo();
