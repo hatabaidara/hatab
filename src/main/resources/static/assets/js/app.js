@@ -19,7 +19,23 @@ const Auth = {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
   },
-  isLogged: () => !!localStorage.getItem('token'),
+  isLogged: () => {
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const isExpired = payload.exp && (payload.exp * 1000 < Date.now());
+      if (isExpired) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        return false;
+      }
+      return true;
+    } catch(e) {
+      return false;
+    }
+  },
   isAdmin: () => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user.role === 'ADMIN';
