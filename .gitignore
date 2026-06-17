@@ -5,3 +5,6 @@ target/
 *.bak2
 .idea/
 uploads/
+*.bak
+*.bak2
+*.bak3
