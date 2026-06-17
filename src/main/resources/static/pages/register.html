@@ -69,7 +69,8 @@
   
     /* REGISTER MOBILE */
     
-    .mobile-logo { display: none; } .right-panel { padding: 0 !important; background: transparent !important; align-items: flex-start !important; }
+    .mobile-logo { display: none; }
+    @media (max-width: 768px) { .mobile-logo { display: flex; align-items: center; gap: 8px; font-size: 1.2rem; font-weight: 800; color: #0F172A; margin-bottom: 20px; } .mobile-logo span { color: #2563EB; } }
 
   
   
@@ -173,7 +174,7 @@
       <div class="input-wrap">
         <i class="bi bi-lock input-icon"></i>
         <input type="password" id="password" placeholder="Min. 6 caracteres" autocomplete="new-password" oninput="checkStrength()">
-        <button class="eye-btn" type="button" onclick="togglePassword("password", "eyeIcon1")">
+        <button class="eye-btn" type="button" onclick="togglePassword('password', 'eyeIcon1')">
           <i class="bi bi-eye" id="eyeIcon1"></i>
         </button>
       </div>
@@ -188,7 +189,7 @@
       <div class="input-wrap">
         <i class="bi bi-lock-fill input-icon"></i>
         <input type="password" id="confirmPassword" placeholder="Repetez le mot de passe" autocomplete="new-password">
-        <button class="eye-btn" type="button" onclick="togglePassword("confirmPassword", "eyeIcon2")">
+        <button class="eye-btn" type="button" onclick="togglePassword('confirmPassword', 'eyeIcon2')">
           <i class="bi bi-eye" id="eyeIcon2"></i>
         </button>
       </div>
