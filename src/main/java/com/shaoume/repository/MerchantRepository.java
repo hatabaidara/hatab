@@ -13,4 +13,5 @@ public interface MerchantRepository extends JpaRepository<Merchant, Long> {
     Optional<Merchant> findByEmail(String email);
     Page<Merchant> findByStatut(MerchantStatus statut, Pageable p);
     boolean existsByUser(User user);
+    boolean existsByUserAndStatut(User user, MerchantStatus statut);
 }

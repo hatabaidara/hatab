@@ -11,6 +11,8 @@ import com.shaoume.repository.UserRepository;
 import com.shaoume.entity.User;
 import com.shaoume.entity.PublicationPayment;
 import com.shaoume.repository.PublicationPaymentRepository;
+import com.shaoume.repository.MerchantRepository;
+import com.shaoume.entity.enums.MerchantStatus;
 import com.shaoume.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final PublicationPaymentRepository publicationPaymentRepository;
+    private final MerchantRepository merchantRepository;
     @Override @Transactional
     public ProductResponse createProduct(ProductRequest r) {
         Category cat=categoryRepository.findById(r.getCategoryId()).orElseThrow(()->new ResourceNotFoundException("Catégorie",r.getCategoryId()));
@@ -69,10 +72,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse createProductAsSeller(ProductRequest r, String sellerEmail) {
         User seller = userRepository.findByEmail(sellerEmail)
             .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", 0L));
-        boolean hasPaid = publicationPaymentRepository.existsBySellerAndStatus(
-            seller, PublicationPayment.PaymentStatus.COMPLETED);
-        if (!hasPaid) {
-            throw new RuntimeException("Paiement requis pour publier un produit");
+        boolean isActivated = merchantRepository.existsByUserAndStatut(seller, MerchantStatus.ACTIF);
+        boolean hasPaid = publicationPaymentRepository.existsBySellerAndStatus(seller, PublicationPayment.PaymentStatus.COMPLETED);
+        if (!isActivated && !hasPaid) {
+            throw new RuntimeException("Compte marchand non active. Veuillez activer votre compte.");
         }
         Category cat = categoryRepository.findById(r.getCategoryId())
             .orElseThrow(() -> new ResourceNotFoundException("Categorie", r.getCategoryId()));
