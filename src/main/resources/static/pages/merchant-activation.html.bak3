@@ -339,30 +339,79 @@
 </script>
 
 <!-- BOTTOM NAV MOBILE -->
-<nav class="bottom-nav-final d-md-none" style="position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #E2E8F0;z-index:1000;padding:8px 0 calc(8px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(0,0,0,0.06);display:flex;justify-content:space-around;">
-  <style>
-    .bottom-nav-final a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#94A3B8;text-decoration:none;font-size:0.65rem;font-weight:600;padding:4px 8px;border-radius:10px;}
-    .bottom-nav-final a i{font-size:1.3rem;}
-    .bottom-nav-final a.active{color:#2563EB;}
-    body{padding-bottom:70px;}
-    @media(min-width:768px){.bottom-nav-final{display:none!important;}body{padding-bottom:0;}}
-  </style>
-  <a href="home.html" id="bnHome"><i class="bi bi-house-fill"></i><span>Accueil</span></a>
-  <a href="search.html" id="bnSearch"><i class="bi bi-search"></i><span>Chercher</span></a>
-  <a href="favorites.html" id="bnFavs"><i class="bi bi-heart"></i><span>Favoris</span></a>
-  <a href="cart.html" id="bnCart" style="position:relative;"><i class="bi bi-bag"></i><span class="bn-badge" id="bnCartBadge" style="display:none;position:absolute;top:0;right:6px;background:#EF4444;color:white;border-radius:50%;width:16px;height:16px;font-size:0.6rem;display:none;align-items:center;justify-content:center;font-weight:700;border:2px solid white;"></span><span>Panier</span></a>
-  <a href="profile.html" id="bnProfile"><i class="bi bi-person"></i><span>Profil</span></a>
+<nav class="bottom-nav d-md-none">
+  <a href="home.html" class="bottom-nav-item" id="bnHome">
+    <i class="bi bi-house-fill"></i><span>Accueil</span>
+  </a>
+  <a href="search.html" class="bottom-nav-item" id="bnSearch">
+    <i class="bi bi-search"></i><span>Chercher</span>
+  </a>
+  <a href="favorites.html" class="bottom-nav-item" id="bnFavs">
+    <i class="bi bi-heart"></i><span>Favoris</span>
+  </a>
+  <a href="cart.html" class="bottom-nav-item" id="bnCart" style="position:relative;">
+    <i class="bi bi-bag"></i>
+    <span class="bn-badge" id="bnCartBadge" style="display:none;"></span>
+    <span>Panier</span>
+  </a>
+  <a href="profile.html" class="bottom-nav-item" id="bnProfile">
+    <i class="bi bi-person"></i><span>Profil</span>
+  </a>
 </nav>
+<style>
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid #E2E8F0;
+  display: flex; justify-content: space-around; align-items: center;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+}
+.bottom-nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px; text-decoration: none; color: #94A3B8;
+  font-size: 0.65rem; font-weight: 600; padding: 4px 12px;
+  border-radius: 10px; transition: all 0.2s; position: relative;
+}
+.bottom-nav-item.active { color: #2563EB; }
+.bottom-nav-item i { font-size: 1.3rem; }
+.bn-badge {
+  position: absolute; top: 0; right: 6px;
+  background: #EF4444; color: white; border-radius: 50%;
+  width: 16px; height: 16px; font-size: 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; border: 2px solid white;
+}
+body { padding-bottom: 70px; }
+@media (min-width: 768px) { body { padding-bottom: 0; } }
+</style>
 <script>
 (function(){
-  const p = window.location.pathname.split("/").pop();
-  const m = {"home.html":"bnHome","search.html":"bnSearch","favorites.html":"bnFavs","cart.html":"bnCart","profile.html":"bnProfile"};
-  if(m[p]){const el=document.getElementById(m[p]);if(el)el.classList.add("active");}
-  const cart=JSON.parse(localStorage.getItem("cart")||"[]");
-  const count=cart.reduce((s,i)=>s+(i.quantity||1),0);
-  const badge=document.getElementById("bnCartBadge");
-  if(badge&&count>0){badge.textContent=count;badge.style.display="flex";}
+  const path = window.location.pathname.split("/").pop();
+  const map = { "home.html":"bnHome","search.html":"bnSearch","favorites.html":"bnFavs","cart.html":"bnCart","profile.html":"bnProfile" };
+  if (map[path]) { const el=document.getElementById(map[path]); if(el) el.classList.add("active"); }
+  const cart = JSON.parse(localStorage.getItem("cart")||"[]");
+  const count = cart.reduce((s,i)=>s+(i.quantity||1),0);
+  const badge = document.getElementById("bnCartBadge");
+  if (badge && count > 0) { badge.textContent = count; badge.style.display = "flex"; }
 })();
+</script>
+
+<script>
+// Sync panier en temps réel
+window.addEventListener("storage", function(e) {
+  if (e.key === "cart") updateCartBadges();
+});
+function updateCartBadges() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const count = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+  ["navCartBadge", "bnCartBadge"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (count > 0) { el.textContent = count > 99 ? "99+" : count; el.style.display = "flex"; }
+    else { el.style.display = "none"; }
+  });
+}
+document.addEventListener("DOMContentLoaded", updateCartBadges);
 </script>
 </body>
 </html>
