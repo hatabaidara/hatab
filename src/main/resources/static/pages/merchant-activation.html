@@ -279,19 +279,43 @@
     } catch(e) {}
   }
 
-  function handleFileUpload(input) {
+  async function handleFileUpload(input) {
     const file = input.files[0];
     if (!file) return;
     const area = document.getElementById("upload-area");
     const preview = document.getElementById("preview-img");
+
     const reader = new FileReader();
     reader.onload = function(e) {
       preview.src = e.target.result;
       preview.style.display = "block";
       area.classList.add("has-file");
-      uploadedImageUrl = e.target.result;
     };
     reader.readAsDataURL(file);
+
+    area.classList.add("uploading");
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const token = localStorage.getItem("token");
+      const res = await fetch("/api/upload/image", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        body: formData
+      });
+      const data = await res.json();
+      if (data.url) {
+        uploadedImageUrl = data.url;
+      } else {
+        Toast.error("Erreur upload: " + (data.error || "Inconnu"));
+        uploadedImageUrl = null;
+      }
+    } catch(e) {
+      Toast.error("Erreur upload image");
+      uploadedImageUrl = null;
+    } finally {
+      area.classList.remove("uploading");
+    }
   }
 
   async function submitRequest() {
