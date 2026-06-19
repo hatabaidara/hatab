@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.shaoume.service.NotificationService;
 @Service
 @RequiredArgsConstructor
 public class MerchantService {
@@ -21,6 +22,7 @@ public class MerchantService {
     private final MerchantRepository merchantRepository;
     private final MerchantPaymentRequestRepository paymentRequestRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public Merchant createMerchant(User user) {
@@ -65,6 +67,7 @@ public class MerchantService {
         User user = merchant.getUser();
         user.setEnabled(true);
         userRepository.save(user);
+        notificationService.send(user, "Compte active !", "Felicitations, votre compte marchand est maintenant actif. Vous pouvez publier vos produits.", "MERCHANT_VALIDATED", "seller-dashboard.html");
     }
 
     @Transactional
@@ -75,6 +78,7 @@ public class MerchantService {
         req.setMotifRefus(motif);
         req.setDateValidation(LocalDateTime.now());
         paymentRequestRepository.save(req);
+        notificationService.send(req.getMerchant().getUser(), "Demande refusee", "Votre demande d'activation a ete refusee. Motif: " + motif, "MERCHANT_REFUSED", "merchant-activation.html");
     }
 
     public Merchant getMerchantByUser(User user) {
