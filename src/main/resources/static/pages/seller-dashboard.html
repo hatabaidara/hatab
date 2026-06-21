@@ -273,8 +273,11 @@
   // Verifier statut commerçant
   async function checkMerchantAccess() {
     try {
-      const res = await Api.get("/merchants/status");
+      const token = localStorage.getItem("token");
+      const rawRes = await fetch("/merchants/status", { headers: { "Authorization": "Bearer " + token }, cache: "no-store" });
+      const res = await rawRes.json();
       const data = res.data;
+      console.log("MERCHANT STATUS:", JSON.stringify(data));
       if (!data.hasMerchant || data.statut !== "ACTIF") {
         document.body.innerHTML = `
           <div class="d-flex align-items-center justify-content-center min-vh-100" style="background:#F1F5F9">
