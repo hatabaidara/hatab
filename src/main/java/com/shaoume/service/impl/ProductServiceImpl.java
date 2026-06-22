@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
             .stock(r.getStock()).brand(r.getBrand())
             .imageUrl(r.getImageUrl()).images(r.getImages())
             .category(cat).seller(seller).publishedPaid(true)
-            .active(true).build();
+            .active(true).createdAt(java.time.LocalDateTime.now()).build();
         return map(productRepository.save(product));
     }
 
