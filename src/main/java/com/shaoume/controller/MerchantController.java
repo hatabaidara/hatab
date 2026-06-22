@@ -74,6 +74,22 @@ public class MerchantController {
         return ResponseEntity.ok(ApiResponse.success("Demande envoyee"));
     }
 
+    @PutMapping("/me")
+    @PreAuthorize("hasAnyRole('SELLER','ADMIN')")
+    public ResponseEntity<ApiResponse<String>> updateMyMerchant(
+            @AuthenticationPrincipal UserDetails ud,
+            @RequestBody Map<String,String> body) {
+        User user = getUser(ud);
+        Merchant merchant = merchantService.getMerchantByUser(user);
+        if (merchant == null) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Aucune boutique trouvee"));
+        }
+        if (body.get("shopName") != null) merchant.setShopName(body.get("shopName"));
+        if (body.get("telephone") != null) merchant.setTelephone(body.get("telephone"));
+        merchantService.saveMerchant(merchant);
+        return ResponseEntity.ok(ApiResponse.success("Boutique mise a jour"));
+    }
+
     @GetMapping("/my-requests")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<?>> getMyRequests(

@@ -81,6 +81,7 @@ public class MerchantService {
         notificationService.send(req.getMerchant().getUser(), "Demande refusee", "Votre demande d'activation a ete refusee. Motif: " + motif, "MERCHANT_REFUSED", "merchant-activation.html");
     }
 
+    public void saveMerchant(Merchant merchant) { merchantRepository.save(merchant); }
     public Merchant getMerchantByUser(User user) {
         return merchantRepository.findByUser(user).orElse(null);
     }
