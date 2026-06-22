@@ -373,7 +373,7 @@
     `).join("");
   }
 
-  async function saveShopInfo() { showToast("Fonctionnalité bientôt disponible"); }
+  async function saveShopInfo() { try { const r = await Api.put("/merchants/me", { shopName: document.getElementById("shopName").value, telephone: document.getElementById("shopPhone").value }); showToast(r.success ? "Boutique mise a jour !" : "Erreur"); } catch(e) { showToast("Erreur: " + (e.message || "inconnue")); } }
   if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js");
 </script>
 
