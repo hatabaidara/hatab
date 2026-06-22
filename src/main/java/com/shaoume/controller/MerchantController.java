@@ -82,7 +82,7 @@ public class MerchantController {
         User user = getUser(ud);
         Merchant merchant = merchantService.getMerchantByUser(user);
         if (merchant == null) {
-            return ResponseEntity.badRequest().body(ApiResponse.error("Aucune boutique trouvee"));
+            return ResponseEntity.badRequest().body(ApiResponse.error(400, "Aucune boutique trouvee"));
         }
         if (body.get("shopName") != null) merchant.setShopName(body.get("shopName"));
         if (body.get("telephone") != null) merchant.setTelephone(body.get("telephone"));
