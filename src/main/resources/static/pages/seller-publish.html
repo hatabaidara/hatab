@@ -251,6 +251,15 @@
     }
     errDiv.textContent = "";
 
+    // Verifier si compte merchant deja ACTIF -> bypass paiement Wave
+    try {
+      const statusRes = await Api.get("/merchants/status");
+      if (statusRes.data && statusRes.data.statut === "ACTIF") {
+        await submitProduct();
+        return;
+      }
+    } catch(e) {}
+
     // Afficher resume produit
     const discount = document.getElementById("p-discount").value;
     const image = document.getElementById("p-image").value;
