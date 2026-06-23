@@ -1,10 +1,16 @@
-import { Facebook, Twitter, Instagram, Youtube, ArrowUp, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Facebook, Twitter, Instagram, Youtube, ArrowUp } from "lucide-react";
+import { navLinks, siteContact, socialLinks } from "@/lib/site-config";
+import { scrollToSection } from "@/lib/navigation";
+
+const socialIcons = [
+  { key: "facebook" as const, Icon: Facebook, label: "Facebook" },
+  { key: "twitter" as const, Icon: Twitter, label: "Twitter" },
+  { key: "instagram" as const, Icon: Instagram, label: "Instagram" },
+  { key: "youtube" as const, Icon: Youtube, label: "YouTube" },
+];
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const activeSocialLinks = socialIcons.filter(({ key }) => socialLinks[key]);
 
   return (
     <footer className="bg-foreground text-primary-foreground">
@@ -20,54 +26,42 @@ const Footer = () => {
               Ensemble, nous construisons l'avenir de notre communauté tout 
               en préservant nos valeurs ancestrales.
             </p>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-            </div>
+            {activeSocialLinks.length > 0 && (
+              <div className="flex gap-4">
+                {activeSocialLinks.map(({ key, Icon, label }) => (
+                  <a
+                    key={key}
+                    href={socialLinks[key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
+                    aria-label={label}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="font-semibold text-lg mb-4">Navigation</h4>
             <ul className="space-y-3">
-              {["Accueil", "À propos", "Projets", "Galerie", "Actualités", "Contact"].map(
-                (link) => (
-                  <li key={link}>
-                    <a
-                      href={`#${link.toLowerCase().replace("à ", "a").replace(" ", "")}`}
-                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                )
-              )}
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
+                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -75,30 +69,36 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4">Contact</h4>
             <ul className="space-y-3 text-primary-foreground/70">
-              <li>Village de Darsalam Chérif</li>
-              <li>Région de Ziguinchor, Sénégal</li>
-              <li>hatabaidara08@gmail.com</li>
-              <li>+221 76 877 77 17</li>
+              <li>{siteContact.address.line1}</li>
+              <li>{siteContact.address.line2}</li>
+              <li>
+                <a
+                  href={`mailto:${siteContact.email}`}
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {siteContact.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${siteContact.phone.replace(/\s/g, "")}`}
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {siteContact.phone}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-6">
-            <p className="text-primary-foreground/60 text-sm text-center md:text-left">
-              © {new Date().getFullYear()} Darsalam Chérif. Tous droits réservés.
-            </p>
-            <Link 
-              to="/login" 
-              className="flex items-center gap-1 text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors text-xs"
-            >
-              <Lock className="w-3 h-3" />
-              Admin
-            </Link>
-          </div>
+          <p className="text-primary-foreground/60 text-sm text-center md:text-left">
+            © {new Date().getFullYear()} Darsalam Chérif. Tous droits réservés.
+          </p>
           <button
-            onClick={scrollToTop}
+            type="button"
+            onClick={() => scrollToSection("#accueil")}
             className="flex items-center gap-2 text-primary-foreground/60 hover:text-primary-foreground transition-colors text-sm"
           >
             Retour en haut

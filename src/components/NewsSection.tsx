@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { Calendar, ArrowRight } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { scrollToSection } from "@/lib/navigation";
 
 const newsItems = [
   {
@@ -22,6 +25,23 @@ const newsItems = [
 ];
 
 const NewsSection = () => {
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email.trim()) {
+      return;
+    }
+
+    toast({
+      title: "Inscription enregistrée",
+      description: "Merci ! Vous recevrez nos actualités par email.",
+    });
+    setEmail("");
+  };
+
   return (
     <section id="actualites" className="section-padding bg-background">
       <div className="container-custom">
@@ -58,7 +78,11 @@ const NewsSection = () => {
               <p className="text-muted-foreground text-sm leading-relaxed flex-grow">
                 {news.description}
               </p>
-              <button className="flex items-center gap-2 text-primary font-medium text-sm mt-4 hover:gap-3 transition-all">
+              <button
+                type="button"
+                onClick={() => scrollToSection("#contact")}
+                className="flex items-center gap-2 text-primary font-medium text-sm mt-4 hover:gap-3 transition-all"
+              >
                 Lire la suite
                 <ArrowRight className="w-4 h-4" />
               </button>
@@ -74,10 +98,16 @@ const NewsSection = () => {
           <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
             Recevez nos actualités et annonces directement dans votre boîte mail.
           </p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <form
+            onSubmit={handleSubscribe}
+            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+          >
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Votre adresse email"
+              required
               className="flex-grow px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50"
             />
             <button

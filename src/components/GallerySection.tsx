@@ -66,12 +66,6 @@ const GallerySection = () => {
           ))}
         </div>
 
-        {/* View All Button */}
-        <div className="text-center mt-10">
-          <button className="btn-outline">
-            Voir toute la galerie
-          </button>
-        </div>
       </div>
 
       {/* Lightbox */}

@@ -1,23 +1,13 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-
-const navLinks = [
-  { name: "Accueil", href: "#accueil" },
-  { name: "À propos", href: "#apropos" },
-  { name: "Projets", href: "#projets" },
-  { name: "Galerie", href: "#galerie" },
-  { name: "Actualités", href: "#actualites" },
-  { name: "Contact", href: "#contact" },
-];
+import { navLinks } from "@/lib/site-config";
+import { scrollToSection } from "@/lib/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleNavClick = (href: string) => {
+    scrollToSection(href);
     setIsOpen(false);
   };
 
@@ -28,7 +18,7 @@ const Navbar = () => {
           {/* Logo */}
           <a 
             href="#accueil" 
-            onClick={(e) => { e.preventDefault(); scrollToSection("#accueil"); }}
+            onClick={(e) => { e.preventDefault(); handleNavClick("#accueil"); }}
             className="font-serif text-xl md:text-2xl font-bold text-primary"
           >
             Darsalam Chérif
@@ -40,7 +30,7 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
+                onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
                 className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors link-underline"
               >
                 {link.name}
@@ -51,7 +41,7 @@ const Navbar = () => {
           {/* CTA Button */}
           <a
             href="#contact"
-            onClick={(e) => { e.preventDefault(); scrollToSection("#contact"); }}
+            onClick={(e) => { e.preventDefault(); handleNavClick("#contact"); }}
             className="hidden md:inline-flex btn-primary text-sm"
           >
             Nous Soutenir
@@ -61,7 +51,7 @@ const Navbar = () => {
           <button
             className="md:hidden p-2 text-foreground"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
+            aria-label="Ouvrir le menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -75,7 +65,7 @@ const Navbar = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
+                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
                   className="block py-2 text-foreground/80 hover:text-primary transition-colors"
                 >
                   {link.name}
@@ -83,7 +73,7 @@ const Navbar = () => {
               ))}
               <a
                 href="#contact"
-                onClick={(e) => { e.preventDefault(); scrollToSection("#contact"); }}
+                onClick={(e) => { e.preventDefault(); handleNavClick("#contact"); }}
                 className="block btn-primary text-center mt-4"
               >
                 Nous Soutenir

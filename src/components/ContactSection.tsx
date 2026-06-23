@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { MapPin, Phone, Mail, Send, Heart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { siteContact } from "@/lib/site-config";
+import { scrollToSection } from "@/lib/navigation";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -70,8 +72,8 @@ const ContactSection = () => {
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Adresse</h4>
                   <p className="text-muted-foreground text-sm">
-                    Village de Darsalam Chérif<br />
-                    Région de Ziguinchor, Sénégal
+                    {siteContact.address.line1}<br />
+                    {siteContact.address.line2}
                   </p>
                 </div>
               </div>
@@ -82,7 +84,12 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Téléphone</h4>
-                  <p className="text-muted-foreground text-sm">+221 521 80 52</p>
+                  <a
+                    href={`tel:${siteContact.phone.replace(/\s/g, "")}`}
+                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                  >
+                    {siteContact.phone}
+                  </a>
                 </div>
               </div>
 
@@ -92,7 +99,12 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Email</h4>
-                  <p className="text-muted-foreground text-sm">shaoumaidara@gmail.com</p>
+                  <a
+                    href={`mailto:${siteContact.email}`}
+                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                  >
+                    {siteContact.email}
+                  </a>
                 </div>
               </div>
             </div>
@@ -106,7 +118,11 @@ const ContactSection = () => {
               <p className="text-muted-foreground text-sm mb-4">
                 Soutenez nos projets de développement agricole, éducatif et communautaire.
               </p>
-              <button className="btn-primary w-full text-sm">
+              <button
+                type="button"
+                onClick={() => scrollToSection("#contact")}
+                className="btn-primary w-full text-sm"
+              >
                 Contribuer maintenant
               </button>
             </div>

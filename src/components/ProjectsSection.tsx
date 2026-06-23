@@ -1,4 +1,5 @@
 import { ArrowRight, Leaf, Users, Tractor } from "lucide-react";
+import { scrollToSection } from "@/lib/navigation";
 import agricultureImage from "@/assets/agriculture.jpg";
 import elevageImage from "@/assets/elevage.jpg";
 import jeunesseImage from "@/assets/jeunesse.jpg";
@@ -84,7 +85,11 @@ const ProjectsSection = () => {
                 <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   {project.description}
                 </p>
-                <button className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("#contact")}
+                  className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all"
+                >
                   En savoir plus
                   <ArrowRight className="w-4 h-4" />
                 </button>

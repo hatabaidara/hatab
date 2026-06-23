@@ -16,37 +16,45 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Simulated admin credentials
-const ADMIN_CREDENTIALS = [
-  { id: "1", email: "shaoumaidara@gmail.com", password: "admin123", name: "Administrateur Principal", role: "admin" as const },
-  { id: "2", email: "shaoumaidara@gmail.com", password: "gestionnaire123", name: "Gestionnaire", role: "admin" as const },
-];
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+
+const loadStoredUser = (): User | null => {
+  const stored = localStorage.getItem("darsalam_user");
+  if (!stored) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(stored) as User;
+  } catch {
+    localStorage.removeItem("darsalam_user");
+    return null;
+  }
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const stored = localStorage.getItem("darsalam_user");
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState<User | null>(loadStoredUser);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const found = ADMIN_CREDENTIALS.find(
-      cred => cred.email === email && cred.password === password
-    );
-    
-    if (found) {
+    if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+      return false;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       const userData: User = {
-        id: found.id,
-        email: found.email,
-        name: found.name,
-        role: found.role,
+        id: "1",
+        email: ADMIN_EMAIL,
+        name: "Administrateur",
+        role: "admin",
       };
       setUser(userData);
       localStorage.setItem("darsalam_user", JSON.stringify(userData));
       return true;
     }
+
     return false;
   };
 
